@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- 引入配置文件 mvn mybatis-generator:generate-->
+    <properties resource="generatorConfig.properties"/>
+    <!-- 指定数据连接驱动jar地址 -->
+    <classPathEntry location="${generator.classPath}"/>
+    <context id="context">
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/><!-- 是否取消注释 -->
+            <property name="suppressDate" value="false"/> <!-- 是否生成注释代时间戳-->
+        </commentGenerator>
+        <!-- jdbc连接 -->
+        <jdbcConnection driverClass="${jdbc.driverClassName}"
+                        connectionURL="${jdbc.url}" userId="${jdbc.username}" password="${jdbc.password}"/>
+        <!-- 类型转换 -->
+        <javaTypeResolver>
+            <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- 生成实体类地址 -->
+        <javaModelGenerator targetPackage="${generator.domainPackage}"
+                            targetProject="./src/main/java">
+            <!-- 是否在当前路径下新加一层schema,eg：fase路径com.cfilmcloud.user.response， true:com.cfilmcloud.user.response.[schemaName] -->
+            <property name="enableSubPackages" value="true"/>
+            <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 生成mapxml文件 -->
+        <sqlMapGenerator targetPackage="${generator.mapperPackage}"
+                         targetProject="./src/main/resources">
+            <!-- 是否在当前路径下新加一层schema,eg：fase路径com.cfilmcloud.user.response， true:com.cfilmcloud.user.response.[schemaName] -->
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- 生成mapxml对应client，也就是接口dao -->
+        <javaClientGenerator targetPackage="${generator.daoPackage}"
+                             targetProject="./src/main/java" type="XMLMAPPER">
+            <!-- 是否在当前路径下新加一层schema,eg：fase路径com.cfilmcloud.user.response， true:com.cfilmcloud.user.response.[schemaName] -->
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- schema即为数据库名;tableName:用于自动生成代码的数据库表;domainObjectName:对应于数据库表的javaBean类名 -->
+        <!-- 为Oracle数据库时表名必须用大写 -->
+        <table tableName="fine_admin_field" domainObjectName="FineAdminField" mapperName="FineAdminFieldMapper"/>
+        <table tableName="fine_admin_field_data" domainObjectName="FineAdminFieldData" mapperName="FineAdminFieldDataMapper"/>
+        <table tableName="fine_admin_log" domainObjectName="FineAdminLog" mapperName="FineAdminLogMapper"/>
+        <table tableName="fine_area" domainObjectName="FineArea" mapperName="FineAreaMapper"/>
+        <table tableName="fine_district" domainObjectName="FineDistrict" mapperName="FineDistrictMapper"/>
+        <table tableName="fine_district_area" domainObjectName="FineFistrictArea" mapperName="FineFistrictAreaMapper"/>
+        <table tableName="fine_org" domainObjectName="FineOrg" mapperName="FineOrgMapper"/>
+        <table tableName="fine_org_district" domainObjectName="FineOrgDistrict" mapperName="FineOrgDistrictMapper"/>
+        <table tableName="fine_org_group" domainObjectName="FineOrgGroup" mapperName="FineOrgGroupMapper"/>
+        <table tableName="fine_resource" domainObjectName="FineResource" mapperName="FineResourceMapper"/>
+        <table tableName="fine_resource_group" domainObjectName="FineResourceGroup" mapperName="FineResourceGroupMapper"/>
+        <table tableName="fine_role" domainObjectName="FineRole" mapperName="FineRoleMapper"/>
+        <table tableName="fine_role_resource" domainObjectName="FineRoleResource" mapperName="FineRoleResourceMapper"/>
+        <table tableName="fine_staff" domainObjectName="FineStaff" mapperName="FineStaffMapper"/>
+        <table tableName="fine_staff_org_role" domainObjectName="FineStaffOrgRole" mapperName="FineStaffOrgRoleMapper"/>
+        <table tableName="fine_store" domainObjectName="FineStore" mapperName="FineStoreMapper"/>
+        <!--</table>-->
+    </context>
+</generatorConfiguration>

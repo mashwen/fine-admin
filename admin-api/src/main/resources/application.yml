@@ -1,0 +1,140 @@
+server:
+  port: 9007
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+
+spring:
+  application:
+    name: admin-api
+  cloud:
+      refresh:
+        refreshable: none
+  flyway:
+    enabled: false
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+  rabbitmq:
+    host: 127.0.01
+    port: 5672
+    username: guest
+    password: guest
+#      rabbitmq:
+#        host: 39.97.103.72
+#        port: 5672
+#        username: innovator
+#        password: life0fP1
+
+  datasource:
+    auth:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/as_auth?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
+      username: root
+      password: 123456
+    payment:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/as_payment?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
+      username: root
+      password: 1234qweR
+  druid:
+    initialSize: 5 #初始化连接大小
+    minIdle: 5     #最小连接池数量
+    maxActive: 20  #最大连接池数量
+    maxWait: 60000 #获取连接时最大等待时间，单位毫秒
+    timeBetweenEvictionRunsMillis: 60000 #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    minEvictableIdleTimeMillis: 300000   #配置一个连接在池中最小生存的时间，单位是毫秒
+    validationQuery: SELECT 1 from DUAL  #测试连接
+    testWhileIdle: true                  #申请连接的时候检测，建议配置为true，不影响性能，并且保证安全性
+    testOnBorrow: false                  #获取连接时执行检测，建议关闭，影响性能
+    testOnReturn: false                  #归还连接时执行检测，建议关闭，影响性能
+    poolPreparedStatements: false        #是否开启PSCache，PSCache对支持游标的数据库性能提升巨大，oracle建议开启，mysql下建议关闭
+    maxPoolPreparedStatementPerConnectionSize: 20 #开启poolPreparedStatements后生效
+    filters: stat,wall,log4j #配置扩展插件，常用的插件有=>stat:监控统计  log4j:日志  wall:防御sql注入
+    connectionProperties: 'druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000' #通过connectProperties属性来打开mergeSql功能;慢SQL记录
+  servlet:
+    multipart:
+      maxFileSize: 10MB
+      maxRequestSize: 10MB
+mybatis:
+  type-aliases-package: com.ant.shop.asorm.entity
+  configuration:
+    map-underscore-to-camel-case: true  #开启驼峰命名,l_name -> lName
+    jdbc-type-for-null: NULL
+    lazy-loading-enabled: true
+    aggressive-lazy-loading: true
+    cache-enabled: true #开启二级缓存
+    call-setters-on-nulls: true #map空列不显示问题
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations:
+    - classpath:mybatis/mapper/**/*.xml
+pagehelper:
+  helperDialect: mysql
+  reasonable: false
+  supportMethodsArguments: true
+  params: count=countSq
+ali:
+  push:
+    regionId: cn-beijing
+    accessKeyId: LTAIuKZU7msNj1uX
+    secret: tbVzw8wSatzKKjTzj2em2E9EFPijQ5
+    appKey: 25825811
+security:
+  oauth2:
+    resource:
+      id: as-admin
+      user-info-uri: http://127.0.0.1:5557/auth/api/member
+      prefer-token-info: false
+  ignored: /swagger-ui.html,/swagger-ui.html/*,/webjars/**,/error,/swagger-resources/**
+qrcode:
+  url: https://pay.ant.shop/qrcodes/
+weixin:
+  serviceNumber:
+#    appId: wx2190f18668e5e5fb
+#    appSecret: e4ef5f7eee67d8bf9895259a613442eb
+#    payTemplateId: 3mkWkaod-Eb65mudn_kGrPPed2BO3vUeO3B12yq4rWU
+#    refundTemplateId: O1o9YJNkI94vp2ezXYa28pVIJEVV8uy3oVdng9opaJA
+    appId: wx7cf1fd5ea653f3c4
+    appSecret: be2c619e2ff681691613196ee900ce76
+    payTemplateId: 3mkWkaod-Eb65mudn_kGrPPed2BO3vUeO3B12yq4rWU
+    refundTemplateId: O1o9YJNkI94vp2ezXYa28pVIJEVV8uy3oVdng9opaJA
+logging:
+  level:
+    com.ant.shop.asorm.mapper.payment: trace
+  config: classpath:logback-local.xml
+zt:
+  incoming:
+    url: https://www.umbpay.cn/cmsmeraccess/trans/service.do
+  ali:
+    mchId: 1266000049390000
+    appId: 2088421465753627
+  wechat:
+    mchId: 1507906251
+    channelId: 270951577
+    appId: wx7cf1fd5ea653f3c4
+    payDir: https://pay.ant.shop/qrcodes/
+  serverUrl: https://pay.ant.shop/zt/notifications
+  cert:
+    public:
+      path: /Data/code/innovation/payment/as-admin-parent/as-admin/src/main/resources/cert/platform.cer
+    private:
+      path: /Data/code/innovation/payment/as-admin-parent/as-admin/src/main/resources/cert/merchant.pfx
+      pass: PKd8*Wu#@JUSa#gn7z
+  mchId: CF2000729720
+  imageUpload:
+    url: https://www.umbpay.cn/cmsmeraccess/public/imageUpload.do
+  transaction:
+    url: https://www.umbpay.cn/cashier/trans/service.do
+#    url: http://test.umbpay.com.cn:12080/cmsmeraccess/public/imageUpload.do
+
