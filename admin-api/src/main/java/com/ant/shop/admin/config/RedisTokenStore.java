@@ -1,4 +1,4 @@
-package com.ant.shop.asauth.config;
+package com.ant.shop.admin.config;
 
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;

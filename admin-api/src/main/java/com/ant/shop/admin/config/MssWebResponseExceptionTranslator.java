@@ -1,4 +1,4 @@
-package com.ant.shop.asauth.config;
+package com.ant.shop.admin.config;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -88,7 +88,7 @@ public class MssWebResponseExceptionTranslator implements WebResponseExceptionTr
 
         @Override
         public String getOAuth2ErrorCode() {
-            return "access_denied";
+            return "access_denied1111";
         }
 
         @Override

@@ -1,7 +1,7 @@
-package com.ant.shop.asauth.config;
+package com.ant.shop.admin.config;
 
 
-import com.ant.shop.asauth.service.MyUserDetailService;
+import com.ant.shop.admin.service.MyUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
