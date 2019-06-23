@@ -46,4 +46,8 @@ public class OrganizationDTO implements Serializable {
     private Byte status;
 
     private Byte businessModel;
+
+    private Boolean isEnabled;
+
+    private Byte type;
 }

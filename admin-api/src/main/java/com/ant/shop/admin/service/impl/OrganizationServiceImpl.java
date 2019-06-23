@@ -11,6 +11,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -56,5 +57,34 @@ public class OrganizationServiceImpl implements OrganizationService {
         pageList.setCount(list.size());
 
         return pageList;
+    }
+
+    /**
+     * 启用/禁用 组织
+     * @param id
+     * @param enabled
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void setOrganizationEnabled(Integer id, Boolean enabled) {
+        //修改的参数
+        FineOrg fineOrg = new FineOrg();
+        fineOrg.setIsEnabled(enabled);
+        //条件
+        FineOrgExample fineOrgExample=new FineOrgExample();
+        fineOrgExample.createCriteria().andIdEqualTo(id);
+        //执行sql
+        fineOrgMapper.updateByExampleSelective(fineOrg,fineOrgExample);
+    }
+
+    /**
+     * 删除组织
+     *
+     * @param id
+     */
+    @Override
+    @Transactional(rollbackFor =Exception.class)
+    public void deleteOrganizationById(Integer id) {
+        fineOrgMapper.deleteByPrimaryKey(id);
     }
 }

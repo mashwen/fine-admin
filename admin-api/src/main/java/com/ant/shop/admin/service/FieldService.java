@@ -18,4 +18,17 @@ public interface FieldService {
      * @return
      */
     public PageListResp<FineAdminField> getField(Integer pageNum, Integer pageSize);
+
+    /**
+     * 删除字段
+     * @param id
+     */
+    public void deleteFieldById(Integer id);
+
+    /**
+     * 启用/禁用 字段
+     * @param id
+     * @param enabled
+     */
+    public void setFieldEnabled(Integer id,Boolean enabled);
 }

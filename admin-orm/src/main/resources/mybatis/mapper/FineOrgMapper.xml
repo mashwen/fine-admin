@@ -15,6 +15,8 @@
     <result column="latitude" jdbcType="DECIMAL" property="latitude" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="business_model" jdbcType="TINYINT" property="businessModel" />
+    <result column="is_enabled" jdbcType="BIT" property="isEnabled" />
+    <result column="type" jdbcType="TINYINT" property="type" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -76,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, code, name, remark, parent_id, sort, created, short_name, address, longtitude, 
-    latitude, status, business_model
+    latitude, status, business_model, is_enabled, type
   </sql>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineOrgExample" resultMap="BaseResultMap">
     select
@@ -113,12 +115,14 @@
       remark, parent_id, sort, 
       created, short_name, address, 
       longtitude, latitude, status, 
-      business_model)
+      business_model, is_enabled, type
+      )
     values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{sort,jdbcType=SMALLINT}, 
       #{created,jdbcType=TIMESTAMP}, #{shortName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{longtitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, 
-      #{businessModel,jdbcType=TINYINT})
+      #{businessModel,jdbcType=TINYINT}, #{isEnabled,jdbcType=BIT}, #{type,jdbcType=TINYINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineOrg">
     insert into fine_org
@@ -162,6 +166,12 @@
       <if test="businessModel != null">
         business_model,
       </if>
+      <if test="isEnabled != null">
+        is_enabled,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -202,6 +212,12 @@
       </if>
       <if test="businessModel != null">
         #{businessModel,jdbcType=TINYINT},
+      </if>
+      <if test="isEnabled != null">
+        #{isEnabled,jdbcType=BIT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -253,6 +269,12 @@
       <if test="record.businessModel != null">
         business_model = #{record.businessModel,jdbcType=TINYINT},
       </if>
+      <if test="record.isEnabled != null">
+        is_enabled = #{record.isEnabled,jdbcType=BIT},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -272,7 +294,9 @@
       longtitude = #{record.longtitude,jdbcType=DECIMAL},
       latitude = #{record.latitude,jdbcType=DECIMAL},
       status = #{record.status,jdbcType=TINYINT},
-      business_model = #{record.businessModel,jdbcType=TINYINT}
+      business_model = #{record.businessModel,jdbcType=TINYINT},
+      is_enabled = #{record.isEnabled,jdbcType=BIT},
+      type = #{record.type,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -316,6 +340,12 @@
       <if test="businessModel != null">
         business_model = #{businessModel,jdbcType=TINYINT},
       </if>
+      <if test="isEnabled != null">
+        is_enabled = #{isEnabled,jdbcType=BIT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -332,7 +362,9 @@
       longtitude = #{longtitude,jdbcType=DECIMAL},
       latitude = #{latitude,jdbcType=DECIMAL},
       status = #{status,jdbcType=TINYINT},
-      business_model = #{businessModel,jdbcType=TINYINT}
+      business_model = #{businessModel,jdbcType=TINYINT},
+      is_enabled = #{isEnabled,jdbcType=BIT},
+      type = #{type,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

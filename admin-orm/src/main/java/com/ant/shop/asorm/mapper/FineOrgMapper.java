@@ -27,7 +27,8 @@ public interface FineOrgMapper {
             @Result(property = "parentId", column = "parent_id"),
             @Result(property = "shortName", column = "short_name"),
             @Result(property = "parentShortName", column = "parent_short_name"),
-            @Result(property = "businessModel", column = "business_model")
+            @Result(property = "businessModel", column = "business_model"),
+            @Result(property = "isEnabled", column = "is_enabled")
     })
     @Select("SELECT a.*,b.short_name AS parent_short_name FROM fine_org a LEFT JOIN fine_org b ON(b.id=a.parent_id)")
     List<OrganizationDTO> selectAll();

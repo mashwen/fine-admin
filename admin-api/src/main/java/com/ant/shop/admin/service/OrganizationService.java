@@ -17,4 +17,17 @@ public interface OrganizationService {
      * @return
      */
     public PageListResp<OrganizationDTO> getOrganization(Integer pageNum, Integer pageSize);
+
+    /**
+     * 启用/禁用 组织
+     * @param id
+     * @param enabled
+     */
+    public void setOrganizationEnabled(Integer id,Boolean enabled);
+
+    /**
+     * 删除组织
+     * @param id
+     */
+    public void deleteOrganizationById(Integer id);
 }

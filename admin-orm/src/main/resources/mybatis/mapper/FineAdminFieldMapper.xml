@@ -9,6 +9,7 @@
     <result column="definition" jdbcType="CHAR" property="definition" />
     <result column="entity" jdbcType="VARCHAR" property="entity" />
     <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="is_enabled" jdbcType="BIT" property="isEnabled" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, `key`, label, definition, entity, created
+    id, type, `key`, label, definition, entity, created, is_enabled
   </sql>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineAdminFieldExample" resultMap="BaseResultMap">
     select
@@ -102,12 +103,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineAdminField">
-    insert into fine_admin_field (id, type, `key`,
+    insert into fine_admin_field (id, type, key, 
       label, definition, entity, 
-      created)
+      created, is_enabled)
     values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{key,jdbcType=VARCHAR}, 
       #{label,jdbcType=VARCHAR}, #{definition,jdbcType=CHAR}, #{entity,jdbcType=VARCHAR}, 
-      #{created,jdbcType=TIMESTAMP})
+      #{created,jdbcType=TIMESTAMP}, #{isEnabled,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineAdminField">
     insert into fine_admin_field
@@ -119,7 +120,7 @@
         type,
       </if>
       <if test="key != null">
-        `key`,
+        key,
       </if>
       <if test="label != null">
         label,
@@ -132,6 +133,9 @@
       </if>
       <if test="created != null">
         created,
+      </if>
+      <if test="isEnabled != null">
+        is_enabled,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -156,6 +160,9 @@
       <if test="created != null">
         #{created,jdbcType=TIMESTAMP},
       </if>
+      <if test="isEnabled != null">
+        #{isEnabled,jdbcType=BIT},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.ant.shop.asorm.entity.FineAdminFieldExample" resultType="java.lang.Long">
@@ -174,7 +181,7 @@
         type = #{record.type,jdbcType=VARCHAR},
       </if>
       <if test="record.key != null">
-        `key` = #{record.key,jdbcType=VARCHAR},
+        key = #{record.key,jdbcType=VARCHAR},
       </if>
       <if test="record.label != null">
         label = #{record.label,jdbcType=VARCHAR},
@@ -187,6 +194,9 @@
       </if>
       <if test="record.created != null">
         created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isEnabled != null">
+        is_enabled = #{record.isEnabled,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -201,7 +211,8 @@
       label = #{record.label,jdbcType=VARCHAR},
       definition = #{record.definition,jdbcType=CHAR},
       entity = #{record.entity,jdbcType=VARCHAR},
-      created = #{record.created,jdbcType=TIMESTAMP}
+      created = #{record.created,jdbcType=TIMESTAMP},
+      is_enabled = #{record.isEnabled,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -227,6 +238,9 @@
       <if test="created != null">
         created = #{created,jdbcType=TIMESTAMP},
       </if>
+      <if test="isEnabled != null">
+        is_enabled = #{isEnabled,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -237,7 +251,8 @@
       label = #{label,jdbcType=VARCHAR},
       definition = #{definition,jdbcType=CHAR},
       entity = #{entity,jdbcType=VARCHAR},
-      created = #{created,jdbcType=TIMESTAMP}
+      created = #{created,jdbcType=TIMESTAMP},
+      is_enabled = #{isEnabled,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -36,6 +36,10 @@ public class FineOrg implements Serializable {
 
     private Byte businessModel;
 
+    private Boolean isEnabled;
+
+    private Byte type;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -140,5 +144,21 @@ public class FineOrg implements Serializable {
 
     public void setBusinessModel(Byte businessModel) {
         this.businessModel = businessModel;
+    }
+
+    public Boolean getIsEnabled() {
+        return isEnabled;
+    }
+
+    public void setIsEnabled(Boolean isEnabled) {
+        this.isEnabled = isEnabled;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
     }
 }
