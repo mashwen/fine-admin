@@ -96,4 +96,19 @@ public class FieldServiceImpl implements FieldService {
         //执行sql
         fineAdminFieldMapper.updateByExampleSelective(fineAdminField,fineAdminFieldExample);
     }
+
+    /**
+     * 筛选字段
+     *
+     * @param label
+     * @return
+     */
+    @Override
+    public List<FineAdminField> getFieldByLabel(String label) {
+        FineAdminFieldExample fineAdminFieldExample=new FineAdminFieldExample();
+        fineAdminFieldExample.createCriteria().andLabelEqualTo(label);
+
+        List<FineAdminField> fieldList = fineAdminFieldMapper.selectByExample(fineAdminFieldExample);
+        return fieldList;
+    }
 }

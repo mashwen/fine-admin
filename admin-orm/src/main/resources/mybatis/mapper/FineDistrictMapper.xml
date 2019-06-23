@@ -8,6 +8,7 @@
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
     <result column="postcode" jdbcType="VARCHAR" property="postcode" />
     <result column="phonetic_name" jdbcType="VARCHAR" property="phoneticName" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, level, parent_id, postcode, phonetic_name
+    id, name, level, parent_id, postcode, phonetic_name, created
   </sql>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineDistrictExample" resultMap="BaseResultMap">
     select
@@ -100,13 +101,13 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineDistrict">
+  <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineDistrict" keyProperty="id" useGeneratedKeys="true">
     insert into fine_district (id, name, level, 
-      parent_id, postcode, phonetic_name
-      )
+      parent_id, postcode, phonetic_name, 
+      created)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{level,jdbcType=TINYINT}, 
-      #{parentId,jdbcType=INTEGER}, #{postcode,jdbcType=VARCHAR}, #{phoneticName,jdbcType=VARCHAR}
-      )
+      #{parentId,jdbcType=INTEGER}, #{postcode,jdbcType=VARCHAR}, #{phoneticName,jdbcType=VARCHAR}, 
+      #{created,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineDistrict">
     insert into fine_district
@@ -129,6 +130,9 @@
       <if test="phoneticName != null">
         phonetic_name,
       </if>
+      <if test="created != null">
+        created,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -148,6 +152,9 @@
       </if>
       <if test="phoneticName != null">
         #{phoneticName,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -178,6 +185,9 @@
       <if test="record.phoneticName != null">
         phonetic_name = #{record.phoneticName,jdbcType=VARCHAR},
       </if>
+      <if test="record.created != null">
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -190,7 +200,8 @@
       level = #{record.level,jdbcType=TINYINT},
       parent_id = #{record.parentId,jdbcType=INTEGER},
       postcode = #{record.postcode,jdbcType=VARCHAR},
-      phonetic_name = #{record.phoneticName,jdbcType=VARCHAR}
+      phonetic_name = #{record.phoneticName,jdbcType=VARCHAR},
+      created = #{record.created,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -213,6 +224,9 @@
       <if test="phoneticName != null">
         phonetic_name = #{phoneticName,jdbcType=VARCHAR},
       </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -222,7 +236,8 @@
       level = #{level,jdbcType=TINYINT},
       parent_id = #{parentId,jdbcType=INTEGER},
       postcode = #{postcode,jdbcType=VARCHAR},
-      phonetic_name = #{phoneticName,jdbcType=VARCHAR}
+      phonetic_name = #{phoneticName,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

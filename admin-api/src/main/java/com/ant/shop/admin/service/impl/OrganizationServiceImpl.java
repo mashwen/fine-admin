@@ -1,18 +1,24 @@
 package com.ant.shop.admin.service.impl;
 
 import com.ant.shop.admin.service.OrganizationService;
-import com.ant.shop.asorm.entity.FineOrg;
-import com.ant.shop.asorm.entity.FineOrgExample;
+import com.ant.shop.asorm.entity.*;
+import com.ant.shop.asorm.mapper.FineDistrictMapper;
+import com.ant.shop.asorm.mapper.FineOrgDistrictMapper;
 import com.ant.shop.asorm.mapper.FineOrgMapper;
 import com.ant.shop.asorm.model.OrganizationDTO;
 import com.ant.shop.asorm.model.PageDTO;
 import com.ant.shop.asorm.model.PageListResp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import utils.StringUtils;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,9 +27,14 @@ import java.util.List;
  * @Version 1.0
  **/
 @Service
+@Slf4j
 public class OrganizationServiceImpl implements OrganizationService {
     @Autowired
     private FineOrgMapper fineOrgMapper;
+    @Autowired
+    private FineOrgDistrictMapper fineOrgDistrictMapper;
+    @Autowired
+    private FineDistrictMapper fineDistrictMapper;
 
     /**
      * 获取组织列表
@@ -86,5 +97,61 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional(rollbackFor =Exception.class)
     public void deleteOrganizationById(Integer id) {
         fineOrgMapper.deleteByPrimaryKey(id);
+    }
+
+    /**
+     * 筛选组织
+     *
+     * @param type
+     * @param enabled
+     * @param keyword
+     * @return
+     */
+    @Override
+    public List<OrganizationDTO> getOrganizationByKeyword(Byte type, Boolean enabled, String keyword) {
+
+        OrganizationDTO organizationDTO=new OrganizationDTO();
+        organizationDTO.setType(type);
+        organizationDTO.setIsEnabled(enabled);
+        if(StringUtils.isInteger(keyword)){
+            log.info("if");
+            organizationDTO.setCode(keyword);
+        }else{
+            log.info("else");
+            organizationDTO.setName(keyword);
+        }
+
+
+        List<OrganizationDTO> organizationDTOS = fineOrgMapper.selectByKeyword(organizationDTO);
+
+        return organizationDTOS;
+    }
+
+    /**
+     * 新增组织
+     *
+     * @param organization
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void setOrganization(OrganizationDTO organization) {
+        //1、添加组织基本信息
+        FineOrg fineOrg=new FineOrg();
+        BeanUtils.copyProperties(organization,fineOrg);
+        fineOrg.setCreated(new Date());
+        fineOrgMapper.insert(fineOrg);
+        //2、添加行政区域
+        FineDistrict fineDistrict=new FineDistrict();
+        BeanUtils.copyProperties(organization.getFineDistrict(),fineDistrict);
+        fineDistrict.setCreated(new Date());
+        fineDistrictMapper.insert(fineDistrict);
+        //3、添加组织行政区域
+        FineOrgDistrict fineOrgDistrict=new FineOrgDistrict();
+        BeanUtils.copyProperties(organization.getOrgDistrict(),fineOrgDistrict);
+        fineOrgDistrict.setOrgId(fineOrg.getId());
+        fineOrgDistrict.setCreated(new Date());
+        fineOrgDistrict.setDistrictId(fineDistrict.getId());
+        fineOrgDistrictMapper.insert(fineOrgDistrict);
+
     }
 }

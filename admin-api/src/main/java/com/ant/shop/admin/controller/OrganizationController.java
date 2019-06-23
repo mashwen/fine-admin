@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import response.ResultModel;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,6 +40,12 @@ public class OrganizationController {
         return  ResultModel.ok(data);
     }
 
+    @PostMapping("/organization")
+    public ResultModel addOrganization(@RequestBody OrganizationDTO organizationDTO){
+        organizationService.setOrganization(organizationDTO);
+        return ResultModel.ok();
+    }
+
     /**
      * 启用/禁用 组织
      * @param id
@@ -64,6 +71,21 @@ public class OrganizationController {
         }
         fieldService.deleteFieldById(id);
         return  ResultModel.ok();
+    }
+
+    /**
+     * 筛选组织
+     * @param type
+     * @param enabled
+     * @param keyword
+     * @return
+     */
+    @GetMapping("/organization/{type}/{enabled}")
+    public ResultModel filtrateOrganization(@PathVariable("type")Byte type,@PathVariable("enabled")Boolean enabled,@RequestParam("keyword")String keyword){
+        List<OrganizationDTO> orgList = organizationService.getOrganizationByKeyword(type, enabled, keyword);
+        Map<String,Object> data=new HashMap<>(16);
+        data.put("orgList",orgList);
+        return  ResultModel.ok(data);
     }
 
     /**
@@ -108,6 +130,17 @@ public class OrganizationController {
         return ResultModel.ok();
     }
 
-
+    /**
+     * 筛选字段
+     * @param label
+     * @return
+     */
+    @GetMapping("/fields")
+    public ResultModel filtrateField(@RequestParam("label")String label){
+        List<FineAdminField> fieldList = fieldService.getFieldByLabel(label);
+        Map<String,Object> data=new HashMap<>(16);
+        data.put("fieldList",fieldList);
+        return  ResultModel.ok(data);
+    }
 
 }

@@ -33,6 +33,25 @@ public interface FineOrgMapper {
     @Select("SELECT a.*,b.short_name AS parent_short_name FROM fine_org a LEFT JOIN fine_org b ON(b.id=a.parent_id)")
     List<OrganizationDTO> selectAll();
 
+    @Results({
+            @Result(property = "parentId", column = "parent_id"),
+            @Result(property = "shortName", column = "short_name"),
+            @Result(property = "parentShortName", column = "parent_short_name"),
+            @Result(property = "businessModel", column = "business_model"),
+            @Result(property = "isEnabled", column = "is_enabled")
+    })
+    @Select({"<script>",
+            "SELECT a.*,b.short_name AS parent_short_name FROM fine_org a LEFT JOIN fine_org b ON(b.id=a.parent_id)",
+            "<where>",
+            "a.type=#{org.type}",
+            "AND a.is_enabled=#{org.isEnabled}",
+            "<if test='org.name!=null'> AND a.name=#{org.name} </if>",
+            "<if test='org.code!=null'> AND a.code=#{org.code} </if>",
+            "</where>",
+            "</script>"
+    })
+    List<OrganizationDTO> selectByKeyword(@Param("org") OrganizationDTO org);
+
     FineOrg selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") FineOrg record, @Param("example") FineOrgExample example);

@@ -110,7 +110,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineOrg">
+  <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineOrg" keyProperty="id" useGeneratedKeys="true">
     insert into fine_org (id, code, name, 
       remark, parent_id, sort, 
       created, short_name, address, 

@@ -1,5 +1,7 @@
 package com.ant.shop.asorm.model;
 
+import com.ant.shop.asorm.entity.FineDistrict;
+import com.ant.shop.asorm.entity.FineOrgDistrict;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -50,4 +52,8 @@ public class OrganizationDTO implements Serializable {
     private Boolean isEnabled;
 
     private Byte type;
+
+    private FineOrgDistrict orgDistrict;
+
+    private FineDistrict fineDistrict;
 }

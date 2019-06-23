@@ -3,6 +3,8 @@ package com.ant.shop.admin.service;
 import com.ant.shop.asorm.entity.FineAdminField;
 import com.ant.shop.asorm.model.PageListResp;
 
+import java.util.List;
+
 /**
  * 字段
  *
@@ -31,4 +33,11 @@ public interface FieldService {
      * @param enabled
      */
     public void setFieldEnabled(Integer id,Boolean enabled);
+
+    /**
+     * 筛选字段
+     * @param label
+     * @return
+     */
+    public List<FineAdminField> getFieldByLabel(String label);
 }

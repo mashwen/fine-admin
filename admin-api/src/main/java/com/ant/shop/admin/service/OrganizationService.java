@@ -3,6 +3,8 @@ package com.ant.shop.admin.service;
 import com.ant.shop.asorm.model.OrganizationDTO;
 import com.ant.shop.asorm.model.PageListResp;
 
+import java.util.List;
+
 /**
  * 组织
  * @Author liuzongqiang
@@ -30,4 +32,20 @@ public interface OrganizationService {
      * @param id
      */
     public void deleteOrganizationById(Integer id);
+
+    /**
+     * 筛选组织
+     * @param type
+     * @param enabled
+     * @param keyword
+     * @return
+     */
+    public List<OrganizationDTO> getOrganizationByKeyword(Byte type,Boolean enabled,String keyword);
+
+    /**
+     * 新增组织
+     * @param organization
+     */
+    public void setOrganization(OrganizationDTO organization);
+
 }
