@@ -287,4 +287,7 @@
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <select id="findByMobileAndEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT * FROM fine_staff WHERE mobile = #{mobile,jdbcType=VARCHAR} OR email = #{email,jdbcType=VARCHAR}
+    </select>
 </mapper>

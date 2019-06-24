@@ -105,4 +105,20 @@ public class FineStaff implements Serializable {
     public void setStatus(Byte status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "FineStaff{" +
+                "id=" + id +
+                ", password='" + password + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", email='" + email + '\'' +
+                ", gender=" + gender +
+                ", jobTitle='" + jobTitle + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", created=" + created +
+                ", status=" + status +
+                '}';
+    }
 }
