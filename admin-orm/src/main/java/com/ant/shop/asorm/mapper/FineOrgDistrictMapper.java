@@ -22,6 +22,8 @@ public interface FineOrgDistrictMapper {
 
     FineOrgDistrict selectByPrimaryKey(FineOrgDistrictKey key);
 
+    FineOrgDistrict selectByOrgId(@Param("orgId")Integer orgId);
+
     int updateByExampleSelective(@Param("record") FineOrgDistrict record, @Param("example") FineOrgDistrictExample example);
 
     int updateByExample(@Param("record") FineOrgDistrict record, @Param("example") FineOrgDistrictExample example);
