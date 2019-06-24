@@ -1,5 +1,8 @@
 package com.ant.shop.asorm.model;
 
+import com.ant.shop.asorm.entity.FineArea;
+import com.ant.shop.asorm.entity.FineDistrict;
+import com.ant.shop.asorm.entity.FineOrgDistrict;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -7,16 +10,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
- * 组织列表所需的model
+ * 添加组织需要的实体
  *
  * @Author liuzongqiang
- * @Date 2019/6/22 0022 23:02
+ * @Date 2019/6/24 0024 12:11
  * @Version 1.0
  **/
 @Data
-public class OrganizationDTO implements Serializable {
+public class AddOrganizationDTO implements Serializable {
     private Integer id;
 
     private String code;
@@ -51,4 +55,9 @@ public class OrganizationDTO implements Serializable {
 
     private Byte type;
 
+    private FineOrgDistrict orgDistrict;
+
+    private FineDistrict fineDistrict;
+
+    private List<FineArea> fineAreaList;
 }

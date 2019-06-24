@@ -1,5 +1,6 @@
 package com.ant.shop.admin.service;
 
+import com.ant.shop.asorm.model.AddOrganizationDTO;
 import com.ant.shop.asorm.model.OrganizationDTO;
 import com.ant.shop.asorm.model.PageListResp;
 
@@ -44,8 +45,8 @@ public interface OrganizationService {
 
     /**
      * 新增组织
-     * @param organization
+     * @param addOrganizationDTO
      */
-    public void setOrganization(OrganizationDTO organization);
+    public void setOrganization(AddOrganizationDTO addOrganizationDTO);
 
 }

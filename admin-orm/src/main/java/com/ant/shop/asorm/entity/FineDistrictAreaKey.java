@@ -2,7 +2,7 @@ package com.ant.shop.asorm.entity;
 
 import java.io.Serializable;
 
-public class FineFistrictAreaKey implements Serializable {
+public class FineDistrictAreaKey implements Serializable {
     private Integer districtId;
 
     private Integer areaId;

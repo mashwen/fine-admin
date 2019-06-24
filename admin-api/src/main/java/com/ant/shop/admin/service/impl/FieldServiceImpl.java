@@ -1,17 +1,23 @@
 package com.ant.shop.admin.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.ant.shop.admin.service.FieldService;
-import com.ant.shop.asorm.entity.*;
+import com.ant.shop.asorm.entity.FineAdminField;
+import com.ant.shop.asorm.entity.FineAdminFieldDataExample;
+import com.ant.shop.asorm.entity.FineAdminFieldExample;
 import com.ant.shop.asorm.mapper.FineAdminFieldDataMapper;
 import com.ant.shop.asorm.mapper.FineAdminFieldMapper;
+import com.ant.shop.asorm.model.FineAdminFieldDTO;
 import com.ant.shop.asorm.model.PageDTO;
 import com.ant.shop.asorm.model.PageListResp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -110,5 +116,23 @@ public class FieldServiceImpl implements FieldService {
 
         List<FineAdminField> fieldList = fineAdminFieldMapper.selectByExample(fineAdminFieldExample);
         return fieldList;
+    }
+
+    /**
+     * 添加字段
+     *
+     * @param fineAdminFieldDTO
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void setField(FineAdminFieldDTO fineAdminFieldDTO) {
+        String  definition= JSONArray.toJSONString(fineAdminFieldDTO.getDefinition());
+
+        FineAdminField fineAdminField=new FineAdminField();
+        BeanUtils.copyProperties(fineAdminFieldDTO,fineAdminField);
+
+        fineAdminField.setDefinition(definition);
+        fineAdminField.setCreated(new Date());
+        fineAdminFieldMapper.insert(fineAdminField);
     }
 }

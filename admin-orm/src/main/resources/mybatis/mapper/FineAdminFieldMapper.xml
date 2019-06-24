@@ -103,7 +103,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineAdminField">
-    insert into fine_admin_field (id, type, key, 
+    insert into fine_admin_field (id, type, `key`,
       label, definition, entity, 
       created, is_enabled)
     values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{key,jdbcType=VARCHAR}, 

@@ -2,15 +2,13 @@ package com.ant.shop.admin.service.impl;
 
 import com.ant.shop.admin.service.OrganizationService;
 import com.ant.shop.asorm.entity.*;
-import com.ant.shop.asorm.mapper.FineDistrictMapper;
-import com.ant.shop.asorm.mapper.FineOrgDistrictMapper;
-import com.ant.shop.asorm.mapper.FineOrgMapper;
+import com.ant.shop.asorm.mapper.*;
+import com.ant.shop.asorm.model.AddOrganizationDTO;
 import com.ant.shop.asorm.model.OrganizationDTO;
 import com.ant.shop.asorm.model.PageDTO;
 import com.ant.shop.asorm.model.PageListResp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +33,10 @@ public class OrganizationServiceImpl implements OrganizationService {
     private FineOrgDistrictMapper fineOrgDistrictMapper;
     @Autowired
     private FineDistrictMapper fineDistrictMapper;
+    @Autowired
+    private FineAreaMapper fineAreaMapper;
+    @Autowired
+    private FineDistrictAreaMapper fineDistrictAreaMapper;
 
     /**
      * 获取组织列表
@@ -130,28 +132,41 @@ public class OrganizationServiceImpl implements OrganizationService {
     /**
      * 新增组织
      *
-     * @param organization
+     * @param addOrganizationDTO
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void setOrganization(OrganizationDTO organization) {
+    public void setOrganization(AddOrganizationDTO addOrganizationDTO) {
         //1、添加组织基本信息
         FineOrg fineOrg=new FineOrg();
-        BeanUtils.copyProperties(organization,fineOrg);
+        BeanUtils.copyProperties(addOrganizationDTO,fineOrg);
         fineOrg.setCreated(new Date());
         fineOrgMapper.insert(fineOrg);
         //2、添加行政区域
         FineDistrict fineDistrict=new FineDistrict();
-        BeanUtils.copyProperties(organization.getFineDistrict(),fineDistrict);
+        BeanUtils.copyProperties(addOrganizationDTO.getFineDistrict(),fineDistrict);
         fineDistrict.setCreated(new Date());
         fineDistrictMapper.insert(fineDistrict);
         //3、添加组织行政区域
         FineOrgDistrict fineOrgDistrict=new FineOrgDistrict();
-        BeanUtils.copyProperties(organization.getOrgDistrict(),fineOrgDistrict);
+        BeanUtils.copyProperties(addOrganizationDTO.getOrgDistrict(),fineOrgDistrict);
         fineOrgDistrict.setOrgId(fineOrg.getId());
         fineOrgDistrict.setCreated(new Date());
         fineOrgDistrict.setDistrictId(fineDistrict.getId());
         fineOrgDistrictMapper.insert(fineOrgDistrict);
+        //4、添加业务区域
+        FineDistrictAreaKey fineDistrictAreaKey=new FineDistrictAreaKey();
+        List<FineArea> fineAreaList = addOrganizationDTO.getFineAreaList();
+        for (FineArea area : fineAreaList) {
+            area.setCreated(new Date());
+            fineAreaMapper.insert(area);
+            log.info("id:"+area.getId());
+            //5、添加业务区域行政区域关系
+            fineDistrictAreaKey.setAreaId(area.getId());
+            fineDistrictAreaKey.setDistrictId(fineDistrict.getId());
+            fineDistrictAreaMapper.insert(fineDistrictAreaKey);
+        }
+
 
     }
 }

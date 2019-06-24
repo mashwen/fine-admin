@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ant.shop.asorm.mapper.FineFistrictAreaMapper">
-  <resultMap id="BaseResultMap" type="com.ant.shop.asorm.entity.FineFistrictAreaKey">
+<mapper namespace="com.ant.shop.asorm.mapper.FineDistrictAreaMapper">
+  <resultMap id="BaseResultMap" type="com.ant.shop.asorm.entity.FineDistrictAreaKey">
     <id column="district_id" jdbcType="INTEGER" property="districtId" />
     <id column="area_id" jdbcType="INTEGER" property="areaId" />
   </resultMap>
@@ -66,7 +66,7 @@
   <sql id="Base_Column_List">
     district_id, area_id
   </sql>
-  <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineFistrictAreaExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineDistrictAreaExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -80,22 +80,22 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="com.ant.shop.asorm.entity.FineFistrictAreaKey">
+  <delete id="deleteByPrimaryKey" parameterType="com.ant.shop.asorm.entity.FineDistrictAreaKey">
     delete from fine_district_area
     where district_id = #{districtId,jdbcType=INTEGER}
       and area_id = #{areaId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.ant.shop.asorm.entity.FineFistrictAreaExample">
+  <delete id="deleteByExample" parameterType="com.ant.shop.asorm.entity.FineDistrictAreaExample">
     delete from fine_district_area
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineFistrictAreaKey">
+  <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineDistrictAreaKey">
     insert into fine_district_area (district_id, area_id)
     values (#{districtId,jdbcType=INTEGER}, #{areaId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineFistrictAreaKey">
+  <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineDistrictAreaKey">
     insert into fine_district_area
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="districtId != null">
@@ -114,7 +114,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.ant.shop.asorm.entity.FineFistrictAreaExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.ant.shop.asorm.entity.FineDistrictAreaExample" resultType="java.lang.Long">
     select count(*) from fine_district_area
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />

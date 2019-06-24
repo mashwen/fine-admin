@@ -1,6 +1,7 @@
 package com.ant.shop.admin.service;
 
 import com.ant.shop.asorm.entity.FineAdminField;
+import com.ant.shop.asorm.model.FineAdminFieldDTO;
 import com.ant.shop.asorm.model.PageListResp;
 
 import java.util.List;
@@ -40,4 +41,10 @@ public interface FieldService {
      * @return
      */
     public List<FineAdminField> getFieldByLabel(String label);
+
+    /**
+     * 添加字段
+     * @param fineAdminFieldDTO
+     */
+    public void setField(FineAdminFieldDTO fineAdminFieldDTO);
 }

@@ -1,6 +1,8 @@
 package com.ant.shop.asorm.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -18,6 +20,8 @@ public class FineOrgDistrict extends FineOrgDistrictKey implements Serializable 
 
     private String avatar;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date created;
 
     private Byte status;

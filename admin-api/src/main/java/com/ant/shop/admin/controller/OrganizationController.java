@@ -3,6 +3,8 @@ package com.ant.shop.admin.controller;
 import com.ant.shop.admin.service.FieldService;
 import com.ant.shop.admin.service.OrganizationService;
 import com.ant.shop.asorm.entity.FineAdminField;
+import com.ant.shop.asorm.model.AddOrganizationDTO;
+import com.ant.shop.asorm.model.FineAdminFieldDTO;
 import com.ant.shop.asorm.model.OrganizationDTO;
 import com.ant.shop.asorm.model.PageListResp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +42,14 @@ public class OrganizationController {
         return  ResultModel.ok(data);
     }
 
+    /**
+     * 新增组织
+     * @param addOrganizationDTO
+     * @return
+     */
     @PostMapping("/organization")
-    public ResultModel addOrganization(@RequestBody OrganizationDTO organizationDTO){
-        organizationService.setOrganization(organizationDTO);
+    public ResultModel addOrganization(@RequestBody AddOrganizationDTO addOrganizationDTO){
+        organizationService.setOrganization(addOrganizationDTO);
         return ResultModel.ok();
     }
 
@@ -141,6 +148,17 @@ public class OrganizationController {
         Map<String,Object> data=new HashMap<>(16);
         data.put("fieldList",fieldList);
         return  ResultModel.ok(data);
+    }
+
+    /**
+     * 添加字段
+     * @param fineAdminFieldDTO
+     * @return
+     */
+    @PostMapping("/field")
+    public ResultModel addField(@RequestBody FineAdminFieldDTO fineAdminFieldDTO){
+        fieldService.setField(fineAdminFieldDTO);
+        return ResultModel.ok();
     }
 
 }

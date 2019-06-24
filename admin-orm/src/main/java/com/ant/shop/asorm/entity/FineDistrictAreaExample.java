@@ -3,14 +3,14 @@ package com.ant.shop.asorm.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FineFistrictAreaExample {
+public class FineDistrictAreaExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public FineFistrictAreaExample() {
+    public FineDistrictAreaExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
