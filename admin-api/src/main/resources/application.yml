@@ -1,5 +1,5 @@
 server:
-  port: 9007
+  port: 9017
 eureka:
   instance:
     hostname: localhost
@@ -41,7 +41,7 @@ spring:
       driver-class-name: com.mysql.jdbc.Driver
       url: jdbc:mysql://localhost:3306/fine_admin?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
       username: root
-      password: ajx123456
+      password: 123456
 #    payment:
 #      driver-class-name: com.mysql.jdbc.Driver
 #      url: jdbc:mysql://localhost:3306/as_payment?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
@@ -93,7 +93,7 @@ security:
   oauth2:
     resource:
       id: as-admin
-      user-info-uri: http://127.0.0.1:5557/auth/api/member
+      user-info-uri: http://localhost:9017/api/member
       prefer-token-info: false
   ignored: /swagger-ui.html,/swagger-ui.html/*,/webjars/**,/error,/swagger-resources/**
 qrcode:
