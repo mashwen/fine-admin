@@ -2,11 +2,10 @@ server:
   port: 9007
 eureka:
   instance:
-    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    hostname: localhost
   client:
-    service-url:
-      defaultZone: http://127.0.0.1:8761/eureka/
+    register-with-eureka: false
+    fetch-registry: false
 
 spring:
   application:
@@ -40,14 +39,14 @@ spring:
   datasource:
     auth:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/as_auth?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
+      url: jdbc:mysql://localhost:3306/fine_admin?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
       username: root
-      password: 123456
-    payment:
-      driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/as_payment?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
-      username: root
-      password: 1234qweR
+      password: ajx123456
+#    payment:
+#      driver-class-name: com.mysql.jdbc.Driver
+#      url: jdbc:mysql://localhost:3306/as_payment?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
+#      username: root
+#      password: 1234qweR
   druid:
     initialSize: 5 #初始化连接大小
     minIdle: 5     #最小连接池数量
@@ -109,10 +108,10 @@ weixin:
     appSecret: be2c619e2ff681691613196ee900ce76
     payTemplateId: 3mkWkaod-Eb65mudn_kGrPPed2BO3vUeO3B12yq4rWU
     refundTemplateId: O1o9YJNkI94vp2ezXYa28pVIJEVV8uy3oVdng9opaJA
-logging:
-  level:
-    com.ant.shop.asorm.mapper.payment: trace
-  config: classpath:logback-local.xml
+#logging:
+#  level:
+#    com.ant.shop.asorm.mapper.payment: trace
+#  config: classpath:logback-local.xml
 zt:
   incoming:
     url: https://www.umbpay.cn/cmsmeraccess/trans/service.do

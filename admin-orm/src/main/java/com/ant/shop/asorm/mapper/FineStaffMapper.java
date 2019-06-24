@@ -20,6 +20,8 @@ public interface FineStaffMapper {
 
     FineStaff selectByPrimaryKey(Integer id);
 
+    FineStaff findByMobileAndEmail(String loginName);
+
     int updateByExampleSelective(@Param("record") FineStaff record, @Param("example") FineStaffExample example);
 
     int updateByExample(@Param("record") FineStaff record, @Param("example") FineStaffExample example);
