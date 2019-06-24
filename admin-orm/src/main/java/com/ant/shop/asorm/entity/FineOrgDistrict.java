@@ -1,16 +1,13 @@
 package com.ant.shop.asorm.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
-@JsonInclude(value = JsonInclude.Include.NON_NULL)
-public class FineStaff implements Serializable {
-    private Integer id;
-
-    private String password;
-
+@ToString
+public class FineOrgDistrict extends FineOrgDistrictKey implements Serializable {
     private String fullname;
 
     private String mobile;
@@ -22,28 +19,14 @@ public class FineStaff implements Serializable {
     private String jobTitle;
 
     private String avatar;
-    @JsonFormat(pattern = "yy-MM-dd HH:mm:ss", timezone = "GMT+8")
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date created;
 
     private Byte status;
 
     private static final long serialVersionUID = 1L;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
 
     public String getFullname() {
         return fullname;
@@ -107,21 +90,5 @@ public class FineStaff implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return "FineStaff{" +
-                "id=" + id +
-                ", password='" + password + '\'' +
-                ", fullname='" + fullname + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", email='" + email + '\'' +
-                ", gender=" + gender +
-                ", jobTitle='" + jobTitle + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", created=" + created +
-                ", status=" + status +
-                '}';
     }
 }

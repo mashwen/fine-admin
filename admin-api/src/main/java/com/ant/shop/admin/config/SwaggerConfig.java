@@ -18,8 +18,7 @@ public class SwaggerConfig {
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.ant.shop.asadmin.controller.open"))
-                .apis(RequestHandlerSelectors.basePackage("com.ant.shop.asadmin.controller.incoming"))
+                .apis(RequestHandlerSelectors.basePackage("com.ant.shop.admin.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

@@ -59,20 +59,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-       // clients.withClientDetails(clientDetails());
         clients.inMemory()
-                .withClient("payment_client")
+                .withClient("admin_client")
                 .scopes("read")
-                .secret("$2a$10$F.16r9DkTuW/OoiGN/NY9e03TcYCIy/XevuIiF.WoMFDtZCjtk/3u")
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
-                .and()
-                .withClient("webapp")
-                .scopes("read")
-                .authorizedGrantTypes("implicit")
-                .and()
-                .withClient("browser")
-                .authorizedGrantTypes("refresh_token", "password")
-                .scopes("read");
+                .secret("$2a$10$9wCwb0DRNiAcT6jJQu7dT.kyHRPclOV5SPV1rK5wxX9/L8UG1dCI2")
+                .authorizedGrantTypes("password", "authorization_code", "refresh_token");
+
     }
     @Bean
     public ClientDetailsService clientDetails() {

@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.ant.shop.asorm.entity.FineArea">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -64,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name
+    id, name, created
   </sql>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineAreaExample" resultMap="BaseResultMap">
     select
@@ -96,11 +97,13 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineArea">
-    insert into fine_area (id, name)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineArea" keyProperty="id" useGeneratedKeys="true">
+    insert into fine_area (id, name, created
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineArea">
+  <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineArea" >
     insert into fine_area
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -109,6 +112,9 @@
       <if test="name != null">
         name,
       </if>
+      <if test="created != null">
+        created,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -116,6 +122,9 @@
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -134,6 +143,9 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
+      <if test="record.created != null">
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -142,7 +154,8 @@
   <update id="updateByExample" parameterType="map">
     update fine_area
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR}
+      name = #{record.name,jdbcType=VARCHAR},
+      created = #{record.created,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -153,12 +166,16 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ant.shop.asorm.entity.FineArea">
     update fine_area
-    set name = #{name,jdbcType=VARCHAR}
+    set name = #{name,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -2,11 +2,10 @@ package com.ant.shop.asorm.mapper;
 
 import com.ant.shop.asorm.entity.FineDistrictAreaExample;
 import com.ant.shop.asorm.entity.FineDistrictAreaKey;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
-public interface FineFistrictAreaMapper {
+public interface FineDistrictAreaMapper {
     long countByExample(FineDistrictAreaExample example);
 
     int deleteByExample(FineDistrictAreaExample example);

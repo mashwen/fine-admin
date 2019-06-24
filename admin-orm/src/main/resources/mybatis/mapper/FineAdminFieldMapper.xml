@@ -8,6 +8,8 @@
     <result column="label" jdbcType="VARCHAR" property="label" />
     <result column="definition" jdbcType="CHAR" property="definition" />
     <result column="entity" jdbcType="VARCHAR" property="entity" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="is_enabled" jdbcType="BIT" property="isEnabled" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, key, label, definition, entity
+    id, type, `key`, label, definition, entity, created, is_enabled
   </sql>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineAdminFieldExample" resultMap="BaseResultMap">
     select
@@ -101,12 +103,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineAdminField">
-    insert into fine_admin_field (id, type, key, 
-      label, definition, entity
-      )
+    insert into fine_admin_field (id, type, `key`,
+      label, definition, entity, 
+      created, is_enabled)
     values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{key,jdbcType=VARCHAR}, 
-      #{label,jdbcType=VARCHAR}, #{definition,jdbcType=CHAR}, #{entity,jdbcType=VARCHAR}
-      )
+      #{label,jdbcType=VARCHAR}, #{definition,jdbcType=CHAR}, #{entity,jdbcType=VARCHAR}, 
+      #{created,jdbcType=TIMESTAMP}, #{isEnabled,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineAdminField">
     insert into fine_admin_field
@@ -129,6 +131,12 @@
       <if test="entity != null">
         entity,
       </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="isEnabled != null">
+        is_enabled,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -148,6 +156,12 @@
       </if>
       <if test="entity != null">
         #{entity,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isEnabled != null">
+        #{isEnabled,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -178,6 +192,12 @@
       <if test="record.entity != null">
         entity = #{record.entity,jdbcType=VARCHAR},
       </if>
+      <if test="record.created != null">
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isEnabled != null">
+        is_enabled = #{record.isEnabled,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -190,7 +210,9 @@
       key = #{record.key,jdbcType=VARCHAR},
       label = #{record.label,jdbcType=VARCHAR},
       definition = #{record.definition,jdbcType=CHAR},
-      entity = #{record.entity,jdbcType=VARCHAR}
+      entity = #{record.entity,jdbcType=VARCHAR},
+      created = #{record.created,jdbcType=TIMESTAMP},
+      is_enabled = #{record.isEnabled,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -213,6 +235,12 @@
       <if test="entity != null">
         entity = #{entity,jdbcType=VARCHAR},
       </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isEnabled != null">
+        is_enabled = #{isEnabled,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -222,7 +250,9 @@
       key = #{key,jdbcType=VARCHAR},
       label = #{label,jdbcType=VARCHAR},
       definition = #{definition,jdbcType=CHAR},
-      entity = #{entity,jdbcType=VARCHAR}
+      entity = #{entity,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      is_enabled = #{isEnabled,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
