@@ -2,8 +2,9 @@ package com.ant.shop.asorm.mapper;
 
 import com.ant.shop.asorm.entity.FineAdminFieldData;
 import com.ant.shop.asorm.entity.FineAdminFieldDataExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface FineAdminFieldDataMapper {
     long countByExample(FineAdminFieldDataExample example);

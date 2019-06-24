@@ -3,6 +3,7 @@ package com.ant.shop.admin.service;
 import com.ant.shop.asorm.model.AddOrganizationDTO;
 import com.ant.shop.asorm.model.OrganizationDTO;
 import com.ant.shop.asorm.model.PageListResp;
+import response.ResultModel;
 
 import java.util.List;
 
@@ -31,8 +32,9 @@ public interface OrganizationService {
     /**
      * 删除组织
      * @param id
+     * @return
      */
-    public void deleteOrganizationById(Integer id);
+    public ResultModel deleteOrganizationById(Integer id);
 
     /**
      * 筛选组织
@@ -48,5 +50,12 @@ public interface OrganizationService {
      * @param addOrganizationDTO
      */
     public void setOrganization(AddOrganizationDTO addOrganizationDTO);
+
+    /**
+     * 组织详情
+     * @param id
+     * @return
+     */
+    public AddOrganizationDTO getOrganizationById(Integer id);
 
 }

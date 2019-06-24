@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import response.ResultModel;
 import utils.StringUtils;
 
 import java.util.Date;
@@ -37,7 +38,10 @@ public class OrganizationServiceImpl implements OrganizationService {
     private FineAreaMapper fineAreaMapper;
     @Autowired
     private FineDistrictAreaMapper fineDistrictAreaMapper;
-
+    @Autowired
+    private FineAdminFieldDataMapper fineAdminFieldDataMapper;
+    @Autowired
+    private FineStoreMapper fineStoreMapper;
     /**
      * 获取组织列表
      *
@@ -92,13 +96,21 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     /**
      * 删除组织
-     *
      * @param id
+     * @return
      */
     @Override
     @Transactional(rollbackFor =Exception.class)
-    public void deleteOrganizationById(Integer id) {
+    public ResultModel deleteOrganizationById(Integer id) {
+        //删除前先判断该组织是否启用状态，如果不是启用状态，则可以删除
+        FineOrg fineOrg = fineOrgMapper.selectByPrimaryKey(id);
+        if(fineOrg.getIsEnabled()){
+            return ResultModel.error("0","启用状态下的组织不可以被删除!");
+        }
+
         fineOrgMapper.deleteByPrimaryKey(id);
+
+        return ResultModel.ok();
     }
 
     /**
@@ -167,6 +179,45 @@ public class OrganizationServiceImpl implements OrganizationService {
             fineDistrictAreaMapper.insert(fineDistrictAreaKey);
         }
 
+        //6、添加更多组织信息
+        List<FineAdminFieldData> fineAdminFieldDataList = addOrganizationDTO.getFineAdminFieldDataList();
+        for (FineAdminFieldData adminFieldData : fineAdminFieldDataList) {
+            adminFieldData.setRefId(fineOrg.getId());
+            adminFieldData.setCreated(new Date());
+            fineAdminFieldDataMapper.insert(adminFieldData);
 
+        }
+        //7、如果是门店的话需要增加门店信息
+        FineStore fineStore = addOrganizationDTO.getFineStore();
+        if(fineStore!=null){
+            fineStore.setOrgId(fineOrg.getId());
+            fineStore.setCreated(new Date());
+            fineStoreMapper.insert(fineStore);
+        }
+
+    }
+
+    /**
+     * 组织详情
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public AddOrganizationDTO getOrganizationById(Integer id) {
+//        //组织基本信息
+//        FineOrg fineOrg = fineOrgMapper.selectByPrimaryKey(id);
+//
+//        FineOrgDistrict fineOrgDistrict = fineOrgDistrictMapper.select(id);
+//
+//        //行政区域信息
+//        FineDistrict fineDistrict = fineDistrictMapper.selectByPrimaryKey(fineOrgDistrict.getDistrictId());
+//
+//        AddOrganizationDTO addOrganizationDTO=new AddOrganizationDTO();
+//       BeanUtils.copyProperties(fineOrg,addOrganizationDTO);
+//
+//        addOrganizationDTO.setOrgDistrict(fineOrgDistrict);
+//        addOrganizationDTO.setFineDistrict(fineDistrict);
+        return null;
     }
 }
