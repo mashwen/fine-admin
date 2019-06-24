@@ -67,6 +67,12 @@
   <sql id="Base_Column_List">
     staff_id, org_id, role_id
   </sql>
+  <select id="selectOrg" resultType="java.lang.Integer">
+    SELECT DISTINCT org_id FROM fine_staff_org_role WHERE staff_id = #{staffId}
+  </select>
+  <select id="selectRole" resultType="java.lang.Integer">
+    SELECT role_id FROM fine_staff_org_role WHERE staff_id = #{staffId} AND org_id = #{orgId}
+  </select>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineStaffOrgRoleExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

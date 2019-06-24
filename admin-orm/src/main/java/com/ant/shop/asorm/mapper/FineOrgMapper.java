@@ -27,4 +27,6 @@ public interface FineOrgMapper {
     int updateByPrimaryKeySelective(FineOrg record);
 
     int updateByPrimaryKey(FineOrg record);
+
+    String selectNameById(@Param("id") int id);
 }

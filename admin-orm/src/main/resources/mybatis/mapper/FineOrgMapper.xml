@@ -78,6 +78,9 @@
     id, code, name, remark, parent_id, sort, created, short_name, address, longtitude, 
     latitude, status, business_model
   </sql>
+  <select id="selectNameById" resultType="java.lang.String">
+    select name from fine_org where id = #{id}
+  </select>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineOrgExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

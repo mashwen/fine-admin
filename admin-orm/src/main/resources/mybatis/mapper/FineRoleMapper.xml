@@ -69,6 +69,17 @@
   <sql id="Base_Column_List">
     id, name, sort, remark, created
   </sql>
+  <select id="selectNameById" resultType="java.lang.String">
+    select name from fine_role where id = #{id}
+  </select>
+  <select id="selectRoleList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from fine_role
+    <if test="name != null">
+      where name = #{name}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineRoleExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

@@ -21,4 +21,8 @@ public interface FineStaffOrgRoleMapper {
     int updateByExampleSelective(@Param("record") FineStaffOrgRoleKey record, @Param("example") FineStaffOrgRoleExample example);
 
     int updateByExample(@Param("record") FineStaffOrgRoleKey record, @Param("example") FineStaffOrgRoleExample example);
+
+    List selectOrg(@Param("staffId") int staffId);
+
+    List selectRole(@Param("staffId") int staffId, @Param("orgId") int orgId);
 }

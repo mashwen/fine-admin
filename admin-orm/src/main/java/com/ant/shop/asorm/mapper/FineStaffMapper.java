@@ -27,4 +27,6 @@ public interface FineStaffMapper {
     int updateByPrimaryKeySelective(FineStaff record);
 
     int updateByPrimaryKey(FineStaff record);
+
+    List<FineStaff> selectStaffList(@Param("fullname") String fullname, @Param("mobile") String mobile, @Param("email") String email);
 }
