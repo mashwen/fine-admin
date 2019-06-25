@@ -19,14 +19,10 @@ public interface FineStaffOrgRoleMapper {
 
     int insertSelective(FineStaffOrgRole record);
 
-
     @Select("SELECT COUNT(*) FROM fine_staff_org_role WHERE org_id=#{orgId}")
     Integer countByOrgId(@Param("orgId")Integer orgId);
 
     List<FineStaffOrgRoleKey> selectByExample(FineStaffOrgRoleExample example);
-
-    List<FineStaffOrgRole> selectByExample(FineStaffOrgRoleExample example);
-
 
     FineStaffOrgRole selectByPrimaryKey(FineStaffOrgRoleKey key);
 
