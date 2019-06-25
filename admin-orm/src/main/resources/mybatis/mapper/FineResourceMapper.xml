@@ -74,6 +74,9 @@
   <sql id="Base_Column_List">
     id, group_id, parent_id, name, url, label, remark, type, sort, created
   </sql>
+  <select id="selectResourceById" resultMap="BaseResultMap">
+    select `name`,url,`type` from fine_resource where id = #{id}
+  </select>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineResourceExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

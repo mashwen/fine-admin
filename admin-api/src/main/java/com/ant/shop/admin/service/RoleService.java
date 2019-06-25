@@ -1,6 +1,7 @@
 package com.ant.shop.admin.service;
 
 import com.ant.shop.asorm.entity.FineRole;
+import com.ant.shop.asorm.model.RoleResourceModel;
 import response.ResultModel;
 
 public interface RoleService {
@@ -17,4 +18,20 @@ public interface RoleService {
      * @return
      */
     ResultModel roleList(String name, int page, int pageSize);
+
+    /**
+     * 删除角色
+     * @param id
+     * @return
+     */
+    ResultModel roleDelete(int id);
+
+    /**
+     * 编辑角色
+     * @param roleResourceModels
+     * @return
+     */
+    ResultModel roleEdit(RoleResourceModel[] roleResourceModels);
+
+    ResultModel staffRole(int orgId, int staffId);
 }

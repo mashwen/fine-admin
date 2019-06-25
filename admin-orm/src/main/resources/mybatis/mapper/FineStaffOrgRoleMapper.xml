@@ -87,6 +87,9 @@
       order by ${orderByClause}
     </if>
   </select>
+  <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+      delete from fine_staff_org_role where role_id = #{roleId}
+  </delete>
   <delete id="deleteByPrimaryKey" parameterType="com.ant.shop.asorm.entity.FineStaffOrgRoleKey">
     delete from fine_staff_org_role
     where staff_id = #{staffId,jdbcType=INTEGER}
