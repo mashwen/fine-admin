@@ -1,11 +1,8 @@
 package com.ant.shop.asorm.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.io.Serializable;
 import java.util.Date;
-@JsonInclude(value = JsonInclude.Include.NON_NULL)
+
 public class FineStaff implements Serializable {
     private Integer id;
 
@@ -22,7 +19,7 @@ public class FineStaff implements Serializable {
     private String jobTitle;
 
     private String avatar;
-    @JsonFormat(pattern = "yy-MM-dd HH:mm:ss", timezone = "GMT+8")
+
     private Date created;
 
     private Byte status;
@@ -107,21 +104,5 @@ public class FineStaff implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return "FineStaff{" +
-                "id=" + id +
-                ", password='" + password + '\'' +
-                ", fullname='" + fullname + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", email='" + email + '\'' +
-                ", gender=" + gender +
-                ", jobTitle='" + jobTitle + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", created=" + created +
-                ", status=" + status +
-                '}';
     }
 }

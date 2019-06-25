@@ -2,13 +2,13 @@ package com.ant.shop.asorm.mapper;
 
 import com.ant.shop.asorm.entity.FineOrg;
 import com.ant.shop.asorm.entity.FineOrgExample;
+import java.util.List;
+
 import com.ant.shop.asorm.model.OrganizationDTO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
-
-import java.util.List;
 
 public interface FineOrgMapper {
     long countByExample(FineOrgExample example);
@@ -22,6 +22,7 @@ public interface FineOrgMapper {
     int insertSelective(FineOrg record);
 
     List<FineOrg> selectByExample(FineOrgExample example);
+
 
     @Results({
             @Result(property = "parentId", column = "parent_id"),
@@ -68,6 +69,4 @@ public interface FineOrgMapper {
     int updateByPrimaryKeySelective(FineOrg record);
 
     int updateByPrimaryKey(FineOrg record);
-
-    String selectNameById(@Param("id") int id);
 }

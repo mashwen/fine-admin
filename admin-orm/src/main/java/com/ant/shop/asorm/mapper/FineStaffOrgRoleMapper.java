@@ -1,5 +1,6 @@
 package com.ant.shop.asorm.mapper;
 
+import com.ant.shop.asorm.entity.FineStaffOrgRole;
 import com.ant.shop.asorm.entity.FineStaffOrgRoleExample;
 import com.ant.shop.asorm.entity.FineStaffOrgRoleKey;
 import org.apache.ibatis.annotations.Param;
@@ -14,20 +15,20 @@ public interface FineStaffOrgRoleMapper {
 
     int deleteByPrimaryKey(FineStaffOrgRoleKey key);
 
-    int insert(FineStaffOrgRoleKey record);
+    int insert(FineStaffOrgRole record);
 
-    int insertSelective(FineStaffOrgRoleKey record);
+    int insertSelective(FineStaffOrgRole record);
+
 
     @Select("SELECT COUNT(*) FROM fine_staff_org_role WHERE org_id=#{orgId}")
     Integer countByOrgId(@Param("orgId")Integer orgId);
 
     List<FineStaffOrgRoleKey> selectByExample(FineStaffOrgRoleExample example);
 
-    int updateByExampleSelective(@Param("record") FineStaffOrgRoleKey record, @Param("example") FineStaffOrgRoleExample example);
+    List<FineStaffOrgRole> selectByExample(FineStaffOrgRoleExample example);
 
-    int updateByExample(@Param("record") FineStaffOrgRoleKey record, @Param("example") FineStaffOrgRoleExample example);
 
-    List selectOrg(@Param("staffId") int staffId);
+    FineStaffOrgRole selectByPrimaryKey(FineStaffOrgRoleKey key);
 
-    List selectRole(@Param("staffId") int staffId, @Param("orgId") int orgId);
+
 }
