@@ -1,8 +1,10 @@
 package com.ant.shop.asorm.entity;
 
+import lombok.ToString;
+
 import java.io.Serializable;
 import java.util.Date;
-
+@ToString
 public class FineAdminFieldData implements Serializable {
     private Integer id;
 

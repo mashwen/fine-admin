@@ -250,6 +250,25 @@
     <result column="created" jdbcType="TIMESTAMP" property="created" />
     <result column="is_enabled" jdbcType="BIT" property="isEnabled" />
   </resultMap>
+  <resultMap id="FieldDataResultMap" type="com.ant.shop.asorm.model.AddOrganizationDTO$FineAdminFields">
+    <association property="fineAdminField" javaType="com.ant.shop.asorm.entity.FineAdminField">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="type" jdbcType="VARCHAR" property="type" />
+      <result column="key" jdbcType="VARCHAR" property="key" />
+      <result column="label" jdbcType="VARCHAR" property="label" />
+      <result column="definition" jdbcType="CHAR" property="definition" />
+      <result column="entity" jdbcType="VARCHAR" property="entity" />
+      <result column="created" jdbcType="TIMESTAMP" property="created" />
+      <result column="is_enabled" jdbcType="BIT" property="isEnabled" />
+    </association>
+    <association property="fineAdminFieldData" javaType="com.ant.shop.asorm.entity.FineAdminFieldData">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="ref_id" jdbcType="INTEGER" property="refId" />
+      <result column="field_id" jdbcType="INTEGER" property="fieldId" />
+      <result column="value" jdbcType="VARCHAR" property="value" />
+      <result column="created" jdbcType="TIMESTAMP" property="created" />
+    </association>
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -330,6 +349,13 @@
     <include refid="Base_Column_List" />
     from fine_admin_field
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByRefId" parameterType="java.lang.Integer" resultMap="FieldDataResultMap">
+      SELECT
+      faf.id, faf.type, faf.`key`, faf.label, faf.definition, faf.entity, faf.created, faf.is_enabled,
+      fafd.id, fafd.ref_id, fafd.field_id, fafd.value, fafd.created
+      FROM fine_admin_field_data fafd,fine_admin_field faf
+      WHERE fafd.field_id=faf.id AND faf.entity='org' AND fafd.ref_id=#{refId}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fine_admin_field

@@ -2,7 +2,10 @@ package com.ant.shop.asorm.mapper;
 
 import com.ant.shop.asorm.entity.FineAdminField;
 import com.ant.shop.asorm.entity.FineAdminFieldExample;
+
 import java.util.List;
+
+import com.ant.shop.asorm.model.AddOrganizationDTO;
 import org.apache.ibatis.annotations.Param;
 
 public interface FineAdminFieldMapper {
@@ -17,6 +20,8 @@ public interface FineAdminFieldMapper {
     int insertSelective(FineAdminField record);
 
     List<FineAdminField> selectByExample(FineAdminFieldExample example);
+
+    List<AddOrganizationDTO.FineAdminFields> selectByRefId(@Param("refId") Integer refId);
 
     FineAdminField selectByPrimaryKey(Integer id);
 

@@ -101,7 +101,7 @@ public class OrganizationController {
         AddOrganizationDTO organizationById = organizationService.getOrganizationById(id);
         Map<String,Object> data=new HashMap<>(16);
         data.put("organization",organizationById);
-        return ResultModel.ok();
+        return ResultModel.ok(data);
     }
     /**
      * 获取字段列表

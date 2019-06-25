@@ -237,6 +237,12 @@
     where org_id = #{orgId,jdbcType=INTEGER}
       and district_id = #{districtId,jdbcType=INTEGER}
   </select>
+  <select id="selectByOrgId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from fine_org_district
+    where org_id = #{orgId}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="com.ant.shop.asorm.entity.FineOrgDistrictKey">
     delete from fine_org_district
     where org_id = #{orgId,jdbcType=INTEGER}
