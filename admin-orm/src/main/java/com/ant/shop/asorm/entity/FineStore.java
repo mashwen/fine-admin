@@ -1,8 +1,5 @@
 package com.ant.shop.asorm.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,18 +12,12 @@ public class FineStore implements Serializable {
 
     private String remark;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date created;
 
     private String phone;
 
-    @JsonFormat(pattern = "HH:mm:ss",timezone = "GMT+8")
-    @DateTimeFormat(pattern = "HH:mm:ss")
     private Date openTime;
 
-    @JsonFormat(pattern = "HH:mm:ss",timezone = "GMT+8")
-    @DateTimeFormat(pattern = "HH:mm:ss")
     private Date closeTime;
 
     private static final long serialVersionUID = 1L;

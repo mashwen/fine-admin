@@ -1,25 +1,24 @@
 package com.ant.shop.asorm.mapper;
 
-import com.ant.shop.asorm.entity.FineDistrictAreaExample;
-import com.ant.shop.asorm.entity.FineDistrictAreaKey;
+import com.ant.shop.asorm.entity.FineFistrictAreaExample;
+import com.ant.shop.asorm.entity.FineFistrictAreaKey;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
 public interface FineFistrictAreaMapper {
-    long countByExample(FineDistrictAreaExample example);
+    long countByExample(FineFistrictAreaExample example);
 
-    int deleteByExample(FineDistrictAreaExample example);
+    int deleteByExample(FineFistrictAreaExample example);
 
-    int deleteByPrimaryKey(FineDistrictAreaKey key);
+    int deleteByPrimaryKey(FineFistrictAreaKey key);
 
-    int insert(FineDistrictAreaKey record);
+    int insert(FineFistrictAreaKey record);
 
-    int insertSelective(FineDistrictAreaKey record);
+    int insertSelective(FineFistrictAreaKey record);
 
-    List<FineDistrictAreaKey> selectByExample(FineDistrictAreaExample example);
+    List<FineFistrictAreaKey> selectByExample(FineFistrictAreaExample example);
 
-    int updateByExampleSelective(@Param("record") FineDistrictAreaKey record, @Param("example") FineDistrictAreaExample example);
+    int updateByExampleSelective(@Param("record") FineFistrictAreaKey record, @Param("example") FineFistrictAreaExample example);
 
-    int updateByExample(@Param("record") FineDistrictAreaKey record, @Param("example") FineDistrictAreaExample example);
+    int updateByExample(@Param("record") FineFistrictAreaKey record, @Param("example") FineFistrictAreaExample example);
 }

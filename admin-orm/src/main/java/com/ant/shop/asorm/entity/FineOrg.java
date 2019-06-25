@@ -1,13 +1,9 @@
 package com.ant.shop.asorm.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-@ToString
+
 public class FineOrg implements Serializable {
     private Integer id;
 
@@ -21,8 +17,6 @@ public class FineOrg implements Serializable {
 
     private Short sort;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date created;
 
     private String shortName;
@@ -36,10 +30,6 @@ public class FineOrg implements Serializable {
     private Byte status;
 
     private Byte businessModel;
-
-    private Boolean isEnabled;
-
-    private Byte type;
 
     private static final long serialVersionUID = 1L;
 
@@ -145,21 +135,5 @@ public class FineOrg implements Serializable {
 
     public void setBusinessModel(Byte businessModel) {
         this.businessModel = businessModel;
-    }
-
-    public Boolean getIsEnabled() {
-        return isEnabled;
-    }
-
-    public void setIsEnabled(Boolean isEnabled) {
-        this.isEnabled = isEnabled;
-    }
-
-    public Byte getType() {
-        return type;
-    }
-
-    public void setType(Byte type) {
-        this.type = type;
     }
 }

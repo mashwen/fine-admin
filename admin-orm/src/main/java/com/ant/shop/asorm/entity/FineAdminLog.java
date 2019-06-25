@@ -8,7 +8,7 @@ public class FineAdminLog implements Serializable {
 
     private String refTable;
 
-    private Integer refId;
+    private String refId;
 
     private String content;
 
@@ -36,12 +36,12 @@ public class FineAdminLog implements Serializable {
         this.refTable = refTable == null ? null : refTable.trim();
     }
 
-    public Integer getRefId() {
+    public String getRefId() {
         return refId;
     }
 
-    public void setRefId(Integer refId) {
-        this.refId = refId;
+    public void setRefId(String refId) {
+        this.refId = refId == null ? null : refId.trim();
     }
 
     public String getContent() {

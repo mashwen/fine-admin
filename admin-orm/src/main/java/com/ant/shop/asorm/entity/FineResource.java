@@ -6,7 +6,7 @@ import java.util.Date;
 public class FineResource implements Serializable {
     private Integer id;
 
-    private Integer groupId;
+    private Integer resourceGroupId;
 
     private Integer parentId;
 
@@ -18,7 +18,7 @@ public class FineResource implements Serializable {
 
     private String remark;
 
-    private Integer type;
+    private Boolean type;
 
     private Short sort;
 
@@ -34,12 +34,12 @@ public class FineResource implements Serializable {
         this.id = id;
     }
 
-    public Integer getGroupId() {
-        return groupId;
+    public Integer getResourceGroupId() {
+        return resourceGroupId;
     }
 
-    public void setGroupId(Integer groupId) {
-        this.groupId = groupId;
+    public void setResourceGroupId(Integer resourceGroupId) {
+        this.resourceGroupId = resourceGroupId;
     }
 
     public Integer getParentId() {
@@ -82,11 +82,11 @@ public class FineResource implements Serializable {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public Integer getType() {
+    public Boolean getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(Boolean type) {
         this.type = type;
     }
 

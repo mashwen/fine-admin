@@ -574,66 +574,6 @@ public class FineAdminFieldExample {
             addCriterion("created not between", value1, value2, "created");
             return (Criteria) this;
         }
-
-        public Criteria andIsEnabledIsNull() {
-            addCriterion("is_enabled is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsEnabledIsNotNull() {
-            addCriterion("is_enabled is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsEnabledEqualTo(Boolean value) {
-            addCriterion("is_enabled =", value, "isEnabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsEnabledNotEqualTo(Boolean value) {
-            addCriterion("is_enabled <>", value, "isEnabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsEnabledGreaterThan(Boolean value) {
-            addCriterion("is_enabled >", value, "isEnabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsEnabledGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_enabled >=", value, "isEnabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsEnabledLessThan(Boolean value) {
-            addCriterion("is_enabled <", value, "isEnabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsEnabledLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_enabled <=", value, "isEnabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsEnabledIn(List<Boolean> values) {
-            addCriterion("is_enabled in", values, "isEnabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsEnabledNotIn(List<Boolean> values) {
-            addCriterion("is_enabled not in", values, "isEnabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsEnabledBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_enabled between", value1, value2, "isEnabled");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsEnabledNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_enabled not between", value1, value2, "isEnabled");
-            return (Criteria) this;
-        }
     }
 
     public static class Criteria extends GeneratedCriteria {

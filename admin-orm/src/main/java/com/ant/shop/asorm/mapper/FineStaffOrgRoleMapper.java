@@ -1,5 +1,6 @@
 package com.ant.shop.asorm.mapper;
 
+import com.ant.shop.asorm.entity.FineStaffOrgRole;
 import com.ant.shop.asorm.entity.FineStaffOrgRoleExample;
 import com.ant.shop.asorm.entity.FineStaffOrgRoleKey;
 import java.util.List;
@@ -12,17 +13,19 @@ public interface FineStaffOrgRoleMapper {
 
     int deleteByPrimaryKey(FineStaffOrgRoleKey key);
 
-    int insert(FineStaffOrgRoleKey record);
+    int insert(FineStaffOrgRole record);
 
-    int insertSelective(FineStaffOrgRoleKey record);
+    int insertSelective(FineStaffOrgRole record);
 
-    List<FineStaffOrgRoleKey> selectByExample(FineStaffOrgRoleExample example);
+    List<FineStaffOrgRole> selectByExample(FineStaffOrgRoleExample example);
 
-    int updateByExampleSelective(@Param("record") FineStaffOrgRoleKey record, @Param("example") FineStaffOrgRoleExample example);
+    FineStaffOrgRole selectByPrimaryKey(FineStaffOrgRoleKey key);
 
-    int updateByExample(@Param("record") FineStaffOrgRoleKey record, @Param("example") FineStaffOrgRoleExample example);
+    int updateByExampleSelective(@Param("record") FineStaffOrgRole record, @Param("example") FineStaffOrgRoleExample example);
 
-    List selectOrg(@Param("staffId") int staffId);
+    int updateByExample(@Param("record") FineStaffOrgRole record, @Param("example") FineStaffOrgRoleExample example);
 
-    List selectRole(@Param("staffId") int staffId, @Param("orgId") int orgId);
+    int updateByPrimaryKeySelective(FineStaffOrgRole record);
+
+    int updateByPrimaryKey(FineStaffOrgRole record);
 }
