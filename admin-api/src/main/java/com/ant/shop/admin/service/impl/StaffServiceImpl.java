@@ -63,6 +63,7 @@ public class StaffServiceImpl implements StaffService {
                 int role = Integer.parseInt(roleId.toString());
                 fineStaffOrgRoleKey.setRoleId(role);
                 fineStaffOrgRoleKey.setStaffId(staff.getId());
+                fineStaffOrgRoleKey.setIncludeAll(true);
                 fineStaffOrgRoleMapper.insertStaffRoleOrg(fineStaffOrgRoleKey);
             }
         }
