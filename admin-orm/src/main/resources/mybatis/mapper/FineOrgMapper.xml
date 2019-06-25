@@ -230,6 +230,12 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <select id="selectOrgByStaffId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM fine_staff_org_role fsor,fine_org fo
+    WHERE fsor.org_id=fo.id AND fsor.staff_id=#{staffId}
+  </select>
   <update id="updateByExampleSelective" parameterType="map">
     update fine_org
     <set>

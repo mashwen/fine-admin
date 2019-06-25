@@ -6,6 +6,7 @@ import com.ant.shop.asorm.model.PageListResp;
 import response.ResultModel;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 组织
@@ -58,4 +59,10 @@ public interface OrganizationService {
      */
     public AddOrganizationDTO getOrganizationById(Integer id);
 
+    /**
+     * 获取员工所属的组织信息
+     * @param id
+     * @return
+     */
+    public Map getOrganizationByStaffId(Integer id);
 }

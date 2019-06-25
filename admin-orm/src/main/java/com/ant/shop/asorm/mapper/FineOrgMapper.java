@@ -52,6 +52,13 @@ public interface FineOrgMapper {
     })
     List<OrganizationDTO> selectByKeyword(@Param("org") OrganizationDTO org);
 
+    /**
+     * 通过员工id查询所属的组织信息
+     * @param staffId
+     * @return
+     */
+    FineOrg selectOrgByStaffId(@Param("staffId")Integer staffId);
+
     FineOrg selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") FineOrg record, @Param("example") FineOrgExample example);
