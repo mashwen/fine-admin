@@ -6,6 +6,7 @@
     <result column="ref_id" jdbcType="INTEGER" property="refId" />
     <result column="field_id" jdbcType="INTEGER" property="fieldId" />
     <result column="value" jdbcType="VARCHAR" property="value" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, ref_id, field_id, value
+    id, ref_id, field_id, value, created
   </sql>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineAdminFieldDataExample" resultMap="BaseResultMap">
     select
@@ -83,7 +84,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from fine_admin_field_data
     where id = #{id,jdbcType=INTEGER}
@@ -99,10 +100,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineAdminFieldData">
-    insert into fine_admin_field_data (id, ref_id, field_id, 
-      value)
-    values (#{id,jdbcType=INTEGER}, #{refId,jdbcType=INTEGER}, #{fieldId,jdbcType=INTEGER}, 
-      #{value,jdbcType=VARCHAR})
+    insert into fine_admin_field_data (id, ref_id, field_id,
+      value, created)
+    values (#{id,jdbcType=INTEGER}, #{refId,jdbcType=INTEGER}, #{fieldId,jdbcType=INTEGER},
+      #{value,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineAdminFieldData">
     insert into fine_admin_field_data
@@ -119,6 +120,9 @@
       <if test="value != null">
         value,
       </if>
+      <if test="created != null">
+        created,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -132,6 +136,9 @@
       </if>
       <if test="value != null">
         #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -156,6 +163,9 @@
       <if test="record.value != null">
         value = #{record.value,jdbcType=VARCHAR},
       </if>
+      <if test="record.created != null">
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -164,9 +174,10 @@
   <update id="updateByExample" parameterType="map">
     update fine_admin_field_data
     set id = #{record.id,jdbcType=INTEGER},
-      ref_id = #{record.refId,jdbcType=INTEGER},
-      field_id = #{record.fieldId,jdbcType=INTEGER},
-      value = #{record.value,jdbcType=VARCHAR}
+    ref_id = #{record.refId,jdbcType=INTEGER},
+    field_id = #{record.fieldId,jdbcType=INTEGER},
+    value = #{record.value,jdbcType=VARCHAR},
+    created = #{record.created,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -183,6 +194,9 @@
       <if test="value != null">
         value = #{value,jdbcType=VARCHAR},
       </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -190,7 +204,8 @@
     update fine_admin_field_data
     set ref_id = #{refId,jdbcType=INTEGER},
       field_id = #{fieldId,jdbcType=INTEGER},
-      value = #{value,jdbcType=VARCHAR}
+      value = #{value,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -79,13 +79,13 @@
     id, fullname, mobile, email, gender, job_title, avatar, created, status
     FROM fine_staff
     <if test="fullname != null">
-    WHERE  fullname = #{fullname}
+      WHERE  fullname = #{fullname}
     </if>
     <if test="mobile != null">
-    WHERE mobile = #{mobile}
+      WHERE mobile = #{mobile}
     </if>
     <if test="email != null">
-    WHERE  email = #{email}
+      WHERE  email = #{email}
     </if>
   </select>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineStaffExample" resultMap="BaseResultMap">
@@ -128,7 +128,7 @@
       #{jobTitle,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineStaff" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineStaff">
     insert into fine_staff
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -301,6 +301,7 @@
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
     <select id="findByMobileAndEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT * FROM fine_staff WHERE mobile = #{mobile,jdbcType=VARCHAR} OR email = #{email,jdbcType=VARCHAR}
     </select>

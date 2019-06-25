@@ -3,6 +3,7 @@ package com.ant.shop.admin.service;
 import com.ant.shop.asorm.entity.FineAdminField;
 import com.ant.shop.asorm.model.FineAdminFieldDTO;
 import com.ant.shop.asorm.model.PageListResp;
+import response.ResultModel;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface FieldService {
      * 删除字段
      * @param id
      */
-    public void deleteFieldById(Integer id);
+    public ResultModel deleteFieldById(Integer id);
 
     /**
      * 启用/禁用 字段

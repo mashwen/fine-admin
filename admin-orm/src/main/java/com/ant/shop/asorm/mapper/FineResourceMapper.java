@@ -29,5 +29,4 @@ public interface FineResourceMapper {
     int updateByPrimaryKey(FineResource record);
 
     FineResource selectResourceById(@Param("id") int id);
-
 }

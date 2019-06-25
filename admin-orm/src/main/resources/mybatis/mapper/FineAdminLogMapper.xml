@@ -86,7 +86,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from fine_admin_log
     where id = #{id,jdbcType=INTEGER}
@@ -102,12 +102,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineAdminLog">
-    insert into fine_admin_log (id, ref_table, ref_id, 
-      content, operation, created, 
-      created_by)
-    values (#{id,jdbcType=INTEGER}, #{refTable,jdbcType=VARCHAR}, #{refId,jdbcType=INTEGER}, 
-      #{content,jdbcType=CHAR}, #{operation,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
-      #{createdBy,jdbcType=INTEGER})
+    insert into fine_admin_log (id, ref_table, ref_id,
+    content, operation, created,
+    created_by)
+    values (#{id,jdbcType=INTEGER}, #{refTable,jdbcType=VARCHAR}, #{refId,jdbcType=INTEGER},
+    #{content,jdbcType=CHAR}, #{operation,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP},
+    #{createdBy,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineAdminLog">
     insert into fine_admin_log
@@ -196,12 +196,12 @@
   <update id="updateByExample" parameterType="map">
     update fine_admin_log
     set id = #{record.id,jdbcType=INTEGER},
-      ref_table = #{record.refTable,jdbcType=VARCHAR},
-      ref_id = #{record.refId,jdbcType=INTEGER},
-      content = #{record.content,jdbcType=CHAR},
-      operation = #{record.operation,jdbcType=VARCHAR},
-      created = #{record.created,jdbcType=TIMESTAMP},
-      created_by = #{record.createdBy,jdbcType=INTEGER}
+    ref_table = #{record.refTable,jdbcType=VARCHAR},
+    ref_id = #{record.refId,jdbcType=INTEGER},
+    content = #{record.content,jdbcType=CHAR},
+    operation = #{record.operation,jdbcType=VARCHAR},
+    created = #{record.created,jdbcType=TIMESTAMP},
+    created_by = #{record.createdBy,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -233,11 +233,11 @@
   <update id="updateByPrimaryKey" parameterType="com.ant.shop.asorm.entity.FineAdminLog">
     update fine_admin_log
     set ref_table = #{refTable,jdbcType=VARCHAR},
-      ref_id = #{refId,jdbcType=INTEGER},
-      content = #{content,jdbcType=CHAR},
-      operation = #{operation,jdbcType=VARCHAR},
-      created = #{created,jdbcType=TIMESTAMP},
-      created_by = #{createdBy,jdbcType=INTEGER}
+    ref_id = #{refId,jdbcType=INTEGER},
+    content = #{content,jdbcType=CHAR},
+    operation = #{operation,jdbcType=VARCHAR},
+    created = #{created,jdbcType=TIMESTAMP},
+    created_by = #{createdBy,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

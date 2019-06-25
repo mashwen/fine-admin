@@ -1,9 +1,13 @@
 package com.ant.shop.asorm.mapper;
 
+import com.ant.shop.asorm.entity.FineStaffOrgRole;
 import com.ant.shop.asorm.entity.FineStaffOrgRoleExample;
 import com.ant.shop.asorm.entity.FineStaffOrgRoleKey;
-import java.util.List;
+import com.ant.shop.asorm.model.StaffOrgRoleModel;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 public interface FineStaffOrgRoleMapper {
     long countByExample(FineStaffOrgRoleExample example);
@@ -12,19 +16,25 @@ public interface FineStaffOrgRoleMapper {
 
     int deleteByPrimaryKey(FineStaffOrgRoleKey key);
 
-    int insert(FineStaffOrgRoleKey record);
+    int insert(FineStaffOrgRole record);
 
-    int insertSelective(FineStaffOrgRoleKey record);
+    int insertSelective(FineStaffOrgRole record);
+
+    @Select("SELECT COUNT(*) FROM fine_staff_org_role WHERE org_id=#{orgId}")
+    Integer countByOrgId(@Param("orgId")Integer orgId);
 
     List<FineStaffOrgRoleKey> selectByExample(FineStaffOrgRoleExample example);
 
-    int updateByExampleSelective(@Param("record") FineStaffOrgRoleKey record, @Param("example") FineStaffOrgRoleExample example);
+    FineStaffOrgRole selectByPrimaryKey(FineStaffOrgRoleKey key);
 
-    int updateByExample(@Param("record") FineStaffOrgRoleKey record, @Param("example") FineStaffOrgRoleExample example);
     //查询员工所属的组织id
     List selectOrg(@Param("staffId") int staffId);
     //查询员工在组织的角色
     List selectRole(@Param("staffId") int staffId, @Param("orgId") int orgId);
     //根据角色删除
     int deleteByRoleId(@Param("roleId") int roleId);
+
+    int insertStaffRoleOrg(StaffOrgRoleModel StaffOrgRoleModel);
+
+
 }

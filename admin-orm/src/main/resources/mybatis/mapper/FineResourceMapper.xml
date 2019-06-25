@@ -3,13 +3,13 @@
 <mapper namespace="com.ant.shop.asorm.mapper.FineResourceMapper">
   <resultMap id="BaseResultMap" type="com.ant.shop.asorm.entity.FineResource">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="group_id" jdbcType="INTEGER" property="groupId" />
+    <result column="resource_group_id" jdbcType="INTEGER" property="resourceGroupId" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="label" jdbcType="VARCHAR" property="label" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="type" jdbcType="BIT" property="type" />
     <result column="sort" jdbcType="SMALLINT" property="sort" />
     <result column="created" jdbcType="TIMESTAMP" property="created" />
   </resultMap>
@@ -72,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, group_id, parent_id, name, url, label, remark, type, sort, created
+    id, resource_group_id, parent_id, name, url, label, remark, type, sort, created
   </sql>
   <select id="selectResourceById" resultMap="BaseResultMap">
     select `name`,url,`type` from fine_resource where id = #{id}
@@ -108,14 +108,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineResource">
-    insert into fine_resource (id, group_id, parent_id, 
+    insert into fine_resource (id, resource_group_id, parent_id, 
       name, url, label, remark, 
-      type, sort, created
-      )
-    values (#{id,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, 
+      type, sort, created)
+    values (#{id,jdbcType=INTEGER}, #{resourceGroupId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{type,jdbcType=INTEGER}, #{sort,jdbcType=SMALLINT}, #{created,jdbcType=TIMESTAMP}
-      )
+      #{type,jdbcType=BIT}, #{sort,jdbcType=SMALLINT}, #{created,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineResource">
     insert into fine_resource
@@ -123,8 +121,8 @@
       <if test="id != null">
         id,
       </if>
-      <if test="groupId != null">
-        group_id,
+      <if test="resourceGroupId != null">
+        resource_group_id,
       </if>
       <if test="parentId != null">
         parent_id,
@@ -155,8 +153,8 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="groupId != null">
-        #{groupId,jdbcType=INTEGER},
+      <if test="resourceGroupId != null">
+        #{resourceGroupId,jdbcType=INTEGER},
       </if>
       <if test="parentId != null">
         #{parentId,jdbcType=INTEGER},
@@ -174,7 +172,7 @@
         #{remark,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
-        #{type,jdbcType=INTEGER},
+        #{type,jdbcType=BIT},
       </if>
       <if test="sort != null">
         #{sort,jdbcType=SMALLINT},
@@ -196,8 +194,8 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.groupId != null">
-        group_id = #{record.groupId,jdbcType=INTEGER},
+      <if test="record.resourceGroupId != null">
+        resource_group_id = #{record.resourceGroupId,jdbcType=INTEGER},
       </if>
       <if test="record.parentId != null">
         parent_id = #{record.parentId,jdbcType=INTEGER},
@@ -215,7 +213,7 @@
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
       <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
+        type = #{record.type,jdbcType=BIT},
       </if>
       <if test="record.sort != null">
         sort = #{record.sort,jdbcType=SMALLINT},
@@ -231,13 +229,13 @@
   <update id="updateByExample" parameterType="map">
     update fine_resource
     set id = #{record.id,jdbcType=INTEGER},
-      group_id = #{record.groupId,jdbcType=INTEGER},
+      resource_group_id = #{record.resourceGroupId,jdbcType=INTEGER},
       parent_id = #{record.parentId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
       label = #{record.label,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=BIT},
       sort = #{record.sort,jdbcType=SMALLINT},
       created = #{record.created,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -247,8 +245,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.ant.shop.asorm.entity.FineResource">
     update fine_resource
     <set>
-      <if test="groupId != null">
-        group_id = #{groupId,jdbcType=INTEGER},
+      <if test="resourceGroupId != null">
+        resource_group_id = #{resourceGroupId,jdbcType=INTEGER},
       </if>
       <if test="parentId != null">
         parent_id = #{parentId,jdbcType=INTEGER},
@@ -266,7 +264,7 @@
         remark = #{remark,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
+        type = #{type,jdbcType=BIT},
       </if>
       <if test="sort != null">
         sort = #{sort,jdbcType=SMALLINT},
@@ -279,15 +277,16 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ant.shop.asorm.entity.FineResource">
     update fine_resource
-    set group_id = #{groupId,jdbcType=INTEGER},
+    set resource_group_id = #{resourceGroupId,jdbcType=INTEGER},
       parent_id = #{parentId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       label = #{label,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
-      type = #{type,jdbcType=INTEGER},
+      type = #{type,jdbcType=BIT},
       sort = #{sort,jdbcType=SMALLINT},
       created = #{created,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
 </mapper>

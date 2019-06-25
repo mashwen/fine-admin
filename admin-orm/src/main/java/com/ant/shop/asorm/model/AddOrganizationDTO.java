@@ -1,13 +1,11 @@
 package com.ant.shop.asorm.model;
 
-import com.ant.shop.asorm.entity.FineArea;
-import com.ant.shop.asorm.entity.FineDistrict;
-import com.ant.shop.asorm.entity.FineOrgDistrict;
+import com.ant.shop.asorm.entity.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +18,8 @@ import java.util.List;
  * @Version 1.0
  **/
 @Data
-public class AddOrganizationDTO implements Serializable {
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
+public class  AddOrganizationDTO {
     private Integer id;
 
     private String code;
@@ -55,9 +54,22 @@ public class AddOrganizationDTO implements Serializable {
 
     private Byte type;
 
+    //员工人数
+    private Integer staffCount;
+
     private FineOrgDistrict orgDistrict;
 
     private FineDistrict fineDistrict;
 
+    private FineStore fineStore;
+
     private List<FineArea> fineAreaList;
+
+    private List<FineAdminFields> fineAdminFieldDataList;
+
+    @Data
+    public static class  FineAdminFields{
+        private FineAdminField fineAdminField;
+        private FineAdminFieldData fineAdminFieldData;
+    }
 }

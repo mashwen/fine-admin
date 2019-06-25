@@ -9,6 +9,7 @@ import com.ant.shop.asorm.mapper.FineRoleMapper;
 import com.ant.shop.asorm.mapper.FineStaffMapper;
 import com.ant.shop.asorm.mapper.FineStaffOrgRoleMapper;
 import com.ant.shop.asorm.model.StaffModel;
+import com.ant.shop.asorm.model.StaffOrgRoleModel;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,12 +58,13 @@ public class StaffServiceImpl implements StaffService {
             int orgId = Integer.parseInt(orgRoleId.getKey().toString());
             List roleIdList = orgRoleId.getValue();
             for (Object roleId : roleIdList) {
-                FineStaffOrgRoleKey fineStaffOrgRoleKey = new FineStaffOrgRoleKey();
+                StaffOrgRoleModel fineStaffOrgRoleKey = new StaffOrgRoleModel();
                 fineStaffOrgRoleKey.setOrgId(orgId);
                 int role = Integer.parseInt(roleId.toString());
                 fineStaffOrgRoleKey.setRoleId(role);
                 fineStaffOrgRoleKey.setStaffId(staff.getId());
-                fineStaffOrgRoleMapper.insertSelective(fineStaffOrgRoleKey);
+                fineStaffOrgRoleKey.setIncludeAll(true);
+                fineStaffOrgRoleMapper.insertStaffRoleOrg(fineStaffOrgRoleKey);
             }
         }
         return ResultModel.ok();

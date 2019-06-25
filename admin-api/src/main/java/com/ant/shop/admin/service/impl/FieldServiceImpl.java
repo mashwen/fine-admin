@@ -16,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import response.ResultModel;
 
 import java.util.Date;
 import java.util.List;
@@ -76,13 +77,19 @@ public class FieldServiceImpl implements FieldService {
      */
     @Override
     @Transactional(rollbackFor =Exception.class)
-    public void deleteFieldById(Integer id) {
+    public ResultModel deleteFieldById(Integer id) {
+        //删除前先判断该字段是否启用状态，如果不是启用状态，则可以删除
+        FineAdminField fineAdminField = fineAdminFieldMapper.selectByPrimaryKey(id);
+        if(fineAdminField.getIsEnabled()){
+            return ResultModel.error("0","启用状态下的字段不可以删除!");
+        }
         //先删除 字段表
         fineAdminFieldMapper.deleteByPrimaryKey(id);
         //再删除字段明细表
         FineAdminFieldDataExample fineAdminFieldDataExample=new FineAdminFieldDataExample();
         fineAdminFieldDataExample.createCriteria().andFieldIdEqualTo(id);
         fineAdminFieldDataMapper.deleteByExample(fineAdminFieldDataExample);
+        return ResultModel.ok();
     }
 
     /**

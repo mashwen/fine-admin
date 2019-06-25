@@ -283,6 +283,66 @@ public class FineStaffOrgRoleExample {
             addCriterion("role_id not between", value1, value2, "roleId");
             return (Criteria) this;
         }
+
+        public Criteria andIncludeAllIsNull() {
+            addCriterion("include_all is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIncludeAllIsNotNull() {
+            addCriterion("include_all is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIncludeAllEqualTo(Boolean value) {
+            addCriterion("include_all =", value, "includeAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andIncludeAllNotEqualTo(Boolean value) {
+            addCriterion("include_all <>", value, "includeAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andIncludeAllGreaterThan(Boolean value) {
+            addCriterion("include_all >", value, "includeAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andIncludeAllGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("include_all >=", value, "includeAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andIncludeAllLessThan(Boolean value) {
+            addCriterion("include_all <", value, "includeAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andIncludeAllLessThanOrEqualTo(Boolean value) {
+            addCriterion("include_all <=", value, "includeAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andIncludeAllIn(List<Boolean> values) {
+            addCriterion("include_all in", values, "includeAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andIncludeAllNotIn(List<Boolean> values) {
+            addCriterion("include_all not in", values, "includeAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andIncludeAllBetween(Boolean value1, Boolean value2) {
+            addCriterion("include_all between", value1, value2, "includeAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andIncludeAllNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("include_all not between", value1, value2, "includeAll");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

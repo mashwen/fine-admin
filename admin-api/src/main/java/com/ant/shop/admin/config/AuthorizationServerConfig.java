@@ -57,22 +57,40 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .checkTokenAccess("isAuthenticated()");
     }
 
+    //    @Override
+//    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+//        clients.inMemory()
+//                .withClient("admin_client")
+//                .scopes("read")
+//                .secret("$2a$10$9wCwb0DRNiAcT6jJQu7dT.kyHRPclOV5SPV1rK5wxX9/L8UG1dCI2")
+//                .authorizedGrantTypes("password", "authorization_code", "refresh_token");
+//
+//    }
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        // clients.withClientDetails(clientDetails());
         clients.inMemory()
-                .withClient("admin_client")
+                .withClient("payment_client")
                 .scopes("read")
-                .secret("$2a$10$9wCwb0DRNiAcT6jJQu7dT.kyHRPclOV5SPV1rK5wxX9/L8UG1dCI2")
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token");
-
+                .secret("$2a$10$F.16r9DkTuW/OoiGN/NY9e03TcYCIy/XevuIiF.WoMFDtZCjtk/3u")
+                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
+                .and()
+                .withClient("webapp")
+                .scopes("read")
+                .authorizedGrantTypes("implicit")
+                .and()
+                .withClient("browser")
+                .authorizedGrantTypes("refresh_token", "password")
+                .scopes("read");
     }
+
     @Bean
     public ClientDetailsService clientDetails() {
         return new JdbcClientDetailsService(dataSource);
     }
 
     @Bean
-    public WebResponseExceptionTranslator webResponseExceptionTranslator(){
+    public WebResponseExceptionTranslator webResponseExceptionTranslator() {
         return new MssWebResponseExceptionTranslator();
     }
 
@@ -83,22 +101,23 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .authenticationManager(authenticationManager);
         endpoints.tokenServices(defaultTokenServices());
         //认证异常翻译
-       // endpoints.exceptionTranslator(webResponseExceptionTranslator());
+        // endpoints.exceptionTranslator(webResponseExceptionTranslator());
     }
 
     /**
      * <p>注意，自定义TokenServices的时候，需要设置@Primary，否则报错，</p>
+     *
      * @return
      */
     @Primary
     @Bean
-    public DefaultTokenServices defaultTokenServices(){
+    public DefaultTokenServices defaultTokenServices() {
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setTokenStore(tokenStore());
         tokenServices.setSupportRefreshToken(true);
         //tokenServices.setClientDetailsService(clientDetails());
         // token有效期自定义设置，默认12小时
-        tokenServices.setAccessTokenValiditySeconds(60*60*24*30);
+        tokenServices.setAccessTokenValiditySeconds(60 * 60 * 24 * 30);
         // refresh_token默认30天
         tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 30);
         return tokenServices;

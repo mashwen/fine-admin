@@ -16,7 +16,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = "com.ant.shop.asorm.mapper.auth", sqlSessionTemplateRef  = "authSqlSessionTemplate")
+@MapperScan(basePackages = "com.ant.shop.asorm.mapper", sqlSessionTemplateRef  = "authSqlSessionTemplate")
 public class AuthDataSourceConfiguration {
 
     @Bean(name = "authDataSource")

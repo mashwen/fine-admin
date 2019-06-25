@@ -1,7 +1,10 @@
 package com.ant.shop.asorm.entity;
 
-import java.io.Serializable;
+import lombok.ToString;
 
+import java.io.Serializable;
+import java.util.Date;
+@ToString
 public class FineAdminFieldData implements Serializable {
     private Integer id;
 
@@ -10,6 +13,8 @@ public class FineAdminFieldData implements Serializable {
     private Integer fieldId;
 
     private String value;
+
+    private Date created;
 
     private static final long serialVersionUID = 1L;
 
@@ -43,5 +48,13 @@ public class FineAdminFieldData implements Serializable {
 
     public void setValue(String value) {
         this.value = value == null ? null : value.trim();
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 }

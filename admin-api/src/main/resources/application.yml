@@ -1,5 +1,5 @@
 server:
-  port: 9007
+  port: 9017
 eureka:
   instance:
     hostname: localhost
@@ -36,17 +36,18 @@ spring:
 #        username: innovator
 #        password: life0fP1
 
+#  datasource:
+#    auth:
+#      driver-class-name: com.mysql.jdbc.Driver
+#      url: jdbc:mysql://localhost:3306/fine_admin?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
+#      username: root
+#      password: 123456
   datasource:
     auth:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/fine_admin?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
-      username: root
-      password: ajx123456
-#    payment:
-#      driver-class-name: com.mysql.jdbc.Driver
-#      url: jdbc:mysql://localhost:3306/as_payment?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
-#      username: root
-#      password: 1234qweR
+      url: jdbc:mysql://39.98.172.65:9001/fine_admin?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
+      username: qasmysql01
+      password: msyy@2019
   druid:
     initialSize: 5 #初始化连接大小
     minIdle: 5     #最小连接池数量
@@ -93,7 +94,7 @@ security:
   oauth2:
     resource:
       id: as-admin
-      user-info-uri: http://127.0.0.1:5557/auth/api/member
+      user-info-uri: http://localhost:9017/api/member
       prefer-token-info: false
   ignored: /swagger-ui.html,/swagger-ui.html/*,/webjars/**,/error,/swagger-resources/**
 qrcode:

@@ -27,6 +27,7 @@ public interface FineRoleMapper {
     int updateByPrimaryKeySelective(FineRole record);
 
     int updateByPrimaryKey(FineRole record);
+
     //根据id查询角色名称
     String selectNameById(@Param("id") int id);
     //根据名字动态查询角色列表

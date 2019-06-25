@@ -101,7 +101,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineDistrict" keyProperty="id" useGeneratedKeys="true">
+  <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineDistrict">
     insert into fine_district (id, name, level, 
       parent_id, postcode, phonetic_name, 
       created)

@@ -9,15 +9,19 @@ import com.ant.shop.asorm.model.PageDTO;
 import com.ant.shop.asorm.model.PageListResp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import response.ResultModel;
 import utils.StringUtils;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author liuzongqiang
@@ -37,7 +41,14 @@ public class OrganizationServiceImpl implements OrganizationService {
     private FineAreaMapper fineAreaMapper;
     @Autowired
     private FineDistrictAreaMapper fineDistrictAreaMapper;
-
+    @Autowired
+    private FineAdminFieldDataMapper fineAdminFieldDataMapper;
+    @Autowired
+    private FineAdminFieldMapper fineAdminFieldMapper;
+    @Autowired
+    private FineStoreMapper fineStoreMapper;
+    @Autowired
+    private FineStaffOrgRoleMapper fineStaffOrgRoleMapper;
     /**
      * 获取组织列表
      *
@@ -92,13 +103,56 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     /**
      * 删除组织
-     *
      * @param id
+     * @return
      */
     @Override
     @Transactional(rollbackFor =Exception.class)
-    public void deleteOrganizationById(Integer id) {
+    public ResultModel deleteOrganizationById(Integer id) {
+        //删除前先判断该组织是否启用状态，如果不是启用状态，则可以删除
+        FineOrg fineOrg = fineOrgMapper.selectByPrimaryKey(id);
+        if(fineOrg.getIsEnabled()){
+            return ResultModel.error("0","启用状态下的组织不可以被删除!");
+        }
+        //1、先删除组织
         fineOrgMapper.deleteByPrimaryKey(id);
+        //2、删除行政区域
+        FineOrgDistrict fineOrgDistrict = fineOrgDistrictMapper.selectByOrgId(id);
+        fineDistrictMapper.deleteByPrimaryKey(fineOrgDistrict.getDistrictId());
+        //3、删除业务区域
+        FineDistrictAreaExample fineDistrictAreaExample=new FineDistrictAreaExample();
+        fineDistrictAreaExample.createCriteria().andDistrictIdEqualTo(id);
+        List<FineDistrictAreaKey> fineDistrictAreaKeys = fineDistrictAreaMapper.selectByExample(fineDistrictAreaExample);
+        for (FineDistrictAreaKey fineDistrictAreaKey : fineDistrictAreaKeys) {
+            fineAreaMapper.deleteByPrimaryKey(fineDistrictAreaKey.getAreaId());
+        }
+        //4、删除业务区域行政区域关系表
+        fineDistrictAreaMapper.deleteByExample(fineDistrictAreaExample);
+        //5、删除组织行政区域
+        FineOrgDistrictExample fineOrgDistrictExample=new FineOrgDistrictExample();
+        fineOrgDistrictExample.createCriteria().andOrgIdEqualTo(id);
+        fineOrgDistrictMapper.deleteByExample(fineOrgDistrictExample);
+        //6、删除自定义信息
+        List<AddOrganizationDTO.FineAdminFields> fineAdminFields = fineAdminFieldMapper.selectByRefId(id);
+        FineAdminFieldDataExample fineAdminFieldDataExample;
+        for (AddOrganizationDTO.FineAdminFields fineAdminField : fineAdminFields) {
+            fineAdminFieldDataExample =new FineAdminFieldDataExample();
+            fineAdminFieldDataExample.createCriteria().andFieldIdEqualTo(fineAdminField.getFineAdminFieldData().getFieldId())
+                    .andRefIdEqualTo(fineAdminField.getFineAdminFieldData().getRefId());
+            fineAdminFieldDataMapper.deleteByExample(fineAdminFieldDataExample);
+        }
+        //7、删除门店
+        FineStoreExample fineStoreExample=new FineStoreExample();
+        fineStoreExample.createCriteria().andOrgIdEqualTo(id);
+        fineStoreMapper.deleteByExample(fineStoreExample);
+
+        //8、删除员工组织角色关系
+        FineStaffOrgRoleExample fineStaffOrgRoleExample=new FineStaffOrgRoleExample();
+        fineStaffOrgRoleExample.createCriteria().andOrgIdEqualTo(id);
+        fineStaffOrgRoleMapper.deleteByExample(fineStaffOrgRoleExample);
+
+        return ResultModel.ok();
+
     }
 
     /**
@@ -167,6 +221,85 @@ public class OrganizationServiceImpl implements OrganizationService {
             fineDistrictAreaMapper.insert(fineDistrictAreaKey);
         }
 
+        //6、添加更多组织信息
+        List<AddOrganizationDTO.FineAdminFields> fineAdminFieldDataList = addOrganizationDTO.getFineAdminFieldDataList();
 
+        for (AddOrganizationDTO.FineAdminFields fineAdminFields : fineAdminFieldDataList) {
+            log.info("field的id:"+fineAdminFields.getFineAdminField().getId());
+            fineAdminFields.getFineAdminFieldData().setRefId(fineOrg.getId());
+            fineAdminFields.getFineAdminFieldData().setCreated(new Date());
+            fineAdminFields.getFineAdminFieldData().setFieldId(fineAdminFields.getFineAdminField().getId());
+            fineAdminFieldDataMapper.insert(fineAdminFields.getFineAdminFieldData());
+
+        }
+        //7、如果是门店的话需要增加门店信息
+        FineStore fineStore = addOrganizationDTO.getFineStore();
+        if(fineStore!=null){
+            fineStore.setOrgId(fineOrg.getId());
+            fineStore.setCreated(new Date());
+            fineStoreMapper.insert(fineStore);
+        }
+
+    }
+
+    /**
+     * 组织详情
+     * @param id
+     * @return
+     */
+    @Override
+    public AddOrganizationDTO getOrganizationById(Integer id) {
+        AddOrganizationDTO addOrganizationDTO=new AddOrganizationDTO();
+
+        //组织基本信息
+        FineOrg fineOrg = fineOrgMapper.selectByPrimaryKey(id);
+        if(fineOrg==null){
+            return addOrganizationDTO;
+        }
+        BeanUtils.copyProperties(fineOrg,addOrganizationDTO);
+        //组织行政区域信息
+        FineOrgDistrict fineOrgDistrict = fineOrgDistrictMapper.selectByOrgId(id);
+
+        //行政区域信息
+        FineDistrict fineDistrict = fineDistrictMapper.selectByPrimaryKey(fineOrgDistrict.getDistrictId());
+
+        //业务区域信息
+        List<FineArea> fineAreas = fineAreaMapper.selectByDistrictId(fineDistrict.getId());
+
+        //更多信息
+        List<AddOrganizationDTO.FineAdminFields> fineAdminFields = fineAdminFieldMapper.selectByRefId(id);
+
+        //店铺信息
+        FineStoreExample fineStoreExample=new FineStoreExample();
+        fineStoreExample.createCriteria().andOrgIdEqualTo(id);
+        List<FineStore> fineStores = fineStoreMapper.selectByExample(fineStoreExample);
+
+
+        //计算员工人数
+        if(fineStores!=null && fineStores.size()!=0){
+            Integer staffCount = fineStaffOrgRoleMapper.countByOrgId(id);
+            addOrganizationDTO.setStaffCount(staffCount);
+        }
+        addOrganizationDTO.setOrgDistrict(fineOrgDistrict);
+        addOrganizationDTO.setFineDistrict(fineDistrict);
+        addOrganizationDTO.setFineAreaList(fineAreas);
+        addOrganizationDTO.setFineStore(fineStores.size()==0?null:fineStores.get(0));
+        addOrganizationDTO.setFineAdminFieldDataList(fineAdminFields);
+        return addOrganizationDTO;
+    }
+
+    /**
+     * 获取员工所属的组织信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Map getOrganizationByStaffId(Integer id) {
+        Map<String,String> map=new HashMap<>();
+        FineOrg fineOrg = fineOrgMapper.selectOrgByStaffId(id);
+        map.put("id",fineOrg.getId().toString());
+        map.put("shortName",fineOrg.getShortName());
+        return map;
     }
 }

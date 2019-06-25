@@ -1,6 +1,5 @@
 package com.ant.shop.asorm.mapper;
 
-import com.ant.shop.asorm.entity.FineResource;
 import com.ant.shop.asorm.entity.FineRoleResource;
 import com.ant.shop.asorm.entity.FineRoleResourceExample;
 import java.util.List;
@@ -30,6 +29,7 @@ public interface FineRoleResourceMapper {
     int updateByPrimaryKeySelective(FineRoleResource record);
 
     int updateByPrimaryKey(FineRoleResource record);
+
     //删除资源组
     int deleteByRoleId(@Param("roleId") int roleId);
     //添加资源组

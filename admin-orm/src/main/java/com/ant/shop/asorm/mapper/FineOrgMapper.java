@@ -23,6 +23,7 @@ public interface FineOrgMapper {
 
     List<FineOrg> selectByExample(FineOrgExample example);
 
+
     @Results({
             @Result(property = "parentId", column = "parent_id"),
             @Result(property = "shortName", column = "short_name"),
@@ -51,6 +52,13 @@ public interface FineOrgMapper {
             "</script>"
     })
     List<OrganizationDTO> selectByKeyword(@Param("org") OrganizationDTO org);
+
+    /**
+     * 通过员工id查询所属的组织信息
+     * @param staffId
+     * @return
+     */
+    FineOrg selectOrgByStaffId(@Param("staffId")Integer staffId);
 
     FineOrg selectByPrimaryKey(Integer id);
 

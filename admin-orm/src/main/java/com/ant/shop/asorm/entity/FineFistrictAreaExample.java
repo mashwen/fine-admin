@@ -3,14 +3,14 @@ package com.ant.shop.asorm.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FineOrgDistrictExample {
+public class FineFistrictAreaExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public FineOrgDistrictExample() {
+    public FineFistrictAreaExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -104,66 +104,6 @@ public class FineOrgDistrictExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andOrgIdIsNull() {
-            addCriterion("org_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrgIdIsNotNull() {
-            addCriterion("org_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrgIdEqualTo(Integer value) {
-            addCriterion("org_id =", value, "orgId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrgIdNotEqualTo(Integer value) {
-            addCriterion("org_id <>", value, "orgId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrgIdGreaterThan(Integer value) {
-            addCriterion("org_id >", value, "orgId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrgIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("org_id >=", value, "orgId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrgIdLessThan(Integer value) {
-            addCriterion("org_id <", value, "orgId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrgIdLessThanOrEqualTo(Integer value) {
-            addCriterion("org_id <=", value, "orgId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrgIdIn(List<Integer> values) {
-            addCriterion("org_id in", values, "orgId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrgIdNotIn(List<Integer> values) {
-            addCriterion("org_id not in", values, "orgId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrgIdBetween(Integer value1, Integer value2) {
-            addCriterion("org_id between", value1, value2, "orgId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrgIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("org_id not between", value1, value2, "orgId");
-            return (Criteria) this;
-        }
-
         public Criteria andDistrictIdIsNull() {
             addCriterion("district_id is null");
             return (Criteria) this;
@@ -221,6 +161,66 @@ public class FineOrgDistrictExample {
 
         public Criteria andDistrictIdNotBetween(Integer value1, Integer value2) {
             addCriterion("district_id not between", value1, value2, "districtId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaIdIsNull() {
+            addCriterion("area_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaIdIsNotNull() {
+            addCriterion("area_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaIdEqualTo(Integer value) {
+            addCriterion("area_id =", value, "areaId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaIdNotEqualTo(Integer value) {
+            addCriterion("area_id <>", value, "areaId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaIdGreaterThan(Integer value) {
+            addCriterion("area_id >", value, "areaId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("area_id >=", value, "areaId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaIdLessThan(Integer value) {
+            addCriterion("area_id <", value, "areaId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaIdLessThanOrEqualTo(Integer value) {
+            addCriterion("area_id <=", value, "areaId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaIdIn(List<Integer> values) {
+            addCriterion("area_id in", values, "areaId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaIdNotIn(List<Integer> values) {
+            addCriterion("area_id not in", values, "areaId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaIdBetween(Integer value1, Integer value2) {
+            addCriterion("area_id between", value1, value2, "areaId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("area_id not between", value1, value2, "areaId");
             return (Criteria) this;
         }
     }
