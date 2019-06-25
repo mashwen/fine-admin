@@ -75,7 +75,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, code, name, remark, parent_id, sort, created, short_name, address, longtitude, 
+    id, code, name, remark, parent_id, sort, created, short_name, address, longtitude,
     latitude, status, business_model
   </sql>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineOrgExample" resultMap="BaseResultMap">
@@ -93,7 +93,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from fine_org
     where id = #{id,jdbcType=INTEGER}
@@ -109,15 +109,15 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineOrg">
-    insert into fine_org (id, code, name, 
-      remark, parent_id, sort, 
-      created, short_name, address, 
-      longtitude, latitude, status, 
+    insert into fine_org (id, code, name,
+      remark, parent_id, sort,
+      created, short_name, address,
+      longtitude, latitude, status,
       business_model)
-    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{sort,jdbcType=SMALLINT}, 
-      #{created,jdbcType=TIMESTAMP}, #{shortName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{longtitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{sort,jdbcType=SMALLINT},
+      #{created,jdbcType=TIMESTAMP}, #{shortName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+      #{longtitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT},
       #{businessModel,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineOrg">
@@ -261,18 +261,18 @@
   <update id="updateByExample" parameterType="map">
     update fine_org
     set id = #{record.id,jdbcType=INTEGER},
-      code = #{record.code,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      parent_id = #{record.parentId,jdbcType=INTEGER},
-      sort = #{record.sort,jdbcType=SMALLINT},
-      created = #{record.created,jdbcType=TIMESTAMP},
-      short_name = #{record.shortName,jdbcType=VARCHAR},
-      address = #{record.address,jdbcType=VARCHAR},
-      longtitude = #{record.longtitude,jdbcType=DECIMAL},
-      latitude = #{record.latitude,jdbcType=DECIMAL},
-      status = #{record.status,jdbcType=TINYINT},
-      business_model = #{record.businessModel,jdbcType=TINYINT}
+    code = #{record.code,jdbcType=VARCHAR},
+    name = #{record.name,jdbcType=VARCHAR},
+    remark = #{record.remark,jdbcType=VARCHAR},
+    parent_id = #{record.parentId,jdbcType=INTEGER},
+    sort = #{record.sort,jdbcType=SMALLINT},
+    created = #{record.created,jdbcType=TIMESTAMP},
+    short_name = #{record.shortName,jdbcType=VARCHAR},
+    address = #{record.address,jdbcType=VARCHAR},
+    longtitude = #{record.longtitude,jdbcType=DECIMAL},
+    latitude = #{record.latitude,jdbcType=DECIMAL},
+    status = #{record.status,jdbcType=TINYINT},
+    business_model = #{record.businessModel,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -411,7 +411,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, code, name, remark, parent_id, sort, created, short_name, address, longtitude, 
+    id, code, name, remark, parent_id, sort, created, short_name, address, longtitude,
     latitude, status, business_model, is_enabled, type
   </sql>
   <select id="selectNameById" resultType="java.lang.String">
@@ -432,7 +432,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from fine_org
     where id = #{id,jdbcType=INTEGER}
@@ -448,16 +448,16 @@
     </if>
   </delete>
   <insert id="insert" keyProperty="id" parameterType="com.ant.shop.asorm.entity.FineOrg" useGeneratedKeys="true">
-    insert into fine_org (id, code, name, 
-      remark, parent_id, sort, 
-      created, short_name, address, 
-      longtitude, latitude, status, 
+    insert into fine_org (id, code, name,
+      remark, parent_id, sort,
+      created, short_name, address,
+      longtitude, latitude, status,
       business_model, is_enabled, type
       )
-    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{sort,jdbcType=SMALLINT}, 
-      #{created,jdbcType=TIMESTAMP}, #{shortName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{longtitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{sort,jdbcType=SMALLINT},
+      #{created,jdbcType=TIMESTAMP}, #{shortName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+      #{longtitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT},
       #{businessModel,jdbcType=TINYINT}, #{isEnabled,jdbcType=BIT}, #{type,jdbcType=TINYINT}
       )
   </insert>
@@ -626,20 +626,20 @@
   <update id="updateByExample" parameterType="map">
     update fine_org
     set id = #{record.id,jdbcType=INTEGER},
-      code = #{record.code,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      parent_id = #{record.parentId,jdbcType=INTEGER},
-      sort = #{record.sort,jdbcType=SMALLINT},
-      created = #{record.created,jdbcType=TIMESTAMP},
-      short_name = #{record.shortName,jdbcType=VARCHAR},
-      address = #{record.address,jdbcType=VARCHAR},
-      longtitude = #{record.longtitude,jdbcType=DECIMAL},
-      latitude = #{record.latitude,jdbcType=DECIMAL},
-      status = #{record.status,jdbcType=TINYINT},
-      business_model = #{record.businessModel,jdbcType=TINYINT},
-      is_enabled = #{record.isEnabled,jdbcType=BIT},
-      type = #{record.type,jdbcType=TINYINT}
+    code = #{record.code,jdbcType=VARCHAR},
+    name = #{record.name,jdbcType=VARCHAR},
+    remark = #{record.remark,jdbcType=VARCHAR},
+    parent_id = #{record.parentId,jdbcType=INTEGER},
+    sort = #{record.sort,jdbcType=SMALLINT},
+    created = #{record.created,jdbcType=TIMESTAMP},
+    short_name = #{record.shortName,jdbcType=VARCHAR},
+    address = #{record.address,jdbcType=VARCHAR},
+    longtitude = #{record.longtitude,jdbcType=DECIMAL},
+    latitude = #{record.latitude,jdbcType=DECIMAL},
+    status = #{record.status,jdbcType=TINYINT},
+    business_model = #{record.businessModel,jdbcType=TINYINT},
+    is_enabled = #{record.isEnabled,jdbcType=BIT},
+    type = #{record.type,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
