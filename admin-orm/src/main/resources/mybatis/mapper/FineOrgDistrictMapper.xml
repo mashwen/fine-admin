@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ant.shop.asorm.mapper.FineOrgDistrictMapper">
-  <resultMap id="BaseResultMap" type="com.ant.shop.asorm.entity.FineOrgDistrictKey">
+  <resultMap id="BaseResultMap" type="com.ant.shop.asorm.entity.FineOrgDistrict">
     <id column="org_id" jdbcType="INTEGER" property="orgId" />
     <id column="district_id" jdbcType="INTEGER" property="districtId" />
+    <result column="fullname" jdbcType="VARCHAR" property="fullname" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="gender" jdbcType="BIT" property="gender" />
+    <result column="job_title" jdbcType="VARCHAR" property="jobTitle" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -64,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    org_id, district_id
+    org_id, district_id, fullname, mobile, email, gender, job_title, avatar, created,
+    status
   </sql>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineOrgDistrictExample" resultMap="BaseResultMap">
     select
@@ -80,6 +89,19 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" parameterType="com.ant.shop.asorm.entity.FineOrgDistrictKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from fine_org_district
+    where org_id = #{orgId,jdbcType=INTEGER}
+    and district_id = #{districtId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByOrgId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from fine_org_district
+    where org_id = #{orgId}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="com.ant.shop.asorm.entity.FineOrgDistrictKey">
     delete from fine_org_district
     where org_id = #{orgId,jdbcType=INTEGER}
@@ -91,11 +113,17 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineOrgDistrictKey">
-    insert into fine_org_district (org_id, district_id)
-    values (#{orgId,jdbcType=INTEGER}, #{districtId,jdbcType=INTEGER})
+  <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineOrgDistrict">
+    insert into fine_org_district (org_id, district_id, fullname,
+      mobile, email, gender,
+      job_title, avatar, created,
+      status)
+    values (#{orgId,jdbcType=INTEGER}, #{districtId,jdbcType=INTEGER}, #{fullname,jdbcType=VARCHAR},
+      #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{gender,jdbcType=BIT},
+      #{jobTitle,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP},
+      #{status,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineOrgDistrictKey">
+  <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineOrgDistrict">
     insert into fine_org_district
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="orgId != null">
@@ -104,6 +132,30 @@
       <if test="districtId != null">
         district_id,
       </if>
+      <if test="fullname != null">
+        fullname,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="jobTitle != null">
+        job_title,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="orgId != null">
@@ -111,6 +163,30 @@
       </if>
       <if test="districtId != null">
         #{districtId,jdbcType=INTEGER},
+      </if>
+      <if test="fullname != null">
+        #{fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=BIT},
+      </if>
+      <if test="jobTitle != null">
+        #{jobTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -129,6 +205,30 @@
       <if test="record.districtId != null">
         district_id = #{record.districtId,jdbcType=INTEGER},
       </if>
+      <if test="record.fullname != null">
+        fullname = #{record.fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=BIT},
+      </if>
+      <if test="record.jobTitle != null">
+        job_title = #{record.jobTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.avatar != null">
+        avatar = #{record.avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.created != null">
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -137,9 +237,61 @@
   <update id="updateByExample" parameterType="map">
     update fine_org_district
     set org_id = #{record.orgId,jdbcType=INTEGER},
-      district_id = #{record.districtId,jdbcType=INTEGER}
+    district_id = #{record.districtId,jdbcType=INTEGER},
+    fullname = #{record.fullname,jdbcType=VARCHAR},
+    mobile = #{record.mobile,jdbcType=VARCHAR},
+    email = #{record.email,jdbcType=VARCHAR},
+    gender = #{record.gender,jdbcType=BIT},
+    job_title = #{record.jobTitle,jdbcType=VARCHAR},
+    avatar = #{record.avatar,jdbcType=VARCHAR},
+    created = #{record.created,jdbcType=TIMESTAMP},
+    status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ant.shop.asorm.entity.FineOrgDistrict">
+    update fine_org_district
+    <set>
+      <if test="fullname != null">
+        fullname = #{fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=BIT},
+      </if>
+      <if test="jobTitle != null">
+        job_title = #{jobTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where org_id = #{orgId,jdbcType=INTEGER}
+    and district_id = #{districtId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ant.shop.asorm.entity.FineOrgDistrict">
+    update fine_org_district
+    set fullname = #{fullname,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=BIT},
+      job_title = #{jobTitle,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT}
+    where org_id = #{orgId,jdbcType=INTEGER}
+      and district_id = #{districtId,jdbcType=INTEGER}
   </update>
 </mapper>

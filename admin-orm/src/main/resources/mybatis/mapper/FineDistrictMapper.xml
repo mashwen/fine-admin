@@ -86,7 +86,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from fine_district
     where id = #{id,jdbcType=INTEGER}
@@ -101,7 +101,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineDistrict">
+  <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineDistrict" keyProperty="id" useGeneratedKeys="true">
     insert into fine_district (id, name, level, 
       parent_id, postcode, phonetic_name, 
       created)
@@ -196,12 +196,12 @@
   <update id="updateByExample" parameterType="map">
     update fine_district
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      level = #{record.level,jdbcType=TINYINT},
-      parent_id = #{record.parentId,jdbcType=INTEGER},
-      postcode = #{record.postcode,jdbcType=VARCHAR},
-      phonetic_name = #{record.phoneticName,jdbcType=VARCHAR},
-      created = #{record.created,jdbcType=TIMESTAMP}
+    name = #{record.name,jdbcType=VARCHAR},
+    level = #{record.level,jdbcType=TINYINT},
+    parent_id = #{record.parentId,jdbcType=INTEGER},
+    postcode = #{record.postcode,jdbcType=VARCHAR},
+    phonetic_name = #{record.phoneticName,jdbcType=VARCHAR},
+    created = #{record.created,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>

@@ -82,7 +82,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from fine_area
     where id = #{id,jdbcType=INTEGER}
@@ -97,13 +97,13 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineArea">
+  <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineArea" keyProperty="id" useGeneratedKeys="true">
     insert into fine_area (id, name, created
       )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineArea">
+  <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineArea" >
     insert into fine_area
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -154,8 +154,8 @@
   <update id="updateByExample" parameterType="map">
     update fine_area
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      created = #{record.created,jdbcType=TIMESTAMP}
+    name = #{record.name,jdbcType=VARCHAR},
+    created = #{record.created,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
