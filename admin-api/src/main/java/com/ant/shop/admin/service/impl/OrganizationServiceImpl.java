@@ -138,7 +138,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         for (AddOrganizationDTO.FineAdminFields fineAdminField : fineAdminFields) {
             fineAdminFieldDataExample =new FineAdminFieldDataExample();
             fineAdminFieldDataExample.createCriteria().andFieldIdEqualTo(fineAdminField.getFineAdminFieldData().getFieldId())
-            .andRefIdEqualTo(fineAdminField.getFineAdminFieldData().getRefId());
+                    .andRefIdEqualTo(fineAdminField.getFineAdminFieldData().getRefId());
             fineAdminFieldDataMapper.deleteByExample(fineAdminFieldDataExample);
         }
         //7、删除门店
