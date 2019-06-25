@@ -68,6 +68,15 @@
   <sql id="Base_Column_List">
     staff_id, org_id, role_id, include_all
   </sql>
+  <select id="selectOrg" resultType="java.lang.Integer">
+    SELECT DISTINCT org_id FROM fine_staff_org_role WHERE staff_id = #{staffId}
+  </select>
+  <select id="selectRole" resultType="java.lang.Integer">
+    SELECT role_id FROM fine_staff_org_role WHERE staff_id = #{staffId} AND org_id = #{orgId}
+  </select>
+  <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+      delete from fine_staff_org_role where role_id = #{roleId}
+  </delete>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineStaffOrgRoleExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -96,6 +105,37 @@
       and org_id = #{orgId,jdbcType=INTEGER}
       and role_id = #{roleId,jdbcType=INTEGER}
   </delete>
+  <insert id="insertStaffRoleOrg" parameterType="com.ant.shop.asorm.model.StaffOrgRoleModel">
+    insert into fine_staff_org_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="staffId != null">
+        staff_id,
+      </if>
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="includeAll != null">
+        include_all,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="staffId != null">
+        #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="includeAll != null">
+        #{includeAll,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
   <delete id="deleteByExample" parameterType="com.ant.shop.asorm.entity.FineStaffOrgRoleExample">
     delete from fine_staff_org_role
     <if test="_parameter != null">

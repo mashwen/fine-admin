@@ -73,7 +73,11 @@ public class OrganizationController {
      */
     @DeleteMapping("/organization/{id}")
     public ResultModel deleteOrganization(@PathVariable(value = "id")Integer id){
-        return  organizationService.deleteOrganizationById(id);
+        if(id==null){
+            return ResultModel.error("0","组织id不能为空！");
+        }
+        fieldService.deleteFieldById(id);
+        return  ResultModel.ok();
     }
 
     /**
@@ -91,18 +95,6 @@ public class OrganizationController {
         return  ResultModel.ok(data);
     }
 
-    /**
-     * 组织详情
-     * @param id
-     * @return
-     */
-    @GetMapping("/organization/{id}")
-    public ResultModel OrganizationDetails(@PathVariable("id")Integer id){
-        AddOrganizationDTO organizationById = organizationService.getOrganizationById(id);
-        Map<String,Object> data=new HashMap<>(16);
-        data.put("organization",organizationById);
-        return ResultModel.ok(data);
-    }
     /**
      * 获取字段列表
      * @param pageNum

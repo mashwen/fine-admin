@@ -66,6 +66,31 @@
   <sql id="Base_Column_List">
     role_id, resource_id
   </sql>
+  <select id="selectResourceByRole" resultType="java.lang.Integer">
+    select resource_id from fine_role_resource where role_id = #{roleId}
+  </select>
+  <insert id="insertGroup" parameterType="com.ant.shop.asorm.model.RoleResourceGroupModel">
+    insert into fine_role_resource_group
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="resourceGroupId != null">
+        resource_group_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="resourceGroupId != null">
+        #{resourceGroupId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+    delete from fine_role_resource_group where role_id = #{roleId}
+  </delete>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineRoleResourceExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

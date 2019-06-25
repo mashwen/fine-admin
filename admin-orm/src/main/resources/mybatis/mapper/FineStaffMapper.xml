@@ -74,6 +74,20 @@
   <sql id="Base_Column_List">
     id, password, fullname, mobile, email, gender, job_title, avatar, created, status
   </sql>
+  <select id="selectStaffList" resultMap="BaseResultMap">
+    SELECT
+    id, fullname, mobile, email, gender, job_title, avatar, created, status
+    FROM fine_staff
+    <if test="fullname != null">
+      WHERE  fullname = #{fullname}
+    </if>
+    <if test="mobile != null">
+      WHERE mobile = #{mobile}
+    </if>
+    <if test="email != null">
+      WHERE  email = #{email}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineStaffExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

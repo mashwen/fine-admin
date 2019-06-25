@@ -3,6 +3,7 @@ package com.ant.shop.asorm.mapper;
 import com.ant.shop.asorm.entity.FineStaffOrgRole;
 import com.ant.shop.asorm.entity.FineStaffOrgRoleExample;
 import com.ant.shop.asorm.entity.FineStaffOrgRoleKey;
+import com.ant.shop.asorm.model.StaffOrgRoleModel;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -25,6 +26,15 @@ public interface FineStaffOrgRoleMapper {
     List<FineStaffOrgRoleKey> selectByExample(FineStaffOrgRoleExample example);
 
     FineStaffOrgRole selectByPrimaryKey(FineStaffOrgRoleKey key);
+
+    //查询员工所属的组织id
+    List selectOrg(@Param("staffId") int staffId);
+    //查询员工在组织的角色
+    List selectRole(@Param("staffId") int staffId, @Param("orgId") int orgId);
+    //根据角色删除
+    int deleteByRoleId(@Param("roleId") int roleId);
+
+    int insertStaffRoleOrg(StaffOrgRoleModel StaffOrgRoleModel);
 
 
 }
