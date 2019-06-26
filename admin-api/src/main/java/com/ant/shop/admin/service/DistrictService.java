@@ -32,5 +32,10 @@ public interface DistrictService {
      */
     public ResultModel deleteDistrict(Integer id);
 
+    /**
+     * 修改行政区域
+     * @param fineDistrict
+     * @return
+     */
     public ResultModel updateDistrict(FineDistrict fineDistrict);
 }

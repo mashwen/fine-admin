@@ -1,6 +1,5 @@
 package com.ant.shop.asorm.mapper;
 
-import com.ant.shop.asorm.entity.FineOrgDistrict;
 import com.ant.shop.asorm.entity.FineOrgDistrictExample;
 import com.ant.shop.asorm.entity.FineOrgDistrictKey;
 import org.apache.ibatis.annotations.Param;
@@ -14,21 +13,13 @@ public interface FineOrgDistrictMapper {
 
     int deleteByPrimaryKey(FineOrgDistrictKey key);
 
-    int insert(FineOrgDistrict record);
+    int insert(FineOrgDistrictKey record);
 
-    int insertSelective(FineOrgDistrict record);
+    int insertSelective(FineOrgDistrictKey record);
 
-    List<FineOrgDistrict> selectByExample(FineOrgDistrictExample example);
+    List<FineOrgDistrictKey> selectByExample(FineOrgDistrictExample example);
 
-    FineOrgDistrict selectByPrimaryKey(FineOrgDistrictKey key);
+    int updateByExampleSelective(@Param("record") FineOrgDistrictKey record, @Param("example") FineOrgDistrictExample example);
 
-    FineOrgDistrict selectByOrgId(@Param("orgId")Integer orgId);
-
-    int updateByExampleSelective(@Param("record") FineOrgDistrict record, @Param("example") FineOrgDistrictExample example);
-
-    int updateByExample(@Param("record") FineOrgDistrict record, @Param("example") FineOrgDistrictExample example);
-
-    int updateByPrimaryKeySelective(FineOrgDistrict record);
-
-    int updateByPrimaryKey(FineOrgDistrict record);
+    int updateByExample(@Param("record") FineOrgDistrictKey record, @Param("example") FineOrgDistrictExample example);
 }

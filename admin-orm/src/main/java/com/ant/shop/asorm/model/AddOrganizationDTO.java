@@ -57,14 +57,11 @@ public class  AddOrganizationDTO {
     //员工人数
     private Integer staffCount;
 
-    private FineOrgDistrict orgDistrict;
+    private FineOrgDistrictKey orgDistrict;
 
     private Integer districtId;
-//    private FineDistrict fineDistrict;
 
     private FineStore fineStore;
-
-//    private List<FineArea> fineAreaList;
 
     private List<FineAdminFields> fineAdminFieldDataList;
 

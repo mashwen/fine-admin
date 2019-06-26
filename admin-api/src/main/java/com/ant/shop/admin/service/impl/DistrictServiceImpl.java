@@ -6,6 +6,9 @@ import com.ant.shop.asorm.mapper.FineAreaMapper;
 import com.ant.shop.asorm.mapper.FineDistrictAreaMapper;
 import com.ant.shop.asorm.mapper.FineDistrictMapper;
 import com.ant.shop.asorm.model.DistrictAreaDTO;
+import com.github.stuxuhai.jpinyin.PinyinException;
+import com.github.stuxuhai.jpinyin.PinyinFormat;
+import com.github.stuxuhai.jpinyin.PinyinHelper;
 import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +51,13 @@ public class DistrictServiceImpl implements DistrictService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResultModel addDistrict(FineDistrict fineDistrict) {
+    public ResultModel addDistrict (FineDistrict fineDistrict) {
         fineDistrict.setCreated(new Date());
+        try {
+            fineDistrict.setPhoneticName(PinyinHelper.convertToPinyinString(fineDistrict.getPhoneticName(),"", PinyinFormat.WITHOUT_TONE));
+        } catch (PinyinException e) {
+            return ResultModel.error("0","汉字转拼音失败");
+        }
         fineDistrictMapper.insert(fineDistrict);
         return ResultModel.ok();
     }
@@ -68,6 +76,7 @@ public class DistrictServiceImpl implements DistrictService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResultModel updateDistrict(FineDistrict fineDistrict) {
         fineDistrictMapper.updateByPrimaryKey(fineDistrict);
         return ResultModel.ok();
