@@ -34,6 +34,8 @@ public interface FineRoleResourceMapper {
     int deleteByRoleId(@Param("roleId") int roleId);
     //添加资源组
     int insertGroup(RoleResourceGroupModel roleResourceGroupModel);
-
+    //查询资源
     List selectResourceByRole(@Param("roleId") int roleId);
+    //根据resourceId删除
+    int deleteByResourceId(@Param("resourceId") int resourceId);
 }

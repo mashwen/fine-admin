@@ -1,5 +1,7 @@
 package com.ant.shop.asorm.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,7 +13,7 @@ public class FineRole implements Serializable {
     private Short sort;
 
     private String remark;
-
+    @JsonFormat(pattern = "yy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date created;
 
     private static final long serialVersionUID = 1L;

@@ -27,6 +27,8 @@ public interface FineResourceMapper {
     int updateByPrimaryKeySelective(FineResource record);
 
     int updateByPrimaryKey(FineResource record);
-
+    //根据id查询资源
     FineResource selectResourceById(@Param("id") int id);
+    //根据id查询下级资源
+    List selectListByParentId(@Param("parentId") int parentId);
 }

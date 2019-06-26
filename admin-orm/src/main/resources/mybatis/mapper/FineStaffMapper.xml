@@ -128,7 +128,7 @@
       #{jobTitle,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineStaff">
+  <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineStaff" keyProperty="id" useGeneratedKeys="true">
     insert into fine_staff
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

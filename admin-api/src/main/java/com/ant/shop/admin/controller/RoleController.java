@@ -39,8 +39,8 @@ public class RoleController {
     }
     @GetMapping("staffRole")
     public ResultModel staffRole(@RequestParam("orgId") int orgId, Principal member){
-        Integer userId = Integer.valueOf(member.getName());
-        //int userId = 13;
+        //Integer userId = Integer.valueOf(member.getName());
+        int userId = 107;
         return roleService.staffRole(orgId, userId);
     }
 }

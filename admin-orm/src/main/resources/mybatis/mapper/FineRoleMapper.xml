@@ -79,6 +79,8 @@
     <if test="name != null">
       where name = #{name}
     </if>
+    ORDER BY
+    sort ASC
   </select>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineRoleExample" resultMap="BaseResultMap">
     select

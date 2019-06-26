@@ -1,11 +1,10 @@
-package com.ant.shop.asorm.entity;
+package com.ant.shop.asorm.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import java.io.Serializable;
 import java.util.Date;
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
-public class FineResource implements Serializable {
+public class ResourceModel {
     private Integer id;
 
     private Integer resourceGroupId;
@@ -20,13 +19,11 @@ public class FineResource implements Serializable {
 
     private String remark;
 
-    private Boolean type;
+    private byte type;
 
     private Short sort;
 
     private Date created;
-
-    private static final long serialVersionUID = 1L;
 
     public Integer getId() {
         return id;
@@ -57,7 +54,7 @@ public class FineResource implements Serializable {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public String getUrl() {
@@ -65,7 +62,7 @@ public class FineResource implements Serializable {
     }
 
     public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
+        this.url = url;
     }
 
     public String getLabel() {
@@ -73,7 +70,7 @@ public class FineResource implements Serializable {
     }
 
     public void setLabel(String label) {
-        this.label = label == null ? null : label.trim();
+        this.label = label;
     }
 
     public String getRemark() {
@@ -81,14 +78,14 @@ public class FineResource implements Serializable {
     }
 
     public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
+        this.remark = remark;
     }
 
-    public Boolean getType() {
+    public byte getType() {
         return type;
     }
 
-    public void setType(Boolean type) {
+    public void setType(byte type) {
         this.type = type;
     }
 
