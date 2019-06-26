@@ -250,7 +250,7 @@
         type = #{type,jdbcType=VARCHAR},
       </if>
       <if test="key != null">
-        key = #{key,jdbcType=VARCHAR},
+        `key` = #{key,jdbcType=VARCHAR},
       </if>
       <if test="label != null">
         label = #{label,jdbcType=VARCHAR},
@@ -273,7 +273,7 @@
   <update id="updateByPrimaryKey" parameterType="com.ant.shop.asorm.entity.FineAdminField">
     update fine_admin_field
     set type = #{type,jdbcType=VARCHAR},
-      key = #{key,jdbcType=VARCHAR},
+      `key` = #{key,jdbcType=VARCHAR},
       label = #{label,jdbcType=VARCHAR},
       definition = #{definition,jdbcType=CHAR},
       entity = #{entity,jdbcType=VARCHAR},

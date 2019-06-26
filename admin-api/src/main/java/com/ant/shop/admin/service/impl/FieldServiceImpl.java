@@ -146,4 +146,16 @@ public class FieldServiceImpl implements FieldService {
 
         return ResultModel.ok();
     }
+
+    /**
+     * 编辑字段
+     *
+     * @param fineAdminField
+     * @return
+     */
+    @Override
+    public ResultModel updateField(FineAdminField fineAdminField) {
+        fineAdminFieldMapper.updateByPrimaryKeySelective(fineAdminField);
+        return ResultModel.ok();
+    }
 }
