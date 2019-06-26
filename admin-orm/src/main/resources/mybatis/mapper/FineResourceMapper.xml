@@ -75,7 +75,10 @@
     id, resource_group_id, parent_id, name, url, label, remark, type, sort, created
   </sql>
   <select id="selectResourceById" resultMap="BaseResultMap">
-    select `name`,url,`type` from fine_resource where id = #{id}
+    select `label`,url,`type` from fine_resource where id = #{id}
+  </select>
+  <select id="selectListByParentId" resultMap="BaseResultMap">
+    select id, `type`, label from fine_resource where parent_id = #{parentId}
   </select>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineResourceExample" resultMap="BaseResultMap">
     select

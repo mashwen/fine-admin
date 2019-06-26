@@ -9,9 +9,11 @@ import com.ant.shop.asorm.mapper.FineResourceMapper;
 import com.ant.shop.asorm.mapper.FineRoleMapper;
 import com.ant.shop.asorm.mapper.FineRoleResourceMapper;
 import com.ant.shop.asorm.mapper.FineStaffOrgRoleMapper;
+import com.ant.shop.asorm.model.ResourceModel;
 import com.ant.shop.asorm.model.RoleResourceGroupModel;
 import com.ant.shop.asorm.model.RoleResourceModel;
 import com.github.pagehelper.PageHelper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +39,6 @@ public class RoleServiceImpl implements RoleService {
         uuid = uuid.replaceAll("[a-zA-Z]", "");
         uuid = uuid.substring(0,9);
         Integer id = Integer.valueOf(uuid);
-        System.out.println(id);
         fineRole.setId(id);
         fineRole.setCreated(new Date());
         int i = fineRoleMapper.insertSelective(fineRole);
@@ -79,10 +80,10 @@ public class RoleServiceImpl implements RoleService {
         int j = fineRoleResourceMapper.deleteByPrimaryKey(id);
         int i1 = fineStaffOrgRoleMapper.deleteByRoleId(id);
         int i2 = fineRoleResourceMapper.deleteByRoleId(id);
-        if (i != 0 || j != 0 || i1 != 0 || i2 != 0){
-            return ResultModel.error("删除失败");
+        if (i > 0){
+            return ResultModel.ok();
         }
-        return ResultModel.ok();
+        return ResultModel.error("删除失败");
     }
 
     @Override
@@ -105,6 +106,8 @@ public class RoleServiceImpl implements RoleService {
                    RoleResourceGroupModel roleResourceGroupModel = new RoleResourceGroupModel();
                    roleResourceGroupModel.setRoleId(roleId);
                    roleResourceGroupModel.setResourceGroupId(groupId);
+                   System.out.println(roleResourceGroupModel.getRoleId());
+                   System.out.println(roleResourceGroupModel.getResourceGroupId());
                    fineRoleResourceMapper.insertGroup(roleResourceGroupModel);
                    for (Object o : resourceId) {
                        FineRoleResource fineRoleResource = new FineRoleResource();
@@ -121,13 +124,20 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public ResultModel staffRole(int orgId, int staffId) {
         List roleList = fineStaffOrgRoleMapper.selectRole(staffId, orgId);
-        List<FineResource> resourcesList = new ArrayList<>();
+        List<ResourceModel> resourcesList = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         for (Object o : roleList) {
             List resourceList = fineRoleResourceMapper.selectResourceByRole(Integer.valueOf(o.toString()));
             for (Object o1 : resourceList) {
                 FineResource resource = fineResourceMapper.selectResourceById(Integer.valueOf(o1.toString()));
-                resourcesList.add(resource);
+                ResourceModel resourceModel = new ResourceModel();
+                BeanUtils.copyProperties(resource, resourceModel);
+                if (resource.getType()){
+                    resourceModel.setType((byte)1);
+                }else {
+                    resourceModel.setType((byte)2);
+                }
+                resourcesList.add(resourceModel);
             }
         }
         if (resourcesList == null || resourcesList.size() == 0){
