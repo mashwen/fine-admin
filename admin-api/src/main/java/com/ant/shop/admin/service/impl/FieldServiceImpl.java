@@ -99,7 +99,8 @@ public class FieldServiceImpl implements FieldService {
      * @param enabled
      */
     @Override
-    public void setFieldEnabled(Integer id, Boolean enabled) {
+    @Transactional(rollbackFor = Exception.class)
+    public ResultModel setFieldEnabled(Integer id, Boolean enabled) {
         //修改的参数
         FineAdminField fineAdminField = new FineAdminField();
         fineAdminField.setIsEnabled(enabled);
@@ -108,6 +109,7 @@ public class FieldServiceImpl implements FieldService {
         fineAdminFieldExample.createCriteria().andIdEqualTo(id);
         //执行sql
         fineAdminFieldMapper.updateByExampleSelective(fineAdminField,fineAdminFieldExample);
+        return ResultModel.ok();
     }
 
     /**
@@ -132,7 +134,7 @@ public class FieldServiceImpl implements FieldService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void setField(FineAdminFieldDTO fineAdminFieldDTO) {
+    public ResultModel setField(FineAdminFieldDTO fineAdminFieldDTO) {
         String  definition= JSONArray.toJSONString(fineAdminFieldDTO.getDefinition());
 
         FineAdminField fineAdminField=new FineAdminField();
@@ -141,5 +143,7 @@ public class FieldServiceImpl implements FieldService {
         fineAdminField.setDefinition(definition);
         fineAdminField.setCreated(new Date());
         fineAdminFieldMapper.insert(fineAdminField);
+
+        return ResultModel.ok();
     }
 }

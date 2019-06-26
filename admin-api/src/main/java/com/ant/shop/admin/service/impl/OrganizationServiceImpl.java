@@ -90,7 +90,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void setOrganizationEnabled(Integer id, Boolean enabled) {
+    public ResultModel setOrganizationEnabled(Integer id, Boolean enabled) {
         //修改的参数
         FineOrg fineOrg = new FineOrg();
         fineOrg.setIsEnabled(enabled);
@@ -99,6 +99,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         fineOrgExample.createCriteria().andIdEqualTo(id);
         //执行sql
         fineOrgMapper.updateByExampleSelective(fineOrg,fineOrgExample);
+        return ResultModel.ok();
     }
 
     /**
@@ -190,7 +191,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void setOrganization(AddOrganizationDTO addOrganizationDTO) {
+    public ResultModel setOrganization(AddOrganizationDTO addOrganizationDTO) {
         //1、添加组织基本信息
         FineOrg fineOrg=new FineOrg();
         BeanUtils.copyProperties(addOrganizationDTO,fineOrg);
@@ -239,7 +240,7 @@ public class OrganizationServiceImpl implements OrganizationService {
             fineStore.setCreated(new Date());
             fineStoreMapper.insert(fineStore);
         }
-
+        return ResultModel.ok();
     }
 
     /**
