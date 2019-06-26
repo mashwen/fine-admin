@@ -1,7 +1,9 @@
 package com.ant.shop.admin.service.impl;
 
+import com.ant.shop.admin.service.FineAdminLogService;
 import com.ant.shop.admin.service.StaffService;
 import com.ant.shop.admin.utils.PageInfo;
+import com.ant.shop.asorm.entity.FineAdminLog;
 import com.ant.shop.asorm.entity.FineStaff;
 import com.ant.shop.asorm.entity.FineStaffOrgRoleKey;
 import com.ant.shop.asorm.mapper.FineOrgMapper;
@@ -11,12 +13,14 @@ import com.ant.shop.asorm.mapper.FineStaffOrgRoleMapper;
 import com.ant.shop.asorm.model.StaffModel;
 import com.ant.shop.asorm.model.StaffOrgRoleModel;
 import com.github.pagehelper.PageHelper;
+import enums.LogModelEnum;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import response.ResultModel;
 import utils.BryptUtils;
+import utils.JsonUtil;
 
 import java.util.*;
 
@@ -31,6 +35,9 @@ public class StaffServiceImpl implements StaffService {
     private FineOrgMapper fineOrgMapper;
     @Autowired
     private FineRoleMapper fineRoleMapper;
+    @Autowired
+    private FineAdminLogService fineAdminLogService;
+
     @Override
     @Transactional
     public ResultModel addStaff(StaffModel staffModel) {
@@ -53,6 +60,16 @@ public class StaffServiceImpl implements StaffService {
         if (i == 0){
             ResultModel.error("添加失败");
         }
+
+//        FineAdminLog fineAdminLog = new FineAdminLog();
+//        fineAdminLog.setRefTable("fine_staff");
+//        fineAdminLog.setRefId("1,2,3");
+//        fineAdminLog.setContent(JsonUtil.toJson(staff));
+//        fineAdminLog.setOperation(LogModelEnum.LogOperationNameEnum.CREATE_STAFF.getValue());
+//        fineAdminLog.setCreated(new Date());
+//        fineAdminLog.setCreatedBy(1);
+//        fineAdminLogService.insertLog(fineAdminLog);
+
         Map<Object, List> orgRole = staffModel.getOrgRole();
         for (Map.Entry<Object, List> orgRoleId : orgRole.entrySet()){
             int orgId = Integer.parseInt(orgRoleId.getKey().toString());
