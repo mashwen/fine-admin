@@ -59,11 +59,12 @@ public class  AddOrganizationDTO {
 
     private FineOrgDistrict orgDistrict;
 
-    private FineDistrict fineDistrict;
+    private Integer districtId;
+//    private FineDistrict fineDistrict;
 
     private FineStore fineStore;
 
-    private List<FineArea> fineAreaList;
+//    private List<FineArea> fineAreaList;
 
     private List<FineAdminFields> fineAdminFieldDataList;
 

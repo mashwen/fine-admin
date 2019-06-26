@@ -48,4 +48,11 @@ public interface FieldService {
      * @param fineAdminFieldDTO
      */
     public ResultModel setField(FineAdminFieldDTO fineAdminFieldDTO);
+
+    /**
+     * 编辑字段
+     * @param fineAdminField
+     * @return
+     */
+    public ResultModel updateField(FineAdminField fineAdminField);
 }

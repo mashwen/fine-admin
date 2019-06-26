@@ -60,6 +60,13 @@ public interface OrganizationService {
     public AddOrganizationDTO getOrganizationById(Integer id);
 
     /**
+     * 编辑组织
+     * @param addOrganizationDTO
+     * @return
+     */
+    public ResultModel updateOrganization(AddOrganizationDTO addOrganizationDTO);
+
+    /**
      * 获取员工所属的组织信息
      * @param id
      * @return

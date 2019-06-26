@@ -1,9 +1,9 @@
 package com.ant.shop.admin.service;
 
 import com.ant.shop.asorm.entity.FineDistrict;
-import com.ant.shop.asorm.model.OrganizationDTO;
-import com.ant.shop.asorm.model.PageListResp;
 import response.ResultModel;
+
+import java.util.List;
 
 /**
  * @Author liuzongqiang
@@ -13,27 +13,24 @@ import response.ResultModel;
 public interface DistrictService {
     /**
      * 获取行政区域列表
-     * @param pageNum
-     * @param pageSize
+     * @param parentId
      * @return
      */
-    public PageListResp<OrganizationDTO> getDistrictList(Integer pageNum, Integer pageSize);
-
-    /**
-     * 删除行政区域
-     * @param districtId
-     */
-    public ResultModel delDistrictById(Integer districtId);
-
-    /**
-     * 修改行政区域
-     * @param fineDistrict
-     */
-    public ResultModel updateDistrict(FineDistrict fineDistrict);
+    public List<FineDistrict> getDistrictList(Integer parentId);
 
     /**
      * 新增行政区域
      * @param fineDistrict
+     * @return
      */
     public ResultModel addDistrict(FineDistrict fineDistrict);
+
+    /**
+     * 根据id删除行政区域
+     * @param id
+     * @return
+     */
+    public ResultModel deleteDistrict(Integer id);
+
+    public ResultModel updateDistrict(FineDistrict fineDistrict);
 }
