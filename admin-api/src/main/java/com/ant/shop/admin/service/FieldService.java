@@ -34,7 +34,7 @@ public interface FieldService {
      * @param id
      * @param enabled
      */
-    public void setFieldEnabled(Integer id,Boolean enabled);
+    public ResultModel setFieldEnabled(Integer id,Boolean enabled);
 
     /**
      * 筛选字段
@@ -47,5 +47,5 @@ public interface FieldService {
      * 添加字段
      * @param fineAdminFieldDTO
      */
-    public void setField(FineAdminFieldDTO fineAdminFieldDTO);
+    public ResultModel setField(FineAdminFieldDTO fineAdminFieldDTO);
 }

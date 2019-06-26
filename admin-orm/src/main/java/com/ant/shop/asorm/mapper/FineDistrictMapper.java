@@ -2,8 +2,9 @@ package com.ant.shop.asorm.mapper;
 
 import com.ant.shop.asorm.entity.FineDistrict;
 import com.ant.shop.asorm.entity.FineDistrictExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface FineDistrictMapper {
     long countByExample(FineDistrictExample example);

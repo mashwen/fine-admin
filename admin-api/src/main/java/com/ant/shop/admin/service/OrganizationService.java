@@ -28,7 +28,7 @@ public interface OrganizationService {
      * @param id
      * @param enabled
      */
-    public void setOrganizationEnabled(Integer id,Boolean enabled);
+    public ResultModel setOrganizationEnabled(Integer id,Boolean enabled);
 
     /**
      * 删除组织
@@ -50,7 +50,7 @@ public interface OrganizationService {
      * 新增组织
      * @param addOrganizationDTO
      */
-    public void setOrganization(AddOrganizationDTO addOrganizationDTO);
+    public ResultModel setOrganization(AddOrganizationDTO addOrganizationDTO);
 
     /**
      * 组织详情

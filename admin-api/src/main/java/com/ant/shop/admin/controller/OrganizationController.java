@@ -1,8 +1,12 @@
 package com.ant.shop.admin.controller;
 
+import com.ant.shop.admin.service.AreaService;
+import com.ant.shop.admin.service.DistrictService;
 import com.ant.shop.admin.service.FieldService;
 import com.ant.shop.admin.service.OrganizationService;
 import com.ant.shop.asorm.entity.FineAdminField;
+import com.ant.shop.asorm.entity.FineArea;
+import com.ant.shop.asorm.entity.FineDistrict;
 import com.ant.shop.asorm.model.AddOrganizationDTO;
 import com.ant.shop.asorm.model.FineAdminFieldDTO;
 import com.ant.shop.asorm.model.OrganizationDTO;
@@ -24,9 +28,14 @@ import java.util.Map;
 public class OrganizationController {
     @Autowired
     private OrganizationService organizationService;
-
     @Autowired
     private FieldService fieldService;
+    @Autowired
+    private DistrictService districtService;
+    @Autowired
+    private AreaService areaService;
+
+
     /**
      * 获取组织列表
      * @param pageNum
@@ -49,8 +58,7 @@ public class OrganizationController {
      */
     @PostMapping("/organization")
     public ResultModel addOrganization(@RequestBody AddOrganizationDTO addOrganizationDTO){
-        organizationService.setOrganization(addOrganizationDTO);
-        return ResultModel.ok();
+        return organizationService.setOrganization(addOrganizationDTO);
     }
 
     /**
@@ -61,9 +69,7 @@ public class OrganizationController {
      */
     @PutMapping("/organization/{id}")
     public ResultModel enabledOrganization(@PathVariable(value = "id")Integer id,@RequestParam(value = "enabled")Boolean enabled){
-
-        organizationService.setOrganizationEnabled(id,enabled);
-        return ResultModel.ok();
+        return  organizationService.setOrganizationEnabled(id,enabled);
     }
 
     /**
@@ -103,6 +109,91 @@ public class OrganizationController {
         data.put("organization",organizationById);
         return ResultModel.ok(data);
     }
+
+    /**
+     * 行政区域列表
+     * @return
+     */
+    @GetMapping("/district")
+    public ResultModel getDistrict(@RequestParam(required = false,defaultValue = "1")Integer pageNum,@RequestParam(required = false,defaultValue = "10") Integer pageSize){
+        Map<String,Object> data=new HashMap<>(16);
+        PageListResp<OrganizationDTO> districtList = districtService.getDistrictList(pageNum, pageSize);
+        data.put("districtList",districtList);
+        return ResultModel.ok(data);
+    }
+
+    /**
+     * 根据id删除行政区域
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/district/{id}")
+    public ResultModel delDistrict(@PathVariable("id")Integer id){
+        return districtService.delDistrictById(id);
+    }
+
+    /**
+     * 新增行政区域
+     * @param fineDistrict
+     * @return
+     */
+    @PostMapping("district")
+    public ResultModel addDistrict(@RequestBody FineDistrict fineDistrict){
+        return districtService.addDistrict(fineDistrict);
+    }
+
+    /**
+     * 编辑行政区域
+     * @param fineDistrict
+     * @return
+     */
+    @PutMapping("/district")
+    public ResultModel putDistrict(@RequestBody FineDistrict fineDistrict){
+        return districtService.updateDistrict(fineDistrict);
+    }
+
+    /**
+     * 获取业务区域列表
+     * @return
+     */
+    @GetMapping("/area")
+    public ResultModel getAreaList(@RequestParam(required = false,defaultValue = "1")Integer pageNum,@RequestParam(required = false,defaultValue = "10") Integer pageSize){
+        Map<String,Object> data=new HashMap<>(16);
+        PageListResp<OrganizationDTO> areaList = areaService.getAreaList(pageNum, pageSize);
+        data.put("areaList",areaList);
+        return ResultModel.ok(data);
+    }
+
+    /**
+     * 根据id删除业务区域
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/area/{id}")
+    public ResultModel delAreaById(@PathVariable("id")Integer id){
+        return areaService.delAreaById(id);
+    }
+
+    /**
+     * 新增业务区域
+     * @param fineArea
+     * @return
+     */
+    @PostMapping("/area")
+    public ResultModel addDistrict(@RequestBody FineArea fineArea){
+        return areaService.addArea(fineArea);
+    }
+
+    /**
+     * 编辑业务区域
+     * @param fineArea
+     * @return
+     */
+    @PutMapping("/area")
+    public ResultModel putDistrict(@RequestBody FineArea fineArea){
+        return  areaService.updateArea(fineArea);
+    }
+
     /**
      * 获取字段列表
      * @param pageNum
@@ -128,7 +219,6 @@ public class OrganizationController {
         if(id==null){
             return ResultModel.error("0","字段id不能为空！");
         }
-
         return  fieldService.deleteFieldById(id);
     }
 
@@ -140,9 +230,7 @@ public class OrganizationController {
      */
     @PutMapping("/field/{id}")
     public ResultModel enabledField(@PathVariable(value = "id")Integer id,@RequestParam(value = "enabled")Boolean enabled){
-
-        fieldService.setFieldEnabled(id,enabled);
-        return ResultModel.ok();
+        return fieldService.setFieldEnabled(id,enabled);
     }
 
     /**
@@ -165,8 +253,7 @@ public class OrganizationController {
      */
     @PostMapping("/field")
     public ResultModel addField(@RequestBody FineAdminFieldDTO fineAdminFieldDTO){
-        fieldService.setField(fineAdminFieldDTO);
-        return ResultModel.ok();
+        return fieldService.setField(fineAdminFieldDTO);
     }
 
 }
