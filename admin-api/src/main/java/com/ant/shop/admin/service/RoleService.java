@@ -33,5 +33,11 @@ public interface RoleService {
      */
     ResultModel roleEdit(RoleResourceModel[] roleResourceModels);
 
+    /**
+     * 查询员工角色
+     * @param orgId
+     * @param staffId
+     * @return
+     */
     ResultModel staffRole(int orgId, int staffId);
 }
