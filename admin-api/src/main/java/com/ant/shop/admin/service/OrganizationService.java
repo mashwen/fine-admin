@@ -2,7 +2,6 @@ package com.ant.shop.admin.service;
 
 import com.ant.shop.asorm.model.AddOrganizationDTO;
 import com.ant.shop.asorm.model.OrganizationDTO;
-import com.ant.shop.asorm.model.PageListResp;
 import response.ResultModel;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public interface OrganizationService {
      * @param pageSize
      * @return
      */
-    public PageListResp<OrganizationDTO> getOrganization(Integer pageNum, Integer pageSize);
+    public ResultModel getOrganization(Integer pageNum, Integer pageSize);
 
     /**
      * 启用/禁用 组织

@@ -36,12 +36,6 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Autowired
     private FineOrgDistrictMapper fineOrgDistrictMapper;
     @Autowired
-    private FineDistrictMapper fineDistrictMapper;
-    @Autowired
-    private FineAreaMapper fineAreaMapper;
-    @Autowired
-    private FineDistrictAreaMapper fineDistrictAreaMapper;
-    @Autowired
     private FineAdminFieldDataMapper fineAdminFieldDataMapper;
     @Autowired
     private FineAdminFieldMapper fineAdminFieldMapper;
@@ -57,7 +51,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @return
      */
     @Override
-    public PageListResp<OrganizationDTO> getOrganization(Integer pageNum, Integer pageSize) {
+    public ResultModel getOrganization(Integer pageNum, Integer pageSize) {
         //查询全部
         List<OrganizationDTO> list = fineOrgMapper.selectAll();
         //设置分页
@@ -80,7 +74,9 @@ public class OrganizationServiceImpl implements OrganizationService {
         pageList.setPagination(pageDTO);
         pageList.setCount(list.size());
 
-        return pageList;
+        Map<String,Object> data=new HashMap<>(16);
+        data.put("orgList",pageList);
+        return ResultModel.ok(data);
     }
 
     /**
@@ -112,7 +108,9 @@ public class OrganizationServiceImpl implements OrganizationService {
     public ResultModel deleteOrganizationById(Integer id) {
         //删除前先判断该组织是否启用状态，如果不是启用状态，则可以删除
         FineOrg fineOrg = fineOrgMapper.selectByPrimaryKey(id);
-        if(fineOrg.getIsEnabled()){
+        if(fineOrg==null){
+            return ResultModel.error("0","没有该组织！");
+        }else if(fineOrg.getIsEnabled()){
             return ResultModel.error("0","启用状态下的组织不可以被删除!");
         }
         //1、先删除组织
@@ -257,6 +255,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResultModel updateOrganization(AddOrganizationDTO addOrganizationDTO) {
 
         //1、修改组织基本信息
@@ -264,7 +263,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         BeanUtils.copyProperties(addOrganizationDTO,fineOrg);
         FineOrgExample fineOrgExample=new FineOrgExample();
         fineOrgExample.createCriteria().andIdEqualTo(fineOrg.getId());
-        fineOrgMapper.updateByExample(fineOrg,fineOrgExample);
+        fineOrgMapper.updateByExampleSelective(fineOrg,fineOrgExample);
         log.info("1执行完毕");
         //2、修改组织行政区域信息
         FineOrgDistrictKey orgDistrict = addOrganizationDTO.getOrgDistrict();
@@ -276,8 +275,8 @@ public class OrganizationServiceImpl implements OrganizationService {
         List<AddOrganizationDTO.FineAdminFields> fineAdminFieldDataList = addOrganizationDTO.getFineAdminFieldDataList();
         FineAdminFieldDataExample fineAdminFieldDataExample=new FineAdminFieldDataExample();
         for (AddOrganizationDTO.FineAdminFields fineAdminFields : fineAdminFieldDataList) {
-            fineAdminFieldDataExample.createCriteria().andIdEqualTo(fineAdminFields.getFineAdminFieldData().getId());
-            fineAdminFieldDataMapper.updateByExample(fineAdminFields.getFineAdminFieldData(),fineAdminFieldDataExample);
+            log.info(fineAdminFields.getFineAdminFieldData().toString());
+            fineAdminFieldDataMapper.updateByPrimaryKey(fineAdminFields.getFineAdminFieldData());
         }
         log.info("3执行完毕");
         //4、如果是门店的话需要增加门店信息

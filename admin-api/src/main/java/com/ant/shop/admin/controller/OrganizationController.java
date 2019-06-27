@@ -40,11 +40,7 @@ public class OrganizationController {
      */
     @GetMapping("/organization")
     public ResultModel getOrganization(@RequestParam(required = false,defaultValue = "1")Integer pageNum,@RequestParam(required = false,defaultValue = "10") Integer pageSize){
-        PageListResp<OrganizationDTO> orgList = organizationService.getOrganization(pageNum, pageSize);
-
-        Map<String,Object> data=new HashMap<>(16);
-        data.put("orgList",orgList);
-        return  ResultModel.ok(data);
+        return  organizationService.getOrganization(pageNum, pageSize);
     }
 
     /**
