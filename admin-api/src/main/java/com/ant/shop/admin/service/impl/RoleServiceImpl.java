@@ -124,26 +124,42 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public ResultModel staffRole(int orgId, int staffId) {
         List roleList = fineStaffOrgRoleMapper.selectRole(staffId, orgId);
-        List<ResourceModel> resourcesList = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
+        List<FineRole> roles = new ArrayList<>();
+        if (roleList == null || roleList.size() == 0){
+            return ResultModel.error("该用户没有角色");
+        }
         for (Object o : roleList) {
-            List resourceList = fineRoleResourceMapper.selectResourceByRole(Integer.valueOf(o.toString()));
-            for (Object o1 : resourceList) {
-                FineResource resource = fineResourceMapper.selectResourceById(Integer.valueOf(o1.toString()));
-                ResourceModel resourceModel = new ResourceModel();
-                BeanUtils.copyProperties(resource, resourceModel);
-                if (resource.getType()){
-                    resourceModel.setType((byte)1);
-                }else {
-                    resourceModel.setType((byte)2);
-                }
-                resourcesList.add(resourceModel);
-            }
+            FineRole role = fineRoleMapper.selectByPrimaryKey(Integer.parseInt(o.toString()));
+            roles.add(role);
         }
-        if (resourcesList == null || resourcesList.size() == 0){
-            return ResultModel.error("该员工没有权限");
-        }
-        map.put("resourceList", resourcesList);
+        map.put("roleList", roles);
         return ResultModel.ok(map);
     }
+
+//    @Override
+//    public ResultModel staffRole(int orgId, int staffId) {
+//        List roleList = fineStaffOrgRoleMapper.selectRole(staffId, orgId);
+//        List<ResourceModel> resourcesList = new ArrayList<>();
+//        Map<String, Object> map = new HashMap<>();
+//        for (Object o : roleList) {
+//            List resourceList = fineRoleResourceMapper.selectResourceByRole(Integer.valueOf(o.toString()));
+//            for (Object o1 : resourceList) {
+//                FineResource resource = fineResourceMapper.selectResourceById(Integer.valueOf(o1.toString()));
+//                ResourceModel resourceModel = new ResourceModel();
+//                BeanUtils.copyProperties(resource, resourceModel);
+//                if (resource.getType()){
+//                    resourceModel.setType((byte)1);
+//                }else {
+//                    resourceModel.setType((byte)2);
+//                }
+//                resourcesList.add(resourceModel);
+//            }
+//        }
+//        if (resourcesList == null || resourcesList.size() == 0){
+//            return ResultModel.error("该员工没有权限");
+//        }
+//        map.put("resourceList", resourcesList);
+//        return ResultModel.ok(map);
+//    }
 }
