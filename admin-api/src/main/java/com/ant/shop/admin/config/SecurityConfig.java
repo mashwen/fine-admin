@@ -13,10 +13,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
+/**
+ * 角色权限登录
+ *
+ * @author liuq
+ * @version 2019年6月28日
+ * @see SecurityConfig
+ * @since 1.0
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+
     @Autowired
     private MyUserDetailService userDetailService;
 
@@ -25,7 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
 
     }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.requestMatchers().antMatchers("/oauth/**")
@@ -35,19 +43,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable();
     }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder());
-
     }
 
-    /**
-     * 不定义没有password grant_type,密码模式需要AuthenticationManager支持
-     *
-     * @return
-     * @throws Exception
-     */
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
