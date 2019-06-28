@@ -54,7 +54,7 @@ public class DistrictServiceImpl implements DistrictService {
     public ResultModel addDistrict (FineDistrict fineDistrict) {
         fineDistrict.setCreated(new Date());
         try {
-            fineDistrict.setPhoneticName(PinyinHelper.convertToPinyinString(fineDistrict.getPhoneticName(),"", PinyinFormat.WITHOUT_TONE));
+            fineDistrict.setPhoneticName(PinyinHelper.convertToPinyinString(fineDistrict.getPhoneticName(),"_", PinyinFormat.WITHOUT_TONE));
         } catch (PinyinException e) {
             return ResultModel.error("0","汉字转拼音失败");
         }

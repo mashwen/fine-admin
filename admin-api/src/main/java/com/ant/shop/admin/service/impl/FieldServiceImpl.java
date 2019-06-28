@@ -19,7 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 import response.ResultModel;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author liuzongqiang
@@ -157,5 +159,21 @@ public class FieldServiceImpl implements FieldService {
     public ResultModel updateField(FineAdminField fineAdminField) {
         fineAdminFieldMapper.updateByPrimaryKeySelective(fineAdminField);
         return ResultModel.ok();
+    }
+
+    /**
+     * 根据字段实体查询相关的字段
+     *
+     * @param entity
+     * @return
+     */
+    @Override
+    public ResultModel getFieldByEntity(String entity) {
+        FineAdminFieldExample fineAdminFieldExample=new FineAdminFieldExample();
+        fineAdminFieldExample.createCriteria().andEntityEqualTo(entity);
+        List<FineAdminField> fieldList = fineAdminFieldMapper.selectByExample(fineAdminFieldExample);
+        Map<String,Object> data=new HashMap<>(16);
+        data.put("fieldList",fieldList);
+        return ResultModel.ok(data);
     }
 }

@@ -245,4 +245,13 @@ public class OrganizationController {
         return fieldService.updateField(fineAdminField);
     }
 
+    /**
+     * 根据字段实体查询相关的字段
+     * @param entity
+     * @return
+     */
+    @GetMapping("field/{entity}")
+    public ResultModel getFieldByEntity(@PathVariable("entity") String entity){
+        return fieldService.getFieldByEntity(entity);
+    }
 }
