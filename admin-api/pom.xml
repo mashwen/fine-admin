@@ -123,18 +123,18 @@
         <!--<artifactId>cfca</artifactId>-->
         <!--<version>1.0</version>-->
         <!--</dependency>-->
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <version>5.2.4</version>
-        </dependency>
-        <dependency>
-            <groupId>cfca</groupId>
-            <artifactId>cfca</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/libs/SADK3.1.0.7-0.0.1.jar</systemPath>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.flywaydb</groupId>-->
+            <!--<artifactId>flyway-core</artifactId>-->
+            <!--<version>5.2.4</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>cfca</groupId>-->
+            <!--<artifactId>cfca</artifactId>-->
+            <!--<version>1.0</version>-->
+            <!--<scope>system</scope>-->
+            <!--<systemPath>${project.basedir}/src/main/resources/libs/SADK3.1.0.7-0.0.1.jar</systemPath>-->
+        <!--</dependency>-->
     </dependencies>
 
     <build>
