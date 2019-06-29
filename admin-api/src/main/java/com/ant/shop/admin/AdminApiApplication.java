@@ -13,6 +13,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableEurekaClient
 @EnableFeignClients
 @EnableScheduling
+@EnableApolloConfig
 @MapperScan("com.ant.shop.asorm.mapper")
 public class AdminApiApplication {
 
