@@ -1,5 +1,6 @@
 package com.ant.shop.admin;
 
+import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableEurekaClient
 @EnableFeignClients
 @EnableScheduling
+@EnableApolloConfig
 @MapperScan("com.ant.shop.asorm.mapper")
 public class AdminApiApplication {
 

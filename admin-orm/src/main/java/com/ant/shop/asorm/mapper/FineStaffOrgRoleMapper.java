@@ -31,10 +31,14 @@ public interface FineStaffOrgRoleMapper {
     List selectOrg(@Param("staffId") int staffId);
     //查询员工在组织的角色
     List selectRole(@Param("staffId") int staffId, @Param("orgId") int orgId);
+
     //根据角色删除
     int deleteByRoleId(@Param("roleId") int roleId);
-
     int insertStaffRoleOrg(StaffOrgRoleModel StaffOrgRoleModel);
+
+    //查询员工角色
+    @Select("SELECT role_id FROM fine_staff_org_role WHERE staff_id=#{staffId}")
+    List<String> selectRoles(@Param("staffId") int staffId);
 
 
 }

@@ -43,4 +43,5 @@ public class StaffController {
     public ResultModel staffStatus(@RequestBody FineStaff fineStaff){
         return staffService.staffStatus(fineStaff);
     }
+    //查询角色资源
 }

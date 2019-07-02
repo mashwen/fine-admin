@@ -48,4 +48,18 @@ public interface FieldService {
      * @param fineAdminFieldDTO
      */
     public ResultModel setField(FineAdminFieldDTO fineAdminFieldDTO);
+
+    /**
+     * 编辑字段
+     * @param fineAdminField
+     * @return
+     */
+    public ResultModel updateField(FineAdminField fineAdminField);
+
+    /**
+     * 根据字段实体查询相关的字段
+     * @param entity
+     * @return
+     */
+    public ResultModel getFieldByEntity(String entity);
 }

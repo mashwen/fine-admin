@@ -70,9 +70,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         // clients.withClientDetails(clientDetails());
         clients.inMemory()
-                .withClient("payment_client")
+                .withClient("admin_client")
                 .scopes("read")
-                .secret("$2a$10$F.16r9DkTuW/OoiGN/NY9e03TcYCIy/XevuIiF.WoMFDtZCjtk/3u")
+                .secret("$2a$10$Roeo65RHzHc.6ew6HoUXlOhTz3/N0wsXXOpRB6/9U6susfsNpsuTW")
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token")
                 .and()
                 .withClient("webapp")

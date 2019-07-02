@@ -4,6 +4,7 @@ import com.ant.shop.asorm.entity.FineResource;
 import com.ant.shop.asorm.entity.FineResourceExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 public interface FineResourceMapper {
     long countByExample(FineResourceExample example);
@@ -31,4 +32,12 @@ public interface FineResourceMapper {
     FineResource selectResourceById(@Param("id") int id);
     //根据id查询下级资源
     List selectListByParentId(@Param("parentId") int parentId);
+
+    //查询所有资源
+    @Select("SELECT * FROM fine_resource")
+    List<FineResource> findAll();
+
+    //查询所有资源
+    List<FineResource> findAllByStaffId(@Param("staff_id") int staff_id);
+
 }

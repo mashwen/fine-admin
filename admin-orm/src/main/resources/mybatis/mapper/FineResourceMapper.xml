@@ -291,5 +291,19 @@
       created = #{created,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="findAllByStaffId" parameterType="int" resultType="com.ant.shop.asorm.entity.FineResource">
+    SELECT
+    fres.*
+    FROM
+    fine_staff sta
+    LEFT JOIN
+    fine_staff_org_role sor ON sta.id = sor.staff_id
+    LEFT JOIN
+    fine_role_resource rres ON sor.role_id = rres.role_id
+    LEFT JOIN
+    fine_resource fres ON rres.resource_id = fres.id
+    WHERE
+    sta.id=#{staff_id}
+  </select>
 
 </mapper>
