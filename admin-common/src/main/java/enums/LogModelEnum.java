@@ -55,4 +55,26 @@ public class LogModelEnum {
         }
     }
 
+    @AllArgsConstructor
+    @Getter
+    public enum LogTableToEntity{
+        FINE_ROLE("fine_role","FineRole"),
+        FINE_RESOURCE("fine_resource","FineResource"),
+        FINE_ORG("fine_org","FineOrg"),
+        FINE_STAFF("fine_staff","FineStaff"),
+        FINE_AREA("fine_area","FineArea");
+
+        private String code;
+        private String name;
+
+        public static String getValueByCode(String code){
+            for(LogTableToEntity logTableToEntity:LogTableToEntity.values()){
+                if(code.equals(logTableToEntity.getCode())){
+                    return logTableToEntity.getName();
+                }
+            }
+            return  null;
+        }
+    }
+
 }

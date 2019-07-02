@@ -75,4 +75,17 @@ public class FineAdminLog implements Serializable {
     public void setCreatedBy(Integer createdBy) {
         this.createdBy = createdBy;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", refTable='" + refTable + '\'' +
+                ", refId='" + refId + '\'' +
+                ", content='" + content + '\'' +
+                ", operation='" + operation + '\'' +
+                ", created=" + created +
+                ", createdBy=" + createdBy +
+                '}';
+    }
 }
