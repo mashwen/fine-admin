@@ -11,12 +11,15 @@ import com.ant.shop.asorm.model.PageListResp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import enums.LogModelEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import springfox.documentation.spring.web.json.Json;
 import utils.DateUtil;
 import utils.JsonUtil;
+import utils.PageUtil;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +29,7 @@ import java.util.List;
  * Date:2019/6/24
  * Description:
  */
+@Slf4j
 @Service
 public class FineAdminLogServiceImpl implements FineAdminLogService {
     @Autowired
@@ -51,11 +55,12 @@ public class FineAdminLogServiceImpl implements FineAdminLogService {
      */
     @Override
     public PageListResp selectByCreatorId(Integer id, Integer pageNum, Integer pageSize) {
-        List<FineAdminLog> list = fineAdminLogMapper.selectByCreatorId(id);
         List<LogModel> logModels = new ArrayList<>();
-        PageHelper.startPage(pageNum, pageSize);
         List<FineAdminLog> fineAdminLogs = fineAdminLogMapper.selectByCreatorId(id);
-        for (FineAdminLog fineAdminLog:fineAdminLogs) {
+        PageUtil pageUtil = new PageUtil();
+        List<FineAdminLog> list = pageUtil.pageUtil(fineAdminLogs, pageNum, pageSize);
+
+        for (FineAdminLog fineAdminLog:list) {
             LogModel logModel = new LogModel();
             logModel.setLogId(fineAdminLog.getId().toString());
             logModel.setOperation(fineAdminLog.getOperation());
@@ -64,18 +69,17 @@ public class FineAdminLogServiceImpl implements FineAdminLogService {
             logModels.add(logModel);
         }
 
-        PageInfo<LogModel> pageInfo = new PageInfo<>(logModels);
         PageDTO pageDTO = new PageDTO();
-        pageDTO.setCountPerPage(pageInfo.getPageSize());
-        pageDTO.setNextPage(pageInfo.getNextPage());
-        pageDTO.setPage(pageInfo.getPageNum());
-        pageDTO.setPrevPage(pageInfo.getPrePage());
-        pageDTO.setTotalCount(list.size());
-        pageDTO.setTotalPage(pageInfo.getPages());
+        pageDTO.setCountPerPage(pageUtil.getCountPerPage());
+        pageDTO.setNextPage(pageUtil.getNextPage());
+        pageDTO.setPage(pageUtil.getPage());
+        pageDTO.setPrevPage(pageUtil.getPrevPage());
+        pageDTO.setTotalCount(fineAdminLogs.size());
+        pageDTO.setTotalPage(pageUtil.getTotalPage());
+
         PageListResp pageList = new PageListResp();
         pageList.setList(logModels);
         pageList.setPagination(pageDTO);
-        pageList.setCount(list.size());
         return pageList;
     }
 
@@ -87,11 +91,14 @@ public class FineAdminLogServiceImpl implements FineAdminLogService {
      */
     @Override
     public PageListResp selectAllLogs(Integer pageNum,Integer pageSize) {
-        List<FineAdminLog> list = fineAdminLogMapper.selectAllLogs();
         List<LogModel> logModels = new ArrayList<>();
-        PageHelper.startPage(pageNum, pageSize);
+
         List<FineAdminLog> fineAdminLogs = fineAdminLogMapper.selectAllLogs();
-        for (FineAdminLog fineAdminLog:fineAdminLogs) {
+        PageUtil pageUtil = new PageUtil();
+        List<FineAdminLog> list = pageUtil.pageUtil(fineAdminLogs, pageNum, pageSize);
+
+
+        for (FineAdminLog fineAdminLog:list) {
             LogModel logModel = new LogModel();
             logModel.setLogId(fineAdminLog.getId().toString());
             logModel.setOperation(fineAdminLog.getOperation());
@@ -99,18 +106,18 @@ public class FineAdminLogServiceImpl implements FineAdminLogService {
             logModel.setOperationModule(LogModelEnum.LogOperationModuleEnum.getValueByCode(fineAdminLog.getRefTable()));
             logModels.add(logModel);
         }
-        PageInfo<FineAdminLog> pageInfo = new PageInfo<>(fineAdminLogs);
+
         PageDTO pageDTO = new PageDTO();
-        pageDTO.setCountPerPage(pageInfo.getPageSize());
-        pageDTO.setNextPage(pageInfo.getNextPage());
-        pageDTO.setPage(pageInfo.getPageNum());
-        pageDTO.setPrevPage(pageInfo.getPrePage());
-        pageDTO.setTotalCount(list.size());
-        pageDTO.setTotalPage(pageInfo.getPages());
+        pageDTO.setCountPerPage(pageUtil.getCountPerPage());
+        pageDTO.setNextPage(pageUtil.getNextPage());
+        pageDTO.setPage(pageUtil.getPage());
+        pageDTO.setPrevPage(pageUtil.getPrevPage());
+        pageDTO.setTotalCount(fineAdminLogs.size());
+        pageDTO.setTotalPage(pageUtil.getTotalPage());
+
         PageListResp pageList = new PageListResp();
         pageList.setList(logModels);
         pageList.setPagination(pageDTO);
-        pageList.setCount(list.size());
         return pageList;
     }
 
@@ -123,12 +130,22 @@ public class FineAdminLogServiceImpl implements FineAdminLogService {
      * @return
      */
     @Override
-    public PageListResp selectLogsByDate(Integer pageNum, Integer pageSize,Date startTime, Date endTime) {
-        List<FineAdminLog> list = fineAdminLogMapper.selectByDate(startTime, endTime);
+    public PageListResp selectLogsByDate(Integer pageNum, Integer pageSize,String startTime, String endTime){
+
+        Date startDate = null;
+        Date endDate = null;
+        try {
+            startDate = DateUtil.convertStringToDateFull(startTime);
+            endDate = DateUtil.convertStringToDateFull(endTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         List<LogModel> logModels = new ArrayList<>();
-        PageHelper.startPage(pageNum, pageSize);
-        List<FineAdminLog> fineAdminLogs = fineAdminLogMapper.selectByDate(startTime, endTime);
-        for (FineAdminLog fineAdminLog:fineAdminLogs) {
+        List<FineAdminLog> fineAdminLogs = fineAdminLogMapper.selectByDate(startDate, endDate);
+        PageUtil pageUtil = new PageUtil();
+        List<FineAdminLog> list = pageUtil.pageUtil(fineAdminLogs, pageNum, pageSize);
+
+        for (FineAdminLog fineAdminLog:list) {
             LogModel logModel = new LogModel();
             logModel.setLogId(fineAdminLog.getId().toString());
             logModel.setOperation(fineAdminLog.getOperation());
@@ -136,28 +153,68 @@ public class FineAdminLogServiceImpl implements FineAdminLogService {
             logModel.setOperationModule(LogModelEnum.LogOperationModuleEnum.getValueByCode(fineAdminLog.getRefTable()));
             logModels.add(logModel);
         }
-        PageInfo<FineAdminLog> pageInfo = new PageInfo<>(fineAdminLogs);
         PageDTO pageDTO = new PageDTO();
-        pageDTO.setCountPerPage(pageInfo.getPageSize());
-        pageDTO.setNextPage(pageInfo.getNextPage());
-        pageDTO.setPage(pageInfo.getPageNum());
-        pageDTO.setPrevPage(pageInfo.getPrePage());
-        pageDTO.setTotalCount(list.size());
-        pageDTO.setTotalPage(pageInfo.getPages());
+        pageDTO.setCountPerPage(pageUtil.getCountPerPage());
+        pageDTO.setNextPage(pageUtil.getNextPage());
+        pageDTO.setPage(pageUtil.getPage());
+        pageDTO.setPrevPage(pageUtil.getPrevPage());
+        pageDTO.setTotalCount(fineAdminLogs.size());
+        pageDTO.setTotalPage(pageUtil.getTotalPage());
+
         PageListResp pageList = new PageListResp();
         pageList.setList(logModels);
         pageList.setPagination(pageDTO);
-        pageList.setCount(list.size());
         return pageList;
     }
+
+    @Override
+    public PageListResp selectStaffLogsByDate(Integer id,Integer pageNum,Integer pageSize,String startTime, String endTime) {
+        Date startDate = null;
+        Date endDate = null;
+        try {
+            startDate = DateUtil.convertStringToDateFull(startTime);
+            endDate = DateUtil.convertStringToDateFull(endTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        List<LogModel> logModels = new ArrayList<>();
+        List<FineAdminLog> fineAdminLogs = fineAdminLogMapper.selectStaffLogsByDate(id,startDate, endDate);
+        PageUtil pageUtil = new PageUtil();
+        List<FineAdminLog> list = pageUtil.pageUtil(fineAdminLogs, pageNum, pageSize);
+
+        for (FineAdminLog fineAdminLog:list) {
+            LogModel logModel = new LogModel();
+            logModel.setLogId(fineAdminLog.getId().toString());
+            logModel.setOperation(fineAdminLog.getOperation());
+            logModel.setCreated(DateUtil.valueOf(fineAdminLog.getCreated(),"yyyy-MM-dd HH:mm:ss"));
+            logModel.setOperationModule(LogModelEnum.LogOperationModuleEnum.getValueByCode(fineAdminLog.getRefTable()));
+            logModels.add(logModel);
+        }
+        PageDTO pageDTO = new PageDTO();
+        pageDTO.setCountPerPage(pageUtil.getCountPerPage());
+        pageDTO.setNextPage(pageUtil.getNextPage());
+        pageDTO.setPage(pageUtil.getPage());
+        pageDTO.setPrevPage(pageUtil.getPrevPage());
+        pageDTO.setTotalCount(fineAdminLogs.size());
+        pageDTO.setTotalPage(pageUtil.getTotalPage());
+
+        PageListResp pageList = new PageListResp();
+        pageList.setList(logModels);
+        pageList.setPagination(pageDTO);
+        return pageList;
+    }
+
 
     /**
      * 日志详情
      * @param id
      * @return
      */
-    public FineAdminLog selectByPrimaryKey(Integer id){
+    public String selectByPrimaryKey(Integer id){
         FineAdminLog fineAdminLog = fineAdminLogMapper.selectByPrimaryKey(id);
-        return fineAdminLog;
+        log.info("content==="+fineAdminLog.getContent());
+        String content = JsonUtil.toJson(fineAdminLog.getContent());
+        log.info("json==="+content);
+        return fineAdminLog.getContent();
     }
 }

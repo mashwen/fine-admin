@@ -24,7 +24,9 @@ public interface FineAdminLogMapper {
 
     List<FineAdminLog> selectAllLogs();
 
-    List<FineAdminLog> selectByDate(Date startTime, Date endTime);
+    List<FineAdminLog> selectByDate(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
+    List<FineAdminLog> selectStaffLogsByDate(@Param("id")Integer id,@Param("startDate") Date startDate,@Param("endDate")Date endDate);
 
     FineAdminLog selectByPrimaryKey(Integer id);
 

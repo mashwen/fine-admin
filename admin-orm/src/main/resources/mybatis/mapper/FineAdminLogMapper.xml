@@ -247,6 +247,9 @@
         SELECT * FROM fine_admin_log ORDER BY fine_admin_log.created DESC
     </select>
     <select id="selectByDate" resultMap="BaseResultMap">
-        SELECT * FROM fine_admin_log WHERE fine_admin_log.created between #{startTime} AND #{endTime} ORDER BY fine_admin_log.created DESC
+        SELECT * FROM fine_admin_log WHERE fine_admin_log.created between #{startDate} AND #{endDate} ORDER BY fine_admin_log.created DESC
+    </select>
+    <select id="selectStaffLogsByDate" resultMap="BaseResultMap">
+        SELECT * FROM fine_admin_log WHERE fine_admin_log.created_by = #{id} AND fine_admin_log.created between #{startDate} AND #{endDate} ORDER BY fine_admin_log.created DESC
     </select>
 </mapper>

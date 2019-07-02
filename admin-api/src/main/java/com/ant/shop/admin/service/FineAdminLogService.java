@@ -3,6 +3,7 @@ package com.ant.shop.admin.service;
 import com.ant.shop.asorm.entity.FineAdminLog;
 import com.ant.shop.asorm.model.PageListResp;
 
+import java.text.ParseException;
 import java.util.Date;
 
 /**
@@ -18,7 +19,9 @@ public interface FineAdminLogService {
 
     PageListResp selectAllLogs(Integer pageNum, Integer pageSize);
 
-    PageListResp selectLogsByDate(Integer pageNum, Integer pageSize,Date startTime, Date endTime);
+    PageListResp selectLogsByDate(Integer pageNum, Integer pageSize,String startTime, String endTime) throws ParseException;
 
-    FineAdminLog selectByPrimaryKey(Integer id);
+    PageListResp selectStaffLogsByDate(Integer id,Integer pageNum,Integer pageSize,String startDate,String endDate);
+
+    String selectByPrimaryKey(Integer id);
 }
