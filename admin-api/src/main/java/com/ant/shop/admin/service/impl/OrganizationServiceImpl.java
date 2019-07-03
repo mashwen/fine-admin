@@ -12,6 +12,7 @@ import com.github.pagehelper.PageInfo;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +44,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     private FineStoreMapper fineStoreMapper;
     @Autowired
     private FineStaffOrgRoleMapper fineStaffOrgRoleMapper;
+
+
     /**
      * 获取组织列表
      *
@@ -52,11 +55,14 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Override
     public ResultModel getOrganization(Integer pageNum, Integer pageSize) {
-        //查询全部
+        if(pageNum<0 || pageSize<0){
+            return ResultModel.error("0","页码与页大小不能为负数！");
+        }
+        //获取组织全部数据列表
         List<OrganizationDTO> list = fineOrgMapper.selectAll();
-        //设置分页
+        //设置分页数据
         PageHelper.startPage(pageNum,pageSize);
-        //分页列表
+        //获取分页列表
         List<OrganizationDTO> fineOrgList = fineOrgMapper.selectAll();
 
         PageInfo<FineOrg> pageInfo = new PageInfo(fineOrgList);
@@ -72,7 +78,6 @@ public class OrganizationServiceImpl implements OrganizationService {
         PageListResp pageList = new PageListResp();
         pageList.setList(fineOrgList);
         pageList.setPagination(pageDTO);
-        pageList.setCount(list.size());
 
         Map<String,Object> data=new HashMap<>(16);
         data.put("orgList",pageList);
@@ -109,9 +114,9 @@ public class OrganizationServiceImpl implements OrganizationService {
         //删除前先判断该组织是否启用状态，如果不是启用状态，则可以删除
         FineOrg fineOrg = fineOrgMapper.selectByPrimaryKey(id);
         if(fineOrg==null){
-            return ResultModel.error("0","没有该组织！");
+            return ResultModel.error("没有该组织！");
         }else if(fineOrg.getIsEnabled()){
-            return ResultModel.error("0","启用状态下的组织不可以被删除!");
+            return ResultModel.error("启用状态下的组织不可以被删除!");
         }
         //1、先删除组织
         fineOrgMapper.deleteByPrimaryKey(id);
@@ -121,12 +126,12 @@ public class OrganizationServiceImpl implements OrganizationService {
         fineOrgDistrictExample.createCriteria().andOrgIdEqualTo(id);
         fineOrgDistrictMapper.deleteByExample(fineOrgDistrictExample);
         //3、删除自定义信息
-        List<AddOrganizationDTO.FineAdminFields> fineAdminFields = fineAdminFieldMapper.selectByRefId(id);
+        List<AddOrganizationDTO.FineAdminFields> fineAdminFields = fineAdminFieldDataMapper.selectByRefId(id);
         FineAdminFieldDataExample fineAdminFieldDataExample;
         for (AddOrganizationDTO.FineAdminFields fineAdminField : fineAdminFields) {
             fineAdminFieldDataExample =new FineAdminFieldDataExample();
-            fineAdminFieldDataExample.createCriteria().andFieldIdEqualTo(fineAdminField.getFineAdminFieldData().getFieldId())
-                    .andRefIdEqualTo(fineAdminField.getFineAdminFieldData().getRefId());
+            fineAdminFieldDataExample.createCriteria().andFieldIdEqualTo(fineAdminField.getFieldId())
+                    .andRefIdEqualTo(fineAdminField.getRefId());
             fineAdminFieldDataMapper.deleteByExample(fineAdminFieldDataExample);
         }
         //4、删除门店
@@ -177,35 +182,41 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @param addOrganizationDTO
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public ResultModel setOrganization(AddOrganizationDTO addOrganizationDTO) {
-        //1、添加组织基本信息
-        FineOrg fineOrg=new FineOrg();
-        BeanUtils.copyProperties(addOrganizationDTO,fineOrg);
-        fineOrg.setCreated(new Date());
-        fineOrgMapper.insert(fineOrg);
-        //2、添加组织行政区域
-        FineOrgDistrictKey fineOrgDistrict=new FineOrgDistrictKey();
-        FineOrgDistrictKey orgDistrict = addOrganizationDTO.getOrgDistrict();
-        orgDistrict.setOrgId(fineOrg.getId());
-        fineOrgDistrictMapper.insert(orgDistrict);
-        //3、添加更多组织信息
-        List<AddOrganizationDTO.FineAdminFields> fineAdminFieldDataList = addOrganizationDTO.getFineAdminFieldDataList();
+        try {
+            //1、添加组织基本信息
+            FineOrg fineOrg=new FineOrg();
+            BeanUtils.copyProperties(addOrganizationDTO,fineOrg);
+            fineOrg.setCreated(new Date());
+            fineOrgMapper.insert(fineOrg);
+            //2、添加组织行政区域
+            FineOrgDistrictKey fineOrgDistrict=new FineOrgDistrictKey();
+            log.info(fineOrg.getId()+"--"+addOrganizationDTO.getDistrictId());
+            fineOrgDistrict.setOrgId(fineOrg.getId());
+            fineOrgDistrict.setDistrictId(addOrganizationDTO.getDistrictId());
+            fineOrgDistrictMapper.insert(fineOrgDistrict);
+            //3、添加更多组织信息
+            List<AddOrganizationDTO.FineAdminFields> fineAdminFieldDataList = addOrganizationDTO.getFineAdminFieldDataList();
 
-        for (AddOrganizationDTO.FineAdminFields fineAdminFields : fineAdminFieldDataList) {
-            log.info("field的id:"+fineAdminFields.getFineAdminField().getId());
-            fineAdminFields.getFineAdminFieldData().setRefId(fineOrg.getId());
-            fineAdminFields.getFineAdminFieldData().setCreated(new Date());
-            fineAdminFields.getFineAdminFieldData().setFieldId(fineAdminFields.getFineAdminField().getId());
-            fineAdminFieldDataMapper.insert(fineAdminFields.getFineAdminFieldData());
-
-        }
-        //4、如果是门店的话需要增加门店信息
-        FineStore fineStore = addOrganizationDTO.getFineStore();
-        if(fineStore!=null){
-            fineStore.setOrgId(fineOrg.getId());
-            fineStore.setCreated(new Date());
-            fineStoreMapper.insert(fineStore);
+            for (AddOrganizationDTO.FineAdminFields fineAdminFields : fineAdminFieldDataList) {
+                log.info(fineAdminFields.getValue()+"--"+fineAdminFields.getFieldId());
+                FineAdminFieldData fineAdminFieldData=new FineAdminFieldData();
+                BeanUtils.copyProperties(fineAdminFields,fineAdminFieldData);
+                fineAdminFieldData.setRefId(fineOrg.getId());
+                fineAdminFieldData.setCreated(new Date());
+                fineAdminFieldDataMapper.insert(fineAdminFieldData);
+            }
+            //4、如果是门店的话需要增加门店信息
+            FineStore fineStore = addOrganizationDTO.getFineStore();
+            if(fineStore!=null){
+                fineStore.setOrgId(fineOrg.getId());
+                fineStore.setCreated(new Date());
+                fineStoreMapper.insert(fineStore);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultModel.error("新增失败！");
         }
         return ResultModel.ok();
     }
@@ -216,13 +227,13 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @return
      */
     @Override
-    public AddOrganizationDTO getOrganizationById(Integer id) {
+    public ResultModel getOrganizationById(Integer id) {
         AddOrganizationDTO addOrganizationDTO=new AddOrganizationDTO();
 
         //组织基本信息
         FineOrg fineOrg = fineOrgMapper.selectByPrimaryKey(id);
         if(fineOrg==null){
-            return addOrganizationDTO;
+            return ResultModel.error("没有该组织！");
         }
         BeanUtils.copyProperties(fineOrg,addOrganizationDTO);
         //组织行政关系
@@ -230,7 +241,8 @@ public class OrganizationServiceImpl implements OrganizationService {
         fineOrgDistrictExample.createCriteria().andOrgIdEqualTo(fineOrg.getId());
         List<FineOrgDistrictKey> fineOrgDistrictKeys = fineOrgDistrictMapper.selectByExample(fineOrgDistrictExample);
         //更多信息
-        List<AddOrganizationDTO.FineAdminFields> fineAdminFields = fineAdminFieldMapper.selectByRefId(id);
+        List<AddOrganizationDTO.FineAdminFields> fineAdminFields = fineAdminFieldDataMapper.selectByRefId(id);
+
 
         //店铺信息
         FineStoreExample fineStoreExample=new FineStoreExample();
@@ -242,10 +254,12 @@ public class OrganizationServiceImpl implements OrganizationService {
             Integer staffCount = fineStaffOrgRoleMapper.countByOrgId(id);
             addOrganizationDTO.setStaffCount(staffCount);
         }
-        addOrganizationDTO.setOrgDistrict(fineOrgDistrictKeys.get(0));
         addOrganizationDTO.setFineStore(fineStores.size()==0?null:fineStores.get(0));
         addOrganizationDTO.setFineAdminFieldDataList(fineAdminFields);
-        return addOrganizationDTO;
+
+        Map<String,Object> data=new HashMap<>(16);
+        data.put("organization",addOrganizationDTO);
+        return ResultModel.ok(data);
     }
 
     /**
@@ -258,35 +272,44 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel updateOrganization(AddOrganizationDTO addOrganizationDTO) {
 
-        //1、修改组织基本信息
-        FineOrg fineOrg=new FineOrg();
-        BeanUtils.copyProperties(addOrganizationDTO,fineOrg);
-        FineOrgExample fineOrgExample=new FineOrgExample();
-        fineOrgExample.createCriteria().andIdEqualTo(fineOrg.getId());
-        fineOrgMapper.updateByExampleSelective(fineOrg,fineOrgExample);
-        log.info("1执行完毕");
-        //2、修改组织行政区域信息
-        FineOrgDistrictKey orgDistrict = addOrganizationDTO.getOrgDistrict();
-        FineOrgDistrictExample fineOrgDistrictExample=new FineOrgDistrictExample();
-        fineOrgDistrictExample.createCriteria().andOrgIdEqualTo(fineOrg.getId());
-        fineOrgDistrictMapper.updateByExampleSelective(orgDistrict,fineOrgDistrictExample);
-        log.info("2执行完毕");
-        //3、修改更多组织信息
-        List<AddOrganizationDTO.FineAdminFields> fineAdminFieldDataList = addOrganizationDTO.getFineAdminFieldDataList();
-        FineAdminFieldDataExample fineAdminFieldDataExample=new FineAdminFieldDataExample();
-        for (AddOrganizationDTO.FineAdminFields fineAdminFields : fineAdminFieldDataList) {
-            log.info(fineAdminFields.getFineAdminFieldData().toString());
-            fineAdminFieldDataMapper.updateByPrimaryKey(fineAdminFields.getFineAdminFieldData());
+        try {
+            //1、修改组织基本信息
+            FineOrg fineOrg=new FineOrg();
+            BeanUtils.copyProperties(addOrganizationDTO,fineOrg);
+            FineOrgExample fineOrgExample=new FineOrgExample();
+            fineOrgExample.createCriteria().andIdEqualTo(fineOrg.getId());
+            fineOrgMapper.updateByExampleSelective(fineOrg,fineOrgExample);
+
+            //2、修改组织行政区域信息
+            FineOrgDistrictKey orgDistrict = new FineOrgDistrictKey();
+            log.info(addOrganizationDTO.getDistrictId().toString());
+            orgDistrict.setDistrictId(addOrganizationDTO.getDistrictId());
+            orgDistrict.setOrgId(addOrganizationDTO.getId());
+            FineOrgDistrictExample fineOrgDistrictExample=new FineOrgDistrictExample();
+            fineOrgDistrictExample.createCriteria().andOrgIdEqualTo(addOrganizationDTO.getId());
+            fineOrgDistrictMapper.updateByExampleSelective(orgDistrict,fineOrgDistrictExample);
+
+            //3、修改更多组织信息
+            List<AddOrganizationDTO.FineAdminFields> fineAdminFieldDataList = addOrganizationDTO.getFineAdminFieldDataList();
+            FineAdminFieldDataExample fineAdminFieldDataExample=new FineAdminFieldDataExample();
+            for (AddOrganizationDTO.FineAdminFields fineAdminFields : fineAdminFieldDataList) {
+                FineAdminFieldData fineAdminFieldData=new FineAdminFieldData();
+                BeanUtils.copyProperties(fineAdminFields,fineAdminFieldData);
+                fineAdminFieldDataMapper.updateByPrimaryKeySelective(fineAdminFieldData);
+            }
+
+            //4、如果是门店的话需要增加门店信息
+            FineStore fineStore = addOrganizationDTO.getFineStore();
+            if(fineStore!=null){
+                FineStoreExample fineStoreExample=new FineStoreExample();
+                fineStoreExample.createCriteria().andIdEqualTo(fineStore.getId());
+                fineStoreMapper.updateByExampleSelective(fineStore,fineStoreExample);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultModel.error("更新失败！");
         }
-        log.info("3执行完毕");
-        //4、如果是门店的话需要增加门店信息
-        FineStore fineStore = addOrganizationDTO.getFineStore();
-        if(fineStore!=null){
-            FineStoreExample fineStoreExample=new FineStoreExample();
-            fineStoreExample.createCriteria().andIdEqualTo(fineStore.getId());
-            fineStoreMapper.updateByExample(fineStore,fineStoreExample);
-        }
-        log.info("4执行完毕");
         return ResultModel.ok();
     }
 

@@ -2,8 +2,10 @@ package com.ant.shop.asorm.mapper;
 
 import com.ant.shop.asorm.entity.FineAdminFieldData;
 import com.ant.shop.asorm.entity.FineAdminFieldDataExample;
-import java.util.List;
+import com.ant.shop.asorm.model.AddOrganizationDTO;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface FineAdminFieldDataMapper {
     long countByExample(FineAdminFieldDataExample example);
@@ -17,6 +19,8 @@ public interface FineAdminFieldDataMapper {
     int insertSelective(FineAdminFieldData record);
 
     List<FineAdminFieldData> selectByExample(FineAdminFieldDataExample example);
+
+    List<AddOrganizationDTO.FineAdminFields> selectByRefId(@Param("refId") Integer refId);
 
     FineAdminFieldData selectByPrimaryKey(Integer id);
 

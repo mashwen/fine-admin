@@ -8,9 +8,13 @@ import com.ant.shop.asorm.entity.FineAdminField;
 import com.ant.shop.asorm.entity.FineDistrict;
 import com.ant.shop.asorm.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import response.ResultModel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +42,7 @@ public class OrganizationController {
      * @param pageSize
      * @return
      */
-    @GetMapping("/organization")
+    @GetMapping("/organizations")
     public ResultModel getOrganization(@RequestParam(required = false,defaultValue = "1")Integer pageNum,@RequestParam(required = false,defaultValue = "10") Integer pageSize){
         return  organizationService.getOrganization(pageNum, pageSize);
     }
@@ -49,7 +53,14 @@ public class OrganizationController {
      * @return
      */
     @PostMapping("/organization")
-    public ResultModel addOrganization(@RequestBody AddOrganizationDTO addOrganizationDTO){
+    public ResultModel addOrganization(@RequestBody @Validated({AddOrganizationDTO.AddOrgCheck.class}) AddOrganizationDTO addOrganizationDTO,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            List<String> message=new ArrayList<>();
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                message.add(fieldError.getDefaultMessage());
+            }
+            return ResultModel.error(message.toString());
+        }
         return organizationService.setOrganization(addOrganizationDTO);
     }
 
@@ -81,7 +92,7 @@ public class OrganizationController {
      * @param keyword
      * @return
      */
-    @GetMapping("/organization/filtrate")
+    @GetMapping("/organizations/filtrate")
     public ResultModel filtrateOrganization(@RequestParam("type")Byte type,@RequestParam("enabled")Boolean enabled,@RequestParam("keyword")String keyword){
         List<OrganizationDTO> orgList = organizationService.getOrganizationByKeyword(type, enabled, keyword);
         Map<String,Object> data=new HashMap<>(16);
@@ -96,10 +107,7 @@ public class OrganizationController {
      */
     @GetMapping("/organization/{id}")
     public ResultModel OrganizationDetails(@PathVariable("id")Integer id){
-        AddOrganizationDTO organizationById = organizationService.getOrganizationById(id);
-        Map<String,Object> data=new HashMap<>(16);
-        data.put("organization",organizationById);
-        return ResultModel.ok(data);
+        return organizationService.getOrganizationById(id);
     }
 
     /**
@@ -108,7 +116,14 @@ public class OrganizationController {
      * @return
      */
     @PutMapping("/organization")
-    public ResultModel redactOrganization(@RequestBody AddOrganizationDTO addOrganizationDTO){
+    public ResultModel redactOrganization(@RequestBody @Validated({AddOrganizationDTO.RedactOrgCheck.class})  AddOrganizationDTO addOrganizationDTO, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            List<String> message=new ArrayList<>();
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                message.add(fieldError.getDefaultMessage());
+            }
+            return ResultModel.error(message.toString());
+        }
         return organizationService.updateOrganization(addOrganizationDTO);
     }
 

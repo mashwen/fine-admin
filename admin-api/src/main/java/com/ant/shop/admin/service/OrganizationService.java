@@ -56,7 +56,7 @@ public interface OrganizationService {
      * @param id
      * @return
      */
-    public AddOrganizationDTO getOrganizationById(Integer id);
+    public ResultModel getOrganizationById(Integer id);
 
     /**
      * 编辑组织
