@@ -1,7 +1,9 @@
 package com.ant.shop.admin.service.impl;
 
+import com.ant.shop.admin.service.FineAdminLogService;
 import com.ant.shop.admin.service.RoleService;
 import com.ant.shop.admin.utils.PageInfo;
+import com.ant.shop.asorm.entity.FineAdminLog;
 import com.ant.shop.asorm.entity.FineResource;
 import com.ant.shop.asorm.entity.FineRole;
 import com.ant.shop.asorm.entity.FineRoleResource;
@@ -13,11 +15,14 @@ import com.ant.shop.asorm.model.ResourceModel;
 import com.ant.shop.asorm.model.RoleResourceGroupModel;
 import com.ant.shop.asorm.model.RoleResourceModel;
 import com.github.pagehelper.PageHelper;
+import enums.LogModelEnum;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import response.ResultModel;
+import utils.JsonUtil;
+
 import java.util.*;
 
 @Service
@@ -30,9 +35,11 @@ public class RoleServiceImpl implements RoleService {
     private FineRoleResourceMapper fineRoleResourceMapper;
     @Autowired
     private FineResourceMapper fineResourceMapper;
+    @Autowired
+    private FineAdminLogService fineAdminLogService;
     @Override
     @Transactional
-    public ResultModel addRole(FineRole fineRole) {
+    public ResultModel addRole(FineRole fineRole, Integer userId) {
         String uuid = null;
         uuid = UUID.randomUUID().toString();
         uuid = uuid.replace("-", "");
@@ -43,6 +50,14 @@ public class RoleServiceImpl implements RoleService {
         fineRole.setCreated(new Date());
         int i = fineRoleMapper.insertSelective(fineRole);
         if (i >0){
+            FineAdminLog fineAdminLog = new FineAdminLog();
+            fineAdminLog.setRefTable("fine_role");
+            fineAdminLog.setRefId(id.toString());
+            fineAdminLog.setContent(JsonUtil.toJson(fineRole));
+            fineAdminLog.setOperation(LogModelEnum.LogOperationNameEnum.CREATE_ROLE.getValue());
+            fineAdminLog.setCreated(new Date());
+            fineAdminLog.setCreatedBy(userId);
+            fineAdminLogService.insertLog(fineAdminLog);
             return ResultModel.ok();
         }
         return ResultModel.error("添加失败");
@@ -75,19 +90,31 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public ResultModel roleDelete(int id) {
+    public ResultModel roleDelete(int id, Integer userId) {
+        FineRole fineRole = fineRoleMapper.selectByPrimaryKey(id);
+        if (fineRole == null){
+            return ResultModel.error("该角色不存在");
+        }
         int i = fineRoleMapper.deleteByPrimaryKey(id);
         int j = fineRoleResourceMapper.deleteByPrimaryKey(id);
         int i1 = fineStaffOrgRoleMapper.deleteByRoleId(id);
         int i2 = fineRoleResourceMapper.deleteByRoleId(id);
         if (i > 0){
+            FineAdminLog fineAdminLog = new FineAdminLog();
+            fineAdminLog.setRefTable("fine_role");
+            fineAdminLog.setRefId(id + "");
+            fineAdminLog.setContent(JsonUtil.toJson(fineRole));
+            fineAdminLog.setOperation(LogModelEnum.LogOperationNameEnum.DELETE_ROLE.getValue());
+            fineAdminLog.setCreated(new Date());
+            fineAdminLog.setCreatedBy(userId);
+            fineAdminLogService.insertLog(fineAdminLog);
             return ResultModel.ok();
         }
         return ResultModel.error("删除失败");
     }
 
     @Override
-    public ResultModel roleEdit(RoleResourceModel[] roleResourceModels) {
+    public ResultModel roleEdit(RoleResourceModel[] roleResourceModels, Integer userId) {
         for (RoleResourceModel r : roleResourceModels) {
            int roleId = r.getRoleId();
            Map<Object, List> resource = r.getResource();

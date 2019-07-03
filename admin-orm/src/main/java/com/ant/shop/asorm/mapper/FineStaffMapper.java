@@ -32,5 +32,8 @@ public interface FineStaffMapper {
 
     List<FineStaff> selectStaffList(@Param("fullname") String fullname, @Param("mobile") String mobile, @Param("email") String email);
 
+    FineStaff selectStaffByMobile(@Param("mobile") String mobile);
+
+    FineStaff selectStaffByEmail(@Param("email") String email);
 
 }

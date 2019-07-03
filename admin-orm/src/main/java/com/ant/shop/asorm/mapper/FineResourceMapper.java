@@ -5,6 +5,7 @@ import com.ant.shop.asorm.entity.FineResourceExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Service;
 
 public interface FineResourceMapper {
     long countByExample(FineResourceExample example);
@@ -39,5 +40,7 @@ public interface FineResourceMapper {
 
     //查询所有资源
     List<FineResource> findAllByStaffId(@Param("staff_id") int staff_id);
+
+    List<FineResource> selectResourceByResourGroup(@Param("groupId") int groupId);
 
 }

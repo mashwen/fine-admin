@@ -40,7 +40,21 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @Transactional
-    public ResultModel addStaff(StaffModel staffModel) {
+    public ResultModel addStaff(StaffModel staffModel, Integer userId) {
+        if (staffModel.getEmail() == null && staffModel.getFullname() == null){
+            return ResultModel.error("联系方式和邮箱至少填写填写一个");
+        }
+        FineStaff s = new FineStaff();
+        FineAdminLog fineAdminLog = new FineAdminLog();
+        if (staffModel.getFullname() != null){
+            s = fineStaffMapper.selectStaffByMobile(staffModel.getFullname());
+        }
+        if (staffModel.getEmail() != null){
+            s = fineStaffMapper.selectStaffByEmail(staffModel.getEmail());
+        }
+        if (s != null){
+            return ResultModel.error("联系方式或邮箱已存在");
+        }
         FineStaff staff = new FineStaff();
         staff.setFullname(staffModel.getFullname());
         staff.setEmail(staffModel.getEmail());
@@ -60,17 +74,9 @@ public class StaffServiceImpl implements StaffService {
         if (i == 0){
             ResultModel.error("添加失败");
         }
-
-//        FineAdminLog fineAdminLog = new FineAdminLog();
-//        fineAdminLog.setRefTable("fine_staff");
-//        fineAdminLog.setRefId("1,2,3");
-//        fineAdminLog.setContent(JsonUtil.toJson(staff));
-//        fineAdminLog.setOperation(LogModelEnum.LogOperationNameEnum.CREATE_STAFF.getValue());
-//        fineAdminLog.setCreated(new Date());
-//        fineAdminLog.setCreatedBy(1);
-//        fineAdminLogService.insertLog(fineAdminLog);
-
         Map<Object, List> orgRole = staffModel.getOrgRole();
+        String org = null;
+        String roleIdStr = null;
         for (Map.Entry<Object, List> orgRoleId : orgRole.entrySet()){
             int orgId = Integer.parseInt(orgRoleId.getKey().toString());
             List roleIdList = orgRoleId.getValue();
@@ -81,9 +87,19 @@ public class StaffServiceImpl implements StaffService {
                 fineStaffOrgRoleKey.setRoleId(role);
                 fineStaffOrgRoleKey.setStaffId(staff.getId());
                 fineStaffOrgRoleKey.setIncludeAll(true);
+                roleIdStr = roleIdStr + role + ",";
                 fineStaffOrgRoleMapper.insertStaffRoleOrg(fineStaffOrgRoleKey);
             }
+             org = org + orgId + ",";
         }
+
+        fineAdminLog.setRefTable("fine_staff");
+        fineAdminLog.setRefId(org + roleIdStr + staff.getId());
+        fineAdminLog.setContent(JsonUtil.toJson(staff));
+        fineAdminLog.setOperation(LogModelEnum.LogOperationNameEnum.CREATE_STAFF.getValue());
+        fineAdminLog.setCreated(new Date());
+        fineAdminLog.setCreatedBy(userId);
+        fineAdminLogService.insertLog(fineAdminLog);
         return ResultModel.ok();
     }
 
@@ -157,9 +173,17 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @Transactional
-    public ResultModel staffStatus(FineStaff fineStaff) {
+    public ResultModel staffStatus(FineStaff fineStaff, Integer userId) {
         int i = fineStaffMapper.updateByPrimaryKeySelective(fineStaff);
         if (i > 0){
+            FineAdminLog fineAdminLog = new FineAdminLog();
+            fineAdminLog.setRefTable("fine_staff");
+            fineAdminLog.setRefId(fineStaff.getId() + "");
+            fineAdminLog.setContent(JsonUtil.toJson(fineStaff));
+            fineAdminLog.setOperation(LogModelEnum.LogOperationNameEnum.UPDATE_ROLE.getValue());
+            fineAdminLog.setCreated(new Date());
+            fineAdminLog.setCreatedBy(userId);
+            fineAdminLogService.insertLog(fineAdminLog);
             return ResultModel.ok();
         }
         return ResultModel.error("修改失败");

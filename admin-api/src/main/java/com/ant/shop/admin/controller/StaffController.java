@@ -9,6 +9,7 @@ import response.ResultModel;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Null;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("")
@@ -20,8 +21,9 @@ public class StaffController {
 
     //添加员工
     @PostMapping("staff")
-    public ResultModel staff(@RequestBody StaffModel staffModel){
-        return staffService.addStaff(staffModel);
+    public ResultModel staff(@RequestBody StaffModel staffModel, Principal member){
+        Integer userId = Integer.valueOf(member.getName());
+        return staffService.addStaff(staffModel, userId);
     }
     //查看员工
     @GetMapping("staffList")
@@ -40,8 +42,8 @@ public class StaffController {
     }
     //修改员工状态
     @PostMapping("staffStatus")
-    public ResultModel staffStatus(@RequestBody FineStaff fineStaff){
-        return staffService.staffStatus(fineStaff);
+    public ResultModel staffStatus(@RequestBody FineStaff fineStaff, Principal member){
+        Integer userId = Integer.valueOf(member.getName());
+        return staffService.staffStatus(fineStaff, userId);
     }
-    //查询角色资源
 }

@@ -75,10 +75,10 @@
     id, resource_group_id, parent_id, name, url, label, remark, type, sort, created
   </sql>
   <select id="selectResourceById" resultMap="BaseResultMap">
-    select `label`,url,`type` from fine_resource where id = #{id}
+    select <include refid="Base_Column_List" /> from fine_resource where id = #{id}
   </select>
   <select id="selectListByParentId" resultMap="BaseResultMap">
-    select id, `type`, label from fine_resource where parent_id = #{parentId}
+    select <include refid="Base_Column_List" /> from fine_resource where parent_id = #{parentId}
   </select>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineResourceExample" resultMap="BaseResultMap">
     select
@@ -118,7 +118,7 @@
       #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{type,jdbcType=BIT}, #{sort,jdbcType=SMALLINT}, #{created,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineResource">
+  <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineResource" keyProperty="id" useGeneratedKeys="true">
     insert into fine_resource
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -304,6 +304,9 @@
     fine_resource fres ON rres.resource_id = fres.id
     WHERE
     sta.id=#{staff_id}
+  </select>
+  <select id="selectResourceByResourGroup" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from fine_resource where resource_group_id = #{groupId}
   </select>
 
 </mapper>

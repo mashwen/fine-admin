@@ -1,8 +1,10 @@
 package com.ant.shop.asorm.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 import java.util.Date;
-
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class FineResourceGroup implements Serializable {
     private Integer id;
 
@@ -45,4 +47,6 @@ public class FineResourceGroup implements Serializable {
     public void setCreated(Date created) {
         this.created = created;
     }
+
+
 }

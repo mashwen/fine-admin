@@ -17,8 +17,9 @@ public class RoleController {
 
     //添加角色
     @PostMapping("role")
-    public ResultModel addRole(@RequestBody FineRole fineRole){
-        return roleService.addRole(fineRole);
+    public ResultModel addRole(@RequestBody FineRole fineRole, Principal member){
+        Integer userId = Integer.valueOf(member.getName());
+        return roleService.addRole(fineRole, userId);
     }
     //角色列表
     @GetMapping("roleList")
@@ -29,18 +30,19 @@ public class RoleController {
     }
     //删除角色
     @GetMapping("roleDelete")
-    public ResultModel roleDelete(@RequestParam("id") int id){
-        return roleService.roleDelete(id);
+    public ResultModel roleDelete(@RequestParam("id") int id, Principal member){
+        Integer userId = Integer.valueOf(member.getName());
+        return roleService.roleDelete(id, userId);
     }
     //编辑角色
     @PostMapping("roleEdit")
-    public ResultModel roleEdit(@RequestBody RoleResourceModel[] roleResourceModels){
-        return roleService.roleEdit(roleResourceModels);
+    public ResultModel roleEdit(@RequestBody RoleResourceModel[] roleResourceModels, Principal member){
+        Integer userId = Integer.valueOf(member.getName());
+        return roleService.roleEdit(roleResourceModels, userId);
     }
     @GetMapping("staffRole")
     public ResultModel staffRole(@RequestParam("orgId") int orgId, Principal member){
-        //Integer userId = Integer.valueOf(member.getName());
-        int userId = 107;
+        Integer userId = Integer.valueOf(member.getName());
         return roleService.staffRole(orgId, userId);
     }
 }
