@@ -24,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 @Order(3)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-    @Autowired
-    private FineFilterSecurityInterceptor myFilterSecurityInterceptor;
+//    @Autowired
+//    private FineFilterSecurityInterceptor myFilterSecurityInterceptor;
 
     @Override
     public void configure(HttpSecurity http) throws Exception
@@ -41,6 +41,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/**").authenticated()
                 .and()
                 .httpBasic();
-        http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
+//        http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
     }
 }
