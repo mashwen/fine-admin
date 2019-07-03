@@ -7,6 +7,11 @@
     <result column="sort" jdbcType="SMALLINT" property="sort" />
     <result column="created" jdbcType="TIMESTAMP" property="created" />
   </resultMap>
+  <resultMap id="BaseResultMap1" type="com.ant.shop.asorm.model.ResourceAllGroup">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sort" jdbcType="SMALLINT" property="sort" />
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -193,4 +198,7 @@
       created = #{created,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectAllResourceGroup" resultMap="BaseResultMap1">
+    select id, `name`, sort from  fine_resource_group
+  </select>
 </mapper>

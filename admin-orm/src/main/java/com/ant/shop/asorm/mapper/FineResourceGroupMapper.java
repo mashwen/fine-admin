@@ -3,6 +3,8 @@ package com.ant.shop.asorm.mapper;
 import com.ant.shop.asorm.entity.FineResourceGroup;
 import com.ant.shop.asorm.entity.FineResourceGroupExample;
 import java.util.List;
+
+import com.ant.shop.asorm.model.ResourceAllGroup;
 import org.apache.ibatis.annotations.Param;
 
 public interface FineResourceGroupMapper {
@@ -27,4 +29,6 @@ public interface FineResourceGroupMapper {
     int updateByPrimaryKeySelective(FineResourceGroup record);
 
     int updateByPrimaryKey(FineResourceGroup record);
+    //查找所有的资源组
+    List<ResourceAllGroup> selectAllResourceGroup();
 }

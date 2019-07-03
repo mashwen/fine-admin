@@ -10,7 +10,7 @@ public interface RoleService {
      * @param fineRole
      * @return
      */
-    ResultModel addRole(FineRole fineRole);
+    ResultModel addRole(FineRole fineRole, Integer userId);
 
     /**
      * 查询角色列表
@@ -24,14 +24,14 @@ public interface RoleService {
      * @param id
      * @return
      */
-    ResultModel roleDelete(int id);
+    ResultModel roleDelete(int id, Integer userId);
 
     /**
      * 编辑角色
      * @param roleResourceModels
      * @return
      */
-    ResultModel roleEdit(RoleResourceModel[] roleResourceModels);
+    ResultModel roleEdit(RoleResourceModel[] roleResourceModels, Integer userId);
 
     /**
      * 查询员工角色

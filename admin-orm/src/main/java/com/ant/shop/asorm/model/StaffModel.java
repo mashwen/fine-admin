@@ -2,14 +2,15 @@ package com.ant.shop.asorm.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class StaffModel {
     private int id;
-
+    @NotNull(message = "姓名不能为空")
     private String fullname;
-
+    @NotNull(message = "性别不能为空")
     private Byte gender;
 
     private String jobTitle;
@@ -17,7 +18,7 @@ public class StaffModel {
     private String mobile;
 
     private String email;
-
+    @NotNull(message = "密码不能为空")
     private String password;
 
     private String avatar;

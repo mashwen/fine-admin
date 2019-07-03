@@ -10,7 +10,7 @@ public interface StaffService {
      * @param staffModel
      * @return
      */
-    ResultModel addStaff(StaffModel staffModel);
+    ResultModel addStaff(StaffModel staffModel, Integer userId);
 
     /**
      * 查询员工
@@ -35,5 +35,5 @@ public interface StaffService {
      * @param fineStaff
      * @return
      */
-    ResultModel staffStatus(FineStaff fineStaff);
+    ResultModel staffStatus(FineStaff fineStaff, Integer userId);
 }
