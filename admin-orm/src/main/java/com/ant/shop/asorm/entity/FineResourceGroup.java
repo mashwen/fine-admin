@@ -2,14 +2,15 @@ package com.ant.shop.asorm.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class FineResourceGroup implements Serializable {
     private Integer id;
-
+    @NotNull(message = "资源组名称不能为空")
     private String name;
-
+    @NotNull(message = "排序号不能为空")
     private Short sort;
 
     private Date created;

@@ -41,13 +41,13 @@ public class StaffServiceImpl implements StaffService {
     @Override
     @Transactional
     public ResultModel addStaff(StaffModel staffModel, Integer userId) {
-        if (staffModel.getEmail() == null && staffModel.getFullname() == null){
+        if (staffModel.getEmail() == null && staffModel.getMobile() == null){
             return ResultModel.error("联系方式和邮箱至少填写填写一个");
         }
         FineStaff s = new FineStaff();
         FineAdminLog fineAdminLog = new FineAdminLog();
         if (staffModel.getFullname() != null){
-            s = fineStaffMapper.selectStaffByMobile(staffModel.getFullname());
+            s = fineStaffMapper.selectStaffByMobile(staffModel.getMobile());
         }
         if (staffModel.getEmail() != null){
             s = fineStaffMapper.selectStaffByEmail(staffModel.getEmail());

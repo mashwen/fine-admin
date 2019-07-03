@@ -40,6 +40,7 @@ public class RoleController {
         Integer userId = Integer.valueOf(member.getName());
         return roleService.roleEdit(roleResourceModels, userId);
     }
+    //查看登录员工的角色
     @GetMapping("staffRole")
     public ResultModel staffRole(@RequestParam("orgId") int orgId, Principal member){
         Integer userId = Integer.valueOf(member.getName());
