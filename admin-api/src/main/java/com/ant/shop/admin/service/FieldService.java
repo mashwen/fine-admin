@@ -24,6 +24,13 @@ public interface FieldService {
     public PageListResp<FineAdminField> getField(Integer pageNum, Integer pageSize);
 
     /**
+     * 字段详情
+     * @param id
+     * @return
+     */
+    public ResultModel getFieldById(Integer id);
+
+    /**
      * 删除字段
      * @param id
      */
