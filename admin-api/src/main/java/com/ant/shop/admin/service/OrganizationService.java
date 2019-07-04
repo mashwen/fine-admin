@@ -1,10 +1,8 @@
 package com.ant.shop.admin.service;
 
 import com.ant.shop.asorm.model.AddOrganizationDTO;
-import com.ant.shop.asorm.model.OrganizationDTO;
 import response.ResultModel;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,7 +41,7 @@ public interface OrganizationService {
      * @param keyword
      * @return
      */
-    public List<OrganizationDTO> getOrganizationByKeyword(Byte type,Boolean enabled,String keyword);
+    public ResultModel getOrganizationByKeyword(Byte type,Boolean enabled,String keyword);
 
     /**
      * 新增组织

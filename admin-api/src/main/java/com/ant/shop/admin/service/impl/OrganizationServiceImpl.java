@@ -92,14 +92,27 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel setOrganizationEnabled(Integer id, Boolean enabled) {
+
+        FineOrg isOrg = fineOrgMapper.selectByPrimaryKey(id);
+        if(isOrg==null){
+            return ResultModel.error("没有该组织！");
+        }
         //修改的参数
         FineOrg fineOrg = new FineOrg();
         fineOrg.setIsEnabled(enabled);
         //条件
         FineOrgExample fineOrgExample=new FineOrgExample();
         fineOrgExample.createCriteria().andIdEqualTo(id);
-        //执行sql
-        fineOrgMapper.updateByExampleSelective(fineOrg,fineOrgExample);
+        try {
+            //执行sql
+            int i = fineOrgMapper.updateByExampleSelective(fineOrg, fineOrgExample);
+            if(i<=0){
+                return ResultModel.error("启用/禁用失败！");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultModel.error("启用/禁用失败！");
+        }
         return ResultModel.ok();
     }
 
@@ -109,40 +122,45 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @return
      */
     @Override
-    @Transactional(rollbackFor =Exception.class)
+    @Transactional
     public ResultModel deleteOrganizationById(Integer id) {
-        //删除前先判断该组织是否启用状态，如果不是启用状态，则可以删除
-        FineOrg fineOrg = fineOrgMapper.selectByPrimaryKey(id);
-        if(fineOrg==null){
-            return ResultModel.error("没有该组织！");
-        }else if(fineOrg.getIsEnabled()){
-            return ResultModel.error("启用状态下的组织不可以被删除!");
-        }
-        //1、先删除组织
-        fineOrgMapper.deleteByPrimaryKey(id);
+        try {
+            //删除前先判断该组织是否启用状态，如果不是启用状态，则可以删除
+            FineOrg fineOrg = fineOrgMapper.selectByPrimaryKey(id);
+            if(fineOrg==null){
+                return ResultModel.error("没有该组织！");
+            }else if(fineOrg.getIsEnabled()){
+                return ResultModel.error("启用状态下的组织不可以被删除!");
+            }
+            //1、先删除组织
+            fineOrgMapper.deleteByPrimaryKey(id);
 
-        //2、删除组织行政区域
-        FineOrgDistrictExample fineOrgDistrictExample=new FineOrgDistrictExample();
-        fineOrgDistrictExample.createCriteria().andOrgIdEqualTo(id);
-        fineOrgDistrictMapper.deleteByExample(fineOrgDistrictExample);
-        //3、删除自定义信息
-        List<AddOrganizationDTO.FineAdminFields> fineAdminFields = fineAdminFieldDataMapper.selectByRefId(id);
-        FineAdminFieldDataExample fineAdminFieldDataExample;
-        for (AddOrganizationDTO.FineAdminFields fineAdminField : fineAdminFields) {
-            fineAdminFieldDataExample =new FineAdminFieldDataExample();
-            fineAdminFieldDataExample.createCriteria().andFieldIdEqualTo(fineAdminField.getFieldId())
-                    .andRefIdEqualTo(fineAdminField.getRefId());
-            fineAdminFieldDataMapper.deleteByExample(fineAdminFieldDataExample);
-        }
-        //4、删除门店
-        FineStoreExample fineStoreExample=new FineStoreExample();
-        fineStoreExample.createCriteria().andOrgIdEqualTo(id);
-        fineStoreMapper.deleteByExample(fineStoreExample);
+            //2、删除组织行政区域
+            FineOrgDistrictExample fineOrgDistrictExample=new FineOrgDistrictExample();
+            fineOrgDistrictExample.createCriteria().andOrgIdEqualTo(id);
+            fineOrgDistrictMapper.deleteByExample(fineOrgDistrictExample);
+            //3、删除自定义信息
+            List<AddOrganizationDTO.FineAdminFields> fineAdminFields = fineAdminFieldDataMapper.selectByRefId(id);
+            FineAdminFieldDataExample fineAdminFieldDataExample;
+            for (AddOrganizationDTO.FineAdminFields fineAdminField : fineAdminFields) {
+                fineAdminFieldDataExample =new FineAdminFieldDataExample();
+                fineAdminFieldDataExample.createCriteria().andFieldIdEqualTo(fineAdminField.getFieldId())
+                        .andRefIdEqualTo(fineAdminField.getRefId());
+                fineAdminFieldDataMapper.deleteByExample(fineAdminFieldDataExample);
+            }
+            //4、删除门店
+            FineStoreExample fineStoreExample=new FineStoreExample();
+            fineStoreExample.createCriteria().andOrgIdEqualTo(id);
+            fineStoreMapper.deleteByExample(fineStoreExample);
 
-        //5、删除员工组织角色关系
-        FineStaffOrgRoleExample fineStaffOrgRoleExample=new FineStaffOrgRoleExample();
-        fineStaffOrgRoleExample.createCriteria().andOrgIdEqualTo(id);
-        fineStaffOrgRoleMapper.deleteByExample(fineStaffOrgRoleExample);
+            //5、删除员工组织角色关系
+            FineStaffOrgRoleExample fineStaffOrgRoleExample=new FineStaffOrgRoleExample();
+            fineStaffOrgRoleExample.createCriteria().andOrgIdEqualTo(id);
+            fineStaffOrgRoleMapper.deleteByExample(fineStaffOrgRoleExample);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultModel.error("删除失败！");
+        }
 
         return ResultModel.ok();
 
@@ -157,23 +175,26 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @return
      */
     @Override
-    public List<OrganizationDTO> getOrganizationByKeyword(Byte type, Boolean enabled, String keyword) {
+    public ResultModel getOrganizationByKeyword(Byte type, Boolean enabled, String keyword) {
 
         OrganizationDTO organizationDTO=new OrganizationDTO();
-        organizationDTO.setType(type);
         organizationDTO.setIsEnabled(enabled);
-        if(StringUtils.isInteger(keyword)){
-            log.info("if");
-            organizationDTO.setCode(keyword);
-        }else{
-            log.info("else");
-            organizationDTO.setName(keyword);
+        if(type!=0){
+            organizationDTO.setType(type);
         }
-
+        if(keyword!=null && !keyword.equals("")){
+            if(StringUtils.isInteger(keyword)){
+                organizationDTO.setCode(keyword);
+            }else{
+                organizationDTO.setName(keyword);
+            }
+        }
 
         List<OrganizationDTO> organizationDTOS = fineOrgMapper.selectByKeyword(organizationDTO);
 
-        return organizationDTOS;
+        Map<String,Object> data=new HashMap<>(16);
+        data.put("orgList",organizationDTOS);
+        return ResultModel.ok(data);
     }
 
     /**

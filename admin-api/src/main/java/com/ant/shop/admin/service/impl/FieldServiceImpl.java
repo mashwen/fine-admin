@@ -12,6 +12,7 @@ import com.ant.shop.asorm.model.PageDTO;
 import com.ant.shop.asorm.model.PageListResp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,15 +83,23 @@ public class FieldServiceImpl implements FieldService {
     public ResultModel deleteFieldById(Integer id) {
         //删除前先判断该字段是否启用状态，如果不是启用状态，则可以删除
         FineAdminField fineAdminField = fineAdminFieldMapper.selectByPrimaryKey(id);
-        if(fineAdminField.getIsEnabled()){
-            return ResultModel.error("0","启用状态下的字段不可以删除!");
+        if(fineAdminField==null){
+            return ResultModel.error("没有该字段！");
         }
-        //先删除 字段表
-        fineAdminFieldMapper.deleteByPrimaryKey(id);
-        //再删除字段明细表
-        FineAdminFieldDataExample fineAdminFieldDataExample=new FineAdminFieldDataExample();
-        fineAdminFieldDataExample.createCriteria().andFieldIdEqualTo(id);
-        fineAdminFieldDataMapper.deleteByExample(fineAdminFieldDataExample);
+        if(fineAdminField.getIsEnabled()){
+            return ResultModel.error("启用状态下的字段不可以删除!");
+        }
+        try {
+            //先删除 字段表
+            fineAdminFieldMapper.deleteByPrimaryKey(id);
+            //再删除字段明细表
+            FineAdminFieldDataExample fineAdminFieldDataExample=new FineAdminFieldDataExample();
+            fineAdminFieldDataExample.createCriteria().andFieldIdEqualTo(id);
+            fineAdminFieldDataMapper.deleteByExample(fineAdminFieldDataExample);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultModel.error("删除失败！");
+        }
         return ResultModel.ok();
     }
 
@@ -110,7 +119,10 @@ public class FieldServiceImpl implements FieldService {
         FineAdminFieldExample fineAdminFieldExample=new FineAdminFieldExample();
         fineAdminFieldExample.createCriteria().andIdEqualTo(id);
         //执行sql
-        fineAdminFieldMapper.updateByExampleSelective(fineAdminField,fineAdminFieldExample);
+        int i = fineAdminFieldMapper.updateByExampleSelective(fineAdminField, fineAdminFieldExample);
+        if(i<=0){
+            return ResultModel.error("启用/禁用失败！");
+        }
         return ResultModel.ok();
     }
 
@@ -144,7 +156,12 @@ public class FieldServiceImpl implements FieldService {
 
         fineAdminField.setDefinition(definition);
         fineAdminField.setCreated(new Date());
-        fineAdminFieldMapper.insert(fineAdminField);
+        try {
+            fineAdminFieldMapper.insert(fineAdminField);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultModel.error("新增失败！");
+        }
 
         return ResultModel.ok();
     }
@@ -157,7 +174,12 @@ public class FieldServiceImpl implements FieldService {
      */
     @Override
     public ResultModel updateField(FineAdminField fineAdminField) {
-        fineAdminFieldMapper.updateByPrimaryKeySelective(fineAdminField);
+        try {
+            fineAdminFieldMapper.updateByPrimaryKeySelective(fineAdminField);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultModel.error("编辑失败！");
+        }
         return ResultModel.ok();
     }
 

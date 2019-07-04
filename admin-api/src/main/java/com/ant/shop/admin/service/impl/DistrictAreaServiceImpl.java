@@ -8,6 +8,7 @@ import com.ant.shop.asorm.mapper.FineAreaMapper;
 import com.ant.shop.asorm.mapper.FineDistrictAreaMapper;
 import com.ant.shop.asorm.model.DistrictAreaDTO;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,12 +40,17 @@ public class DistrictAreaServiceImpl implements DistrictAreaService {
         FineArea fineArea=new FineArea();
         BeanUtils.copyProperties(districtAreaDTO.getFineArea(),fineArea);
         fineArea.setCreated(new Date());
-        fineAreaMapper.insert(fineArea);
+        try {
+            fineAreaMapper.insert(fineArea);
 
-        FineDistrictAreaKey fineDistrictAreaKey=new FineDistrictAreaKey();
-        BeanUtils.copyProperties(districtAreaDTO.getFineDistrictAreaKey(),fineDistrictAreaKey);
-        fineDistrictAreaKey.setAreaId(fineArea.getId());
-        fineDistrictAreaMapper.insert(fineDistrictAreaKey);
+            FineDistrictAreaKey fineDistrictAreaKey=new FineDistrictAreaKey();
+            BeanUtils.copyProperties(districtAreaDTO.getFineDistrictAreaKey(),fineDistrictAreaKey);
+            fineDistrictAreaKey.setAreaId(fineArea.getId());
+            fineDistrictAreaMapper.insert(fineDistrictAreaKey);
+        } catch (BeansException e) {
+            e.printStackTrace();
+            return  ResultModel.error("新增失败！");
+        }
         return ResultModel.ok();
     }
 
@@ -56,10 +62,15 @@ public class DistrictAreaServiceImpl implements DistrictAreaService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel deleteArea(Integer id) {
-        fineAreaMapper.deleteByPrimaryKey(id);
-        FineDistrictAreaExample fineDistrictAreaExample=new FineDistrictAreaExample();
-        fineDistrictAreaExample.createCriteria().andAreaIdEqualTo(id);
-        fineDistrictAreaMapper.deleteByExample(fineDistrictAreaExample);
+        try {
+            fineAreaMapper.deleteByPrimaryKey(id);
+            FineDistrictAreaExample fineDistrictAreaExample=new FineDistrictAreaExample();
+            fineDistrictAreaExample.createCriteria().andAreaIdEqualTo(id);
+            fineDistrictAreaMapper.deleteByExample(fineDistrictAreaExample);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultModel.error("删除失败！");
+        }
         return ResultModel.ok();
     }
 }

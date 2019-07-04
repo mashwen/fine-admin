@@ -92,12 +92,9 @@ public class OrganizationController {
      * @param keyword
      * @return
      */
-    @GetMapping("/organizations/filtrate")
-    public ResultModel filtrateOrganization(@RequestParam("type")Byte type,@RequestParam("enabled")Boolean enabled,@RequestParam("keyword")String keyword){
-        List<OrganizationDTO> orgList = organizationService.getOrganizationByKeyword(type, enabled, keyword);
-        Map<String,Object> data=new HashMap<>(16);
-        data.put("orgList",orgList);
-        return  ResultModel.ok(data);
+    @GetMapping("/organizations/filtrate/{type}")
+    public ResultModel filtrateOrganization(@PathVariable("type")Byte type,@RequestParam("enabled")Boolean enabled,String keyword){
+        return  organizationService.getOrganizationByKeyword(type, enabled, keyword);
     }
 
     /**
@@ -194,10 +191,9 @@ public class OrganizationController {
      * @param pageSize
      * @return
      */
-    @GetMapping("/field")
+    @GetMapping("/fields")
     public ResultModel getField(@RequestParam(required = false,defaultValue = "1")Integer pageNum,@RequestParam(required = false,defaultValue = "10") Integer pageSize){
         PageListResp<FineAdminField> fieldList = fieldService.getField(pageNum, pageSize);
-
         Map<String,Object> data=new HashMap<>(16);
         data.put("fieldList",fieldList);
         return  ResultModel.ok(data);
@@ -232,7 +228,7 @@ public class OrganizationController {
      * @param label
      * @return
      */
-    @GetMapping("/field/filtrate")
+    @GetMapping("/fields/filtrate")
     public ResultModel filtrateField(@RequestParam("label")String label){
         List<FineAdminField> fieldList = fieldService.getFieldByLabel(label);
         Map<String,Object> data=new HashMap<>(16);

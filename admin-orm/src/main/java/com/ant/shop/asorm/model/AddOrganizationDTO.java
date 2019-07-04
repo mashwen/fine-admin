@@ -87,10 +87,10 @@ public class  AddOrganizationDTO {
 
         private Integer refId;
 
-        @NotNull(message = "自定义字段值id不能为空！",groups = AddOrganizationDTO.AddOrgCheck.class)
+        @NotNull(message = "自定义字段值id不能为空！",groups = {AddOrgCheck.class,RedactOrgCheck.class})
         private Integer fieldId;
 
-        @NotNull(message = "自定义字段value不能为空！",groups = AddOrganizationDTO.AddOrgCheck.class)
+        @NotNull(message = "自定义字段value不能为空！",groups ={AddOrgCheck.class,RedactOrgCheck.class})
         private String value;
 
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
