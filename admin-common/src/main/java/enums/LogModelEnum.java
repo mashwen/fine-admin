@@ -44,7 +44,7 @@ public class LogModelEnum {
         FINE_RESOURCE("fine_resource","资源管理"),
         FINE_ORG("fine_org","组织管理"),
         FINE_STAFF("fine_staff","员工管理"),
-        FINE_AREA("fine_staff","区域管理"),
+        FINE_AREA("fine_area","区域管理"),
         FINE_RESOURCEGROUP("fine_resource_group","资源组管理");
 
         private String code;

@@ -13,4 +13,5 @@ public class LogModel {
     private String operationModule;
     private String operation;
     private String created;
+    private String createdBy;
 }

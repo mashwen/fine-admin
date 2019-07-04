@@ -1,20 +1,15 @@
 package com.ant.shop.admin.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.ant.shop.admin.service.FineAdminLogService;
 import com.ant.shop.asorm.entity.FineAdminLog;
-import com.ant.shop.asorm.entity.FineStaff;
 import com.ant.shop.asorm.mapper.FineAdminLogMapper;
 import com.ant.shop.asorm.model.LogModel;
 import com.ant.shop.asorm.model.PageDTO;
 import com.ant.shop.asorm.model.PageListResp;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import enums.LogModelEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import springfox.documentation.spring.web.json.Json;
 import utils.DateUtil;
 import utils.JsonUtil;
 import utils.PageUtil;
@@ -66,6 +61,7 @@ public class FineAdminLogServiceImpl implements FineAdminLogService {
             logModel.setOperation(fineAdminLog.getOperation());
             logModel.setCreated(DateUtil.valueOf(fineAdminLog.getCreated(),"yyyy-MM-dd HH:mm:ss"));
             logModel.setOperationModule(LogModelEnum.LogOperationModuleEnum.getValueByCode(fineAdminLog.getRefTable()));
+            logModel.setCreatedBy(fineAdminLog.getCreatedBy().toString());
             logModels.add(logModel);
         }
 
@@ -104,6 +100,7 @@ public class FineAdminLogServiceImpl implements FineAdminLogService {
             logModel.setOperation(fineAdminLog.getOperation());
             logModel.setCreated(DateUtil.valueOf(fineAdminLog.getCreated(),"yyyy-MM-dd HH:mm:ss"));
             logModel.setOperationModule(LogModelEnum.LogOperationModuleEnum.getValueByCode(fineAdminLog.getRefTable()));
+            logModel.setCreatedBy(fineAdminLog.getCreatedBy().toString());
             logModels.add(logModel);
         }
 
@@ -151,6 +148,7 @@ public class FineAdminLogServiceImpl implements FineAdminLogService {
             logModel.setOperation(fineAdminLog.getOperation());
             logModel.setCreated(DateUtil.valueOf(fineAdminLog.getCreated(),"yyyy-MM-dd HH:mm:ss"));
             logModel.setOperationModule(LogModelEnum.LogOperationModuleEnum.getValueByCode(fineAdminLog.getRefTable()));
+            logModel.setCreatedBy(fineAdminLog.getCreatedBy().toString());
             logModels.add(logModel);
         }
         PageDTO pageDTO = new PageDTO();
@@ -188,6 +186,7 @@ public class FineAdminLogServiceImpl implements FineAdminLogService {
             logModel.setOperation(fineAdminLog.getOperation());
             logModel.setCreated(DateUtil.valueOf(fineAdminLog.getCreated(),"yyyy-MM-dd HH:mm:ss"));
             logModel.setOperationModule(LogModelEnum.LogOperationModuleEnum.getValueByCode(fineAdminLog.getRefTable()));
+            logModel.setCreatedBy(fineAdminLog.getCreatedBy().toString());
             logModels.add(logModel);
         }
         PageDTO pageDTO = new PageDTO();
