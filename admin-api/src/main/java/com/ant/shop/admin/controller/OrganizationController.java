@@ -142,7 +142,14 @@ public class OrganizationController {
      * @return
      */
     @PostMapping("/district")
-    public ResultModel addDistrict(@RequestBody FineDistrict fineDistrict){
+    public ResultModel addDistrict(@RequestBody @Validated({AddOrganizationDTO.AddDistrictCheck.class}) FineDistrict fineDistrict, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            List<String> message=new ArrayList<>();
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                message.add(fieldError.getDefaultMessage());
+            }
+            return ResultModel.error(message.toString());
+        }
         return districtService.addDistrict(fineDistrict);
     }
 
@@ -165,6 +172,7 @@ public class OrganizationController {
     public ResultModel redactDistrict(@RequestBody FineDistrict fineDistrict){
         return  districtService.updateDistrict(fineDistrict);
     }
+
     /**
      * 新增业务区域
      * @param districtAreaDTO

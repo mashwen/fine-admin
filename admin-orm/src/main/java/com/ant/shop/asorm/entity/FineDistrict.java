@@ -1,19 +1,24 @@
 package com.ant.shop.asorm.entity;
 
+import com.ant.shop.asorm.model.AddOrganizationDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class FineDistrict implements Serializable {
     private Integer id;
 
+    @NotNull(message = "区域名称不能为空！",groups = AddOrganizationDTO.AddDistrictCheck.class)
     private String name;
 
+    @NotNull(message = "区域级别不能为空！",groups = AddOrganizationDTO.AddDistrictCheck.class)
     private Byte level;
 
+    @NotNull(message = "上级区域不能为空！",groups = AddOrganizationDTO.AddDistrictCheck.class)
     private Integer parentId;
 
     private String postcode;
