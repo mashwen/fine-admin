@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,10 +21,13 @@ import java.util.HashMap;
 public class FineAdminFieldDTO implements Serializable {
     private Integer id;
 
+    @NotNull(message = "字段类型不能为空！",groups = AddFieldCheck.class)
     private String type;
 
+    @NotNull(message = "参数名称不能为空！",groups = AddFieldCheck.class)
     private String key;
 
+    @NotNull(message = "字段类型不能为空！",groups = AddFieldCheck.class)
     private String label;
 
     private HashMap definition;
@@ -34,6 +38,12 @@ public class FineAdminFieldDTO implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date created;
 
+    @NotNull(message = "启用/禁用状态不能为空！",groups = AddFieldCheck.class)
     private Boolean isEnabled;
+
+    /**
+     * 验证新增字段 所属组
+     */
+    public interface AddFieldCheck{}
 
 }

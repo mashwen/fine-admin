@@ -1,12 +1,11 @@
 package com.ant.shop.asorm.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
-@JsonInclude(value = JsonInclude.Include.NON_NULL)
+
 public class FineArea implements Serializable {
     private Integer id;
 

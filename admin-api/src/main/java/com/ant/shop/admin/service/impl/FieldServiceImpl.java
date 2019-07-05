@@ -74,6 +74,27 @@ public class FieldServiceImpl implements FieldService {
     }
 
     /**
+     * 字段详情
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public ResultModel getFieldById(Integer id) {
+        if(id==null){
+            return ResultModel.error("id不能为空！");
+        }
+        FineAdminField fineAdminField = fineAdminFieldMapper.selectByPrimaryKey(id);
+        if(fineAdminField==null){
+            return ResultModel.error("没有该字段");
+        }
+        Map<String,Object> data=new HashMap<>();
+        data.put("field",fineAdminField);
+
+        return ResultModel.ok(data);
+    }
+
+    /**
      * 删除字段
      *
      * @param id

@@ -108,7 +108,9 @@ public class  AddOrganizationDTO {
      */
     public interface RedactOrgCheck{}
 
-
-
+    /**
+     * 验证新增行政区域 所属组
+     */
+    public interface AddDistrictCheck{}
 
 }

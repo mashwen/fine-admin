@@ -1,7 +1,6 @@
 package com.ant.shop.asorm.model;
 
-import com.ant.shop.asorm.entity.FineArea;
-import com.ant.shop.asorm.entity.FineDistrictAreaKey;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,7 +11,9 @@ import java.io.Serializable;
  * @Version 1.0
  **/
 @Data
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class DistrictAreaDTO implements Serializable {
-    private FineArea fineArea;
-    private FineDistrictAreaKey fineDistrictAreaKey;
+    private String name;
+
+    private Integer districtId;
 }

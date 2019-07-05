@@ -142,7 +142,14 @@ public class OrganizationController {
      * @return
      */
     @PostMapping("/district")
-    public ResultModel addDistrict(@RequestBody FineDistrict fineDistrict){
+    public ResultModel addDistrict(@RequestBody @Validated({AddOrganizationDTO.AddDistrictCheck.class}) FineDistrict fineDistrict, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            List<String> message=new ArrayList<>();
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                message.add(fieldError.getDefaultMessage());
+            }
+            return ResultModel.error(message.toString());
+        }
         return districtService.addDistrict(fineDistrict);
     }
 
@@ -165,6 +172,7 @@ public class OrganizationController {
     public ResultModel redactDistrict(@RequestBody FineDistrict fineDistrict){
         return  districtService.updateDistrict(fineDistrict);
     }
+
     /**
      * 新增业务区域
      * @param districtAreaDTO
@@ -200,6 +208,16 @@ public class OrganizationController {
     }
 
     /**
+     * 字段详情
+     * @param id
+     * @return
+     */
+    @GetMapping("/field/{id}")
+    public ResultModel getFieldInfo(@PathVariable("id")Integer id){
+        return fieldService.getFieldById(id);
+    }
+
+    /**
      * 删除字段
      * @param id
      * @return
@@ -207,7 +225,7 @@ public class OrganizationController {
     @DeleteMapping("/field/{id}")
     public ResultModel deleteField(@PathVariable(value = "id")Integer id){
         if(id==null){
-            return ResultModel.error("0","字段id不能为空！");
+            return ResultModel.error("字段id不能为空！");
         }
         return  fieldService.deleteFieldById(id);
     }
@@ -242,7 +260,14 @@ public class OrganizationController {
      * @return
      */
     @PostMapping("/field")
-    public ResultModel addField(@RequestBody FineAdminFieldDTO fineAdminFieldDTO){
+    public ResultModel addField(@RequestBody @Validated({FineAdminFieldDTO.AddFieldCheck.class}) FineAdminFieldDTO fineAdminFieldDTO,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            List<String> message=new ArrayList<>();
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                message.add(fieldError.getDefaultMessage());
+            }
+            return ResultModel.error(message.toString());
+        }
         return fieldService.setField(fineAdminFieldDTO);
     }
 
@@ -261,7 +286,7 @@ public class OrganizationController {
      * @param entity
      * @return
      */
-    @GetMapping("field/{entity}")
+    @GetMapping("fields/{entity}")
     public ResultModel getFieldByEntity(@PathVariable("entity") String entity){
         return fieldService.getFieldByEntity(entity);
     }

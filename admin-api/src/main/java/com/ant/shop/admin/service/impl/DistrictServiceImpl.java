@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import response.ResultModel;
+import utils.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -53,11 +54,14 @@ public class DistrictServiceImpl implements DistrictService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel addDistrict (FineDistrict fineDistrict) {
         fineDistrict.setCreated(new Date());
-        try {
-            fineDistrict.setPhoneticName(PinyinHelper.convertToPinyinString(fineDistrict.getPhoneticName(),"_", PinyinFormat.WITHOUT_TONE));
-        } catch (PinyinException e) {
-            return ResultModel.error("0","汉字转拼音失败");
+        if(fineDistrict.getPhoneticName()!=null && !StringUtils.isEnglish(fineDistrict.getPhoneticName())){
+            try {
+                fineDistrict.setPhoneticName(PinyinHelper.convertToPinyinString(fineDistrict.getPhoneticName(),"_", PinyinFormat.WITHOUT_TONE));
+            } catch (PinyinException e) {
+                return ResultModel.error("0","汉字转拼音失败");
+            }
         }
+
         fineDistrictMapper.insert(fineDistrict);
         return ResultModel.ok();
     }
@@ -71,6 +75,10 @@ public class DistrictServiceImpl implements DistrictService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel deleteDistrict(Integer id) {
+        FineDistrict fineDistrict = fineDistrictMapper.selectByPrimaryKey(id);
+        if(fineDistrict==null){
+            return ResultModel.error("没有该行政区域！");
+        }
         fineDistrictMapper.deleteByPrimaryKey(id);
         return ResultModel.ok();
     }
@@ -78,6 +86,9 @@ public class DistrictServiceImpl implements DistrictService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel updateDistrict(FineDistrict fineDistrict) {
+        if(fineDistrict.getId()==null){
+            return ResultModel.error("行政区域id不能为空！");
+        }
         fineDistrictMapper.updateByPrimaryKey(fineDistrict);
         return ResultModel.ok();
     }

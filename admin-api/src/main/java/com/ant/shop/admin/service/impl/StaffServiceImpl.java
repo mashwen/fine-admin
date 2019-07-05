@@ -77,22 +77,23 @@ public class StaffServiceImpl implements StaffService {
         Map<Object, List> orgRole = staffModel.getOrgRole();
         String org = null;
         String roleIdStr = null;
-        for (Map.Entry<Object, List> orgRoleId : orgRole.entrySet()){
-            int orgId = Integer.parseInt(orgRoleId.getKey().toString());
-            List roleIdList = orgRoleId.getValue();
-            for (Object roleId : roleIdList) {
-                StaffOrgRoleModel fineStaffOrgRoleKey = new StaffOrgRoleModel();
-                fineStaffOrgRoleKey.setOrgId(orgId);
-                int role = Integer.parseInt(roleId.toString());
-                fineStaffOrgRoleKey.setRoleId(role);
-                fineStaffOrgRoleKey.setStaffId(staff.getId());
-                fineStaffOrgRoleKey.setIncludeAll(true);
-                roleIdStr = roleIdStr + role + ",";
-                fineStaffOrgRoleMapper.insertStaffRoleOrg(fineStaffOrgRoleKey);
+        if(orgRole != null){
+            for (Map.Entry<Object, List> orgRoleId : orgRole.entrySet()){
+                int orgId = Integer.parseInt(orgRoleId.getKey().toString());
+                List roleIdList = orgRoleId.getValue();
+                for (Object roleId : roleIdList) {
+                    StaffOrgRoleModel fineStaffOrgRoleKey = new StaffOrgRoleModel();
+                    fineStaffOrgRoleKey.setOrgId(orgId);
+                    int role = Integer.parseInt(roleId.toString());
+                    fineStaffOrgRoleKey.setRoleId(role);
+                    fineStaffOrgRoleKey.setStaffId(staff.getId());
+                    fineStaffOrgRoleKey.setIncludeAll(true);
+                    roleIdStr = roleIdStr + role + ",";
+                    fineStaffOrgRoleMapper.insertStaffRoleOrg(fineStaffOrgRoleKey);
+                }
+                org = org + orgId + ",";
             }
-             org = org + orgId + ",";
         }
-
         fineAdminLog.setRefTable("fine_staff");
         fineAdminLog.setRefId(org + roleIdStr + staff.getId());
         fineAdminLog.setContent(JsonUtil.toJson(staff));
