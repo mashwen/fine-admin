@@ -38,4 +38,9 @@ public interface ResourceService {
      * @return
      */
     ResultModel selectAllResource();
+
+    /**
+     * 加载所有资源到redis
+     */
+    void loadResourceDefine();
 }

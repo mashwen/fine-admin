@@ -13,9 +13,13 @@ import com.ant.shop.asorm.model.ResourceModel;
 import com.github.stuxuhai.jpinyin.PinyinFormat;
 import com.github.stuxuhai.jpinyin.PinyinHelper;
 import enums.LogModelEnum;
-import org.omg.CORBA.FieldNameHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.SecurityConfig;
 import org.springframework.stereotype.Service;
 import response.ResultModel;
 import utils.JsonUtil;
@@ -32,6 +36,9 @@ public class ResourceServiceImpl implements ResourceService {
     private FineResourceGroupMapper fineResourceGroupMapper;
     @Autowired
     private FineAdminLogService fineAdminLogService;
+    @Autowired
+    @Lazy
+    private RedisTemplate<String, Object> redisTemplate;
     @Override
     public ResultModel resource(ResourceModel resourceModel, Integer userId) {
         FineResource  fineResource = new FineResource();
@@ -63,6 +70,7 @@ public class ResourceServiceImpl implements ResourceService {
             fineAdminLog.setCreated(new Date());
             fineAdminLog.setCreatedBy(userId);
             fineAdminLogService.insertLog(fineAdminLog);
+            this.loadResourceDefine();//新增资源时重新拉取资源到redis
             return ResultModel.ok();
         }
         return ResultModel.error("添加失败");
@@ -84,6 +92,7 @@ public class ResourceServiceImpl implements ResourceService {
         fineAdminLog.setCreatedBy(userId);
         fineAdminLogService.insertLog(fineAdminLog);
         int i1 = fineRoleResourceMapper.deleteByResourceId(id);
+        this.loadResourceDefine();//删除资源时重新拉去资源到redis
         return ResultModel.ok();
     }
 
@@ -138,4 +147,28 @@ public class ResourceServiceImpl implements ResourceService {
         map.put("ResourceAndGroup", fineResourceGroups);
         return ResultModel.ok(map);
     }
+
+    /**
+     * 加载所有资源到redis
+     */
+    @Override
+    public void loadResourceDefine() {
+        HashOperations<String, Object, Object> ops = redisTemplate.opsForHash();
+        HashMap<String, Collection<ConfigAttribute>> map = new HashMap<>();
+
+        Collection<ConfigAttribute> array;
+        ConfigAttribute cfg;
+        List<FineResource> permissions = fineResourceMapper.findAll();
+        for (FineResource permission : permissions) {
+            array = new ArrayList<>();
+            cfg = new SecurityConfig(permission.getName());
+            array.add(cfg);
+            map.put(permission.getUrl(), array);
+        }
+        //System.out.println("map==="+map);
+        ops.putAll("allResource",map);
+        //System.out.println("allResource============="+ops.entries("allResource"));
+    }
+
+
 }

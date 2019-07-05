@@ -1,8 +1,12 @@
 package com.ant.shop.admin.service.security;
 
+import com.ant.shop.admin.service.impl.ResourceServiceImpl;
 import com.ant.shop.asorm.entity.FineResource;
 import com.ant.shop.asorm.mapper.FineResourceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
@@ -24,11 +28,16 @@ import java.util.*;
 @Service
 public class FineInvocationSecurityMetadataSourceService implements FilterInvocationSecurityMetadataSource {
 
+//    @Autowired
+//    private FineResourceMapper fineResourceMapper;
+//    @Autowired
+//    private ResourceServiceImpl resourceService;
     @Autowired
-    private FineResourceMapper fineResourceMapper;
+    @Lazy
+    private RedisTemplate<String, Object> redisTemplate;
 
 
-    private HashMap<String, Collection<ConfigAttribute>> map = null;
+    /*private HashMap<String, Collection<ConfigAttribute>> map = null;
 
     public void loadResourceDefine() {
         map = new HashMap<>();
@@ -41,19 +50,22 @@ public class FineInvocationSecurityMetadataSourceService implements FilterInvoca
             array.add(cfg);
             map.put(permission.getUrl(), array);
         }
-    }
+    }*/
 
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
-        if (map == null) loadResourceDefine();
+        HashOperations<String, Object, Object> ops = redisTemplate.opsForHash();
+        Map<Object, Object> map = ops.entries("allResource");
+
         HttpServletRequest request = ((FilterInvocation) object).getHttpRequest();
+
         AntPathRequestMatcher matcher;
         String resUrl;
-        for (String s : map.keySet()) {
-            resUrl = s;
+        for (Object s : map.keySet()) {
+            resUrl = s.toString();
             matcher = new AntPathRequestMatcher(resUrl);
             if (matcher.matches(request)) {
-                return map.get(resUrl);
+                return (Collection<ConfigAttribute>)map.get(resUrl);
             }
         }
         return null;
