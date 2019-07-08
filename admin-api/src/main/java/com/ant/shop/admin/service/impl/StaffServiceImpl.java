@@ -75,8 +75,6 @@ public class StaffServiceImpl implements StaffService {
             ResultModel.error("添加失败");
         }
         Map<Object, List> orgRole = staffModel.getOrgRole();
-        String org = null;
-        String roleIdStr = null;
         if(orgRole != null){
             for (Map.Entry<Object, List> orgRoleId : orgRole.entrySet()){
                 int orgId = Integer.parseInt(orgRoleId.getKey().toString());
@@ -88,14 +86,12 @@ public class StaffServiceImpl implements StaffService {
                     fineStaffOrgRoleKey.setRoleId(role);
                     fineStaffOrgRoleKey.setStaffId(staff.getId());
                     fineStaffOrgRoleKey.setIncludeAll(true);
-                    roleIdStr = roleIdStr + role + ",";
                     fineStaffOrgRoleMapper.insertStaffRoleOrg(fineStaffOrgRoleKey);
                 }
-                org = org + orgId + ",";
             }
         }
         fineAdminLog.setRefTable("fine_staff");
-        fineAdminLog.setRefId(org + roleIdStr + staff.getId());
+        fineAdminLog.setRefId(staff.getId()+"");
         fineAdminLog.setContent(JsonUtil.toJson(staff));
         fineAdminLog.setOperation(LogModelEnum.LogOperationNameEnum.CREATE_STAFF.getValue());
         fineAdminLog.setCreated(new Date());
@@ -106,6 +102,15 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public ResultModel staffList(String fullname, String mobile, String email, int page, int pageSize) {
+        if (fullname.equals("")){
+            fullname = null;
+        }
+        if (mobile.equals("")){
+            mobile = null;
+        }
+        if (email.equals("")){
+            email = null;
+        }
         PageHelper.startPage(page, pageSize);
         List<FineStaff> staffList = fineStaffMapper.selectStaffList(fullname, mobile, email);
         if (staffList == null || staffList.size() == 0){
