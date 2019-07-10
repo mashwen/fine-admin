@@ -102,26 +102,29 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public ResultModel staffList(String fullname, String mobile, String email, int page, int pageSize) {
-        if (fullname.equals("")){
+        if (fullname == ""){
             fullname = null;
         }
-        if (mobile.equals("")){
+        if (mobile== ""){
             mobile = null;
         }
-        if (email.equals("")){
+        if (email == ""){
             email = null;
+        }
+        Integer staffCount = fineStaffMapper.selectStaffCount();
+        if (staffCount == null){
+            return ResultModel.error("该组织没有员工");
         }
         PageHelper.startPage(page, pageSize);
         List<FineStaff> staffList = fineStaffMapper.selectStaffList(fullname, mobile, email);
         if (staffList == null || staffList.size() == 0){
             ResultModel.error("该组织没有员工");
         }
-        int count = staffList.size();
         int totalPage = 0;
-        if (count % pageSize == 0){
-            totalPage = count / pageSize;
+        if (staffCount % pageSize == 0){
+            totalPage = staffCount / pageSize;
         }else {
-            totalPage = count / pageSize + 1;
+            totalPage = staffCount / pageSize + 1;
         }
         int nextPage = page + 1;
         if (page == totalPage){
@@ -138,7 +141,7 @@ public class StaffServiceImpl implements StaffService {
             }
             staffModelsList.add(staffModel);
         }
-        PageInfo pageInfo = new PageInfo(page, page - 1, nextPage, count, pageSize, totalPage);
+        PageInfo pageInfo = new PageInfo(page, page - 1, nextPage, staffCount, pageSize, totalPage);
         Map<String, Object> map = new HashMap<>();
         map.put("staffList", staffModelsList);
         map.put("pageInfo", pageInfo);

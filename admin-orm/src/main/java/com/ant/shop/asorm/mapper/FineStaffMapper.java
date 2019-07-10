@@ -36,4 +36,6 @@ public interface FineStaffMapper {
 
     FineStaff selectStaffByEmail(@Param("email") String email);
 
+    Integer selectStaffCount();
+
 }

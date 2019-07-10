@@ -65,6 +65,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public ResultModel roleList(String name, int page, int pageSize) {
+        if (name == ""){
+            name = null;
+        }
         PageHelper.startPage(page, pageSize);
         List<FineRole> fineRoles = fineRoleMapper.selectRoleList(name);
         if (fineRoles == null || fineRoles.size() == 0){

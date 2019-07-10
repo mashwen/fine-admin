@@ -315,4 +315,7 @@
     id, fullname, mobile, email, gender, job_title, avatar, created, status
     FROM fine_staff WHERE email = #{email}
   </select>
+  <select id="selectStaffCount" resultType="java.lang.Integer">
+    select COUNT(*) from fine_staff
+  </select>
 </mapper>
