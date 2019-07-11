@@ -36,15 +36,18 @@ public class OrganizationController {
     private DistrictAreaService districtAreaService;
 
 
+
+
     /**
-     * 获取组织列表
-     * @param pageNum
-     * @param pageSize
+     * 筛选组织
+     * @param type
+     * @param enabled
+     * @param keyword
      * @return
      */
-    @GetMapping("/organizations")
-    public ResultModel getOrganization(@RequestParam(required = false,defaultValue = "1")Integer pageNum,@RequestParam(required = false,defaultValue = "10") Integer pageSize){
-        return  organizationService.getOrganization(pageNum, pageSize);
+    @GetMapping("/organizations/filtrate/{type}")
+    public ResultModel filtrateOrganization(@PathVariable(value = "type",required = false)Byte type,@RequestParam(value = "enabled",required = false)Boolean enabled,String keyword,@RequestParam(required = false,defaultValue = "1")Integer pageNum,@RequestParam(required = false,defaultValue = "10") Integer pageSize){
+        return  organizationService.getOrganizationByKeyword(type, enabled, keyword,pageNum,pageSize);
     }
 
     /**
@@ -85,17 +88,6 @@ public class OrganizationController {
         return  organizationService.deleteOrganizationById(id);
     }
 
-    /**
-     * 筛选组织
-     * @param type
-     * @param enabled
-     * @param keyword
-     * @return
-     */
-    @GetMapping("/organizations/filtrate/{type}")
-    public ResultModel filtrateOrganization(@PathVariable("type")Byte type,@RequestParam("enabled")Boolean enabled,String keyword){
-        return  organizationService.getOrganizationByKeyword(type, enabled, keyword);
-    }
 
     /**
      * 组织详情

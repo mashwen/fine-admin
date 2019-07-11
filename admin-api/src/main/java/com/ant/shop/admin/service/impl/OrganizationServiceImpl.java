@@ -46,43 +46,6 @@ public class OrganizationServiceImpl implements OrganizationService {
     private FineStaffOrgRoleMapper fineStaffOrgRoleMapper;
 
 
-    /**
-     * 获取组织列表
-     *
-     * @param pageNum
-     * @param pageSize
-     * @return
-     */
-    @Override
-    public ResultModel getOrganization(Integer pageNum, Integer pageSize) {
-        if(pageNum<0 || pageSize<0){
-            return ResultModel.error("0","页码与页大小不能为负数！");
-        }
-        //获取组织全部数据列表
-        List<OrganizationDTO> list = fineOrgMapper.selectAll();
-        //设置分页数据
-        PageHelper.startPage(pageNum,pageSize);
-        //获取分页列表
-        List<OrganizationDTO> fineOrgList = fineOrgMapper.selectAll();
-
-        PageInfo<FineOrg> pageInfo = new PageInfo(fineOrgList);
-        PageDTO pageDTO = new PageDTO();
-
-        pageDTO.setCountPerPage(pageInfo.getPageSize());
-        pageDTO.setNextPage(pageInfo.getNextPage());
-        pageDTO.setPage(pageInfo.getPageNum());
-        pageDTO.setPrevPage(pageInfo.getPrePage());
-        pageDTO.setTotalCount(list.size());
-        pageDTO.setTotalPage(pageInfo.getPages());
-
-        PageListResp pageList = new PageListResp();
-        pageList.setList(fineOrgList);
-        pageList.setPagination(pageDTO);
-
-        Map<String,Object> data=new HashMap<>(16);
-        data.put("orgList",pageList);
-        return ResultModel.ok(data);
-    }
 
     /**
      * 启用/禁用 组织
@@ -175,13 +138,17 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @return
      */
     @Override
-    public ResultModel getOrganizationByKeyword(Byte type, Boolean enabled, String keyword) {
+    public ResultModel getOrganizationByKeyword(Byte type, Boolean enabled, String keyword,Integer pageNum, Integer pageSize) {
+        Map<String,Object> data=new HashMap<>(16);
+
+        if(pageNum<0 || pageSize<0){
+            return ResultModel.error("0","页码与页大小不能为负数！");
+        }
 
         OrganizationDTO organizationDTO=new OrganizationDTO();
         organizationDTO.setIsEnabled(enabled);
-        if(type!=0){
-            organizationDTO.setType(type);
-        }
+        organizationDTO.setType(type);
+
         if(keyword!=null && !keyword.equals("")){
             if(StringUtils.isInteger(keyword)){
                 organizationDTO.setCode(keyword);
@@ -189,12 +156,30 @@ public class OrganizationServiceImpl implements OrganizationService {
                 organizationDTO.setName(keyword);
             }
         }
+        //获取组织筛选后的数据列表
+        List<OrganizationDTO> list = fineOrgMapper.selectByKeyword(organizationDTO);
+        //设置分页数据
+        PageHelper.startPage(pageNum,pageSize);
+        //获取分页列表
+        List<OrganizationDTO> fineOrgList = fineOrgMapper.selectByKeyword(organizationDTO);
+        PageInfo<FineOrg> pageInfo = new PageInfo(fineOrgList);
+        PageDTO pageDTO = new PageDTO();
 
-        List<OrganizationDTO> organizationDTOS = fineOrgMapper.selectByKeyword(organizationDTO);
+        pageDTO.setCountPerPage(pageInfo.getPageSize());
+        pageDTO.setNextPage(pageInfo.getNextPage());
+        pageDTO.setPage(pageInfo.getPageNum());
+        pageDTO.setPrevPage(pageInfo.getPrePage());
+        pageDTO.setTotalCount(list.size());
+        pageDTO.setTotalPage(pageInfo.getPages());
 
-        Map<String,Object> data=new HashMap<>(16);
-        data.put("orgList",organizationDTOS);
+        PageListResp pageList = new PageListResp();
+        pageList.setList(fineOrgList);
+        pageList.setPagination(pageDTO);
+
+
+        data.put("orgList",pageList);
         return ResultModel.ok(data);
+
     }
 
     /**

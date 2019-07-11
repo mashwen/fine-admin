@@ -12,13 +12,6 @@ import java.util.Map;
  * @Version 1.0
  **/
 public interface OrganizationService {
-    /**
-     * 获取组织列表
-     * @param pageNum
-     * @param pageSize
-     * @return
-     */
-    public ResultModel getOrganization(Integer pageNum, Integer pageSize);
 
     /**
      * 启用/禁用 组织
@@ -41,7 +34,7 @@ public interface OrganizationService {
      * @param keyword
      * @return
      */
-    public ResultModel getOrganizationByKeyword(Byte type,Boolean enabled,String keyword);
+    public ResultModel getOrganizationByKeyword(Byte type,Boolean enabled,String keyword,Integer pageNum, Integer pageSize);
 
     /**
      * 新增组织
