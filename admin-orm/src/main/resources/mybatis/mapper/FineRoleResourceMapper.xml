@@ -92,7 +92,7 @@
     delete from fine_role_resource_group where role_id = #{roleId}
   </delete>
   <delete id="deleteByResourceId" parameterType="java.lang.Integer">
-    delete from fine_role_resource_group where resource_id = #{resourceId}
+    delete from fine_role_resource where resource_id = #{resourceId}
   </delete>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineRoleResourceExample" resultMap="BaseResultMap">
     select
