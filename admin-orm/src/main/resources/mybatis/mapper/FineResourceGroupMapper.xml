@@ -109,7 +109,7 @@
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sort,jdbcType=SMALLINT}, 
       #{created,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineResourceGroup">
+  <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineResourceGroup" keyProperty="id" useGeneratedKeys="true">
     insert into fine_resource_group
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
