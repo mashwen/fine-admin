@@ -79,10 +79,10 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public ResultModel resourceDelete(Integer id, Integer userId) {
         FineResource resource = fineResourceMapper.selectByPrimaryKey(id);
-        int i = fineResourceMapper.deleteByPrimaryKey(id);
-        if (i == 0){
+        if (resource == null){
             return ResultModel.error("该资源不存在");
         }
+        int i = fineResourceMapper.deleteByPrimaryKey(id);
         FineAdminLog fineAdminLog = new FineAdminLog();
         fineAdminLog.setRefTable("fine_resource");
         fineAdminLog.setRefId(id.toString());
