@@ -15,13 +15,7 @@ public interface FineAdminLogService {
 
     int insertLog(FineAdminLog fineAdminLog);
 
-    PageListResp selectByCreatorId(Integer id, Integer pageNum, Integer pageSize);
-
-    PageListResp selectAllLogs(Integer pageNum, Integer pageSize);
-
-    PageListResp selectLogsByDate(Integer pageNum, Integer pageSize,String startTime, String endTime) throws ParseException;
-
-    PageListResp selectStaffLogsByDate(Integer id,Integer pageNum,Integer pageSize,String startDate,String endDate);
-
     String selectByPrimaryKey(Integer id);
+
+    PageListResp selectLogs(Integer id,String startTime,String endTime,Integer pageNum,Integer pageSize);
 }

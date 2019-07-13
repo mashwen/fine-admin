@@ -21,74 +21,6 @@ public class FineAdminLogController {
     @Autowired
     private FineAdminLogService fineAdminLogService;
 
-    /**
-     * 根据工作人员查询操作日志
-     * @param id
-     * @param pageNum
-     * @param pageSize
-     * @return
-     */
-    @GetMapping("/stafflogs")
-    public ResultModel getStaffLogs(@RequestParam(required = true)Integer id,@RequestParam(required = false, defaultValue = "1") Integer pageNum,
-                                    @RequestParam(required = false, defaultValue = "10") Integer pageSize){
-        PageListResp pageListResp = fineAdminLogService.selectByCreatorId(id,pageNum,pageSize);
-        Map<String, Object> data = new HashMap<>();
-        data.put("pagination",pageListResp.getPagination());
-        data.put("stafflogs",pageListResp.getList());
-
-        return ResultModel.ok(data);
-    }
-
-    @GetMapping("/alllogs")
-    public ResultModel selectAllLogs(@RequestParam(required = false, defaultValue = "1") Integer pageNum,
-                                    @RequestParam(required = false, defaultValue = "10") Integer pageSize){
-        PageListResp pageListResp = fineAdminLogService.selectAllLogs(pageNum,pageSize);
-        Map<String, Object> data = new HashMap<>();
-        data.put("pagination",pageListResp.getPagination());
-        data.put("alllogs",pageListResp.getList());
-
-        return ResultModel.ok(data);
-    }
-
-    @GetMapping("/logbydate")
-    public ResultModel selectLogsByDate(@RequestParam(required = false, defaultValue = "1") Integer pageNum,
-                                        @RequestParam(required = false, defaultValue = "10") Integer pageSize, String startTime, String endTime){
-        if (startTime ==null){
-            return ResultModel.error("请输入开始时间");
-        }
-        if (endTime==null){
-            return ResultModel.error("请输入结束时间");
-        }
-        PageListResp pageListResp = null;
-        try {
-            pageListResp = fineAdminLogService.selectLogsByDate(pageNum, pageSize, startTime, endTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Map<String, Object> data = new HashMap<>();
-        data.put("pagination",pageListResp.getPagination());
-        data.put("logbydate",pageListResp.getList());
-
-        return ResultModel.ok(data);
-    }
-
-    @GetMapping("/stafflogsbydate")
-    public ResultModel selectStaffLogsByDate(@RequestParam(required = true) Integer id,@RequestParam(required = false, defaultValue = "1") Integer pageNum,
-                                             @RequestParam(required = false, defaultValue = "10") Integer pageSize, String startTime, String endTime){
-        if (startTime ==null){
-            return ResultModel.error("请输入开始时间");
-        }
-        if (endTime==null){
-            return ResultModel.error("请输入结束时间");
-        }
-        PageListResp pageListResp = fineAdminLogService.selectStaffLogsByDate(id,pageNum,pageSize,startTime,endTime);
-        Map<String, Object> data = new HashMap<>();
-        data.put("pagination",pageListResp.getPagination());
-        data.put("logbydate",pageListResp.getList());
-
-        return ResultModel.ok(data);
-    }
-
     @GetMapping("/logdetail")
     public String selectByPrimaryKey(Integer id){
         String content = fineAdminLogService.selectByPrimaryKey(id);
@@ -96,5 +28,18 @@ public class FineAdminLogController {
         return content;
     }
 
+    @GetMapping("/selectlogs")
+    public ResultModel selectLogs(@RequestParam(required = false)Integer id,
+                                  @RequestParam(required = false) String startTime,
+                                  @RequestParam(required = false) String endTime,
+                                  @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+                                  @RequestParam(required = false, defaultValue = "10") Integer pageSize){
+        PageListResp pageListResp = fineAdminLogService.selectLogs(id, startTime, endTime, pageNum, pageSize);
+        Map<String, Object> data = new HashMap<>();
+        data.put("pagination",pageListResp.getPagination());
+        data.put("selectlogs",pageListResp.getList());
+
+        return ResultModel.ok(data);
+    }
 
 }
