@@ -43,4 +43,6 @@ public interface ResourceService {
      * 加载所有资源到redis
      */
     void loadResourceDefine();
+
+    ResultModel resourceUpdate(ResourceModel resourceModel, Integer userId);
 }

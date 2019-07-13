@@ -42,4 +42,11 @@ public class ResourceController {
     public ResultModel groupAndResource(){
         return resourceService.selectAllResource();
     }
+
+    //修改资源
+    @PostMapping("resourceUpDate")
+    public ResultModel resourceUpDate(@RequestBody ResourceModel resourceModel,  Principal member){
+        Integer userId = Integer.valueOf(member.getName());
+        return resourceService.resourceUpdate(resourceModel, userId);
+    }
 }

@@ -170,5 +170,35 @@ public class ResourceServiceImpl implements ResourceService {
         //System.out.println("allResource============="+ops.entries("allResource"));
     }
 
+    @Override
+    public ResultModel resourceUpdate(ResourceModel resourceModel, Integer userId) {
+        String tempStr = null;
+        if (resourceModel.getLabel() != null){
+             tempStr = resourceModel.getLabel();
+            try {
+                tempStr =  PinyinHelper.convertToPinyinString(resourceModel.getLabel(), "_", PinyinFormat.WITHOUT_TONE);
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        resourceModel.setName(tempStr);
+        FineResource  fineResource = new FineResource();
+        BeanUtils.copyProperties(resourceModel, fineResource);
+        int i = fineResourceMapper.updateByPrimaryKeySelective(fineResource);
+        if (i > 0){
+            FineAdminLog fineAdminLog = new FineAdminLog();
+            fineAdminLog.setRefTable("fine_resource");
+            fineAdminLog.setRefId(resourceModel.getId().toString());
+            fineAdminLog.setContent(JsonUtil.toJson(fineResource));
+            fineAdminLog.setOperation(LogModelEnum.LogOperationNameEnum.UPDATE_RESOURCE.getValue());
+            fineAdminLog.setCreated(new Date());
+            fineAdminLog.setCreatedBy(userId);
+            fineAdminLogService.insertLog(fineAdminLog);
+            return ResultModel.ok();
+        }
+        return ResultModel.error("修改失败");
+    }
+
 
 }
