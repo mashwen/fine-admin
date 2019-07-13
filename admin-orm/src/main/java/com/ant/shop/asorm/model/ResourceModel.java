@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
+
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class ResourceModel {
     private Integer id;
@@ -25,6 +27,8 @@ public class ResourceModel {
     private Short sort;
 
     private Date created;
+
+    private List subordinateResourceList;
 
     public Integer getId() {
         return id;
@@ -104,5 +108,13 @@ public class ResourceModel {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public List getSubordinateResourceList() {
+        return subordinateResourceList;
+    }
+
+    public void setSubordinateResourceList(List subordinateResourceList) {
+        this.subordinateResourceList = subordinateResourceList;
     }
 }

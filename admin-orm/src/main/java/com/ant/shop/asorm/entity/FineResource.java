@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class FineResource implements Serializable {
     private Integer id;
@@ -25,6 +27,8 @@ public class FineResource implements Serializable {
     private Short sort;
 
     private Date created;
+
+    private List subordinateResourceList;
 
     private static final long serialVersionUID = 1L;
 
@@ -106,5 +110,13 @@ public class FineResource implements Serializable {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public List getSubordinateResourceList() {
+        return subordinateResourceList;
+    }
+
+    public void setSubordinateResourceList(List subordinateResourceList) {
+        this.subordinateResourceList = subordinateResourceList;
     }
 }

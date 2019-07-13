@@ -13,6 +13,18 @@
     <result column="sort" jdbcType="SMALLINT" property="sort" />
     <result column="created" jdbcType="TIMESTAMP" property="created" />
   </resultMap>
+  <resultMap id="BaseResultMap1" type="com.ant.shop.asorm.model.ResourceModel">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="resource_group_id" jdbcType="INTEGER" property="resourceGroupId" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="type" jdbcType="BIT" property="type" />
+    <result column="sort" jdbcType="SMALLINT" property="sort" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -77,7 +89,7 @@
   <select id="selectResourceById" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" /> from fine_resource where id = #{id}
   </select>
-  <select id="selectListByParentId" resultMap="BaseResultMap">
+  <select id="selectListByParentId" resultMap="BaseResultMap1">
     select <include refid="Base_Column_List" /> from fine_resource where parent_id = #{parentId}
   </select>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineResourceExample" resultMap="BaseResultMap">

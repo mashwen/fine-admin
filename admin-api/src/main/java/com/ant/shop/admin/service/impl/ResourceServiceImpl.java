@@ -142,10 +142,31 @@ public class ResourceServiceImpl implements ResourceService {
         List<ResourceAllGroup> fineResourceGroups = fineResourceGroupMapper.selectAllResourceGroup();
         for (ResourceAllGroup group : fineResourceGroups) {
             List<FineResource> fineResources = fineResourceMapper.selectResourceByResourGroup(group.getId());
-            group.setResource(fineResources);
+            if (fineResources != null){
+                for (int i = 0; i < fineResources.size();i++){
+                    List<ResourceModel> list = test(fineResources.get(i).getId());
+                    fineResources.get(i).setSubordinateResourceList(list);
+                    if ( fineResources.get(i).getParentId() != 0){
+                        fineResources.remove(i);
+                        i--;
+                    }
+                }
+                group.setResource(fineResources);
+            }
+
         }
         map.put("ResourceAndGroup", fineResourceGroups);
         return ResultModel.ok(map);
+    }
+
+    public List<ResourceModel> test(int id){
+        List<ResourceModel> list = fineResourceMapper.selectListByParentId(id);
+        if (list != null){
+            for (ResourceModel f : list) {
+                List<ResourceModel> list1 = test(f.getId());
+            }
+        }
+        return list;
     }
 
     /**
