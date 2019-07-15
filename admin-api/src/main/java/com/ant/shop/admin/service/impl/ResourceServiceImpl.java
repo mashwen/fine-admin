@@ -145,7 +145,7 @@ public class ResourceServiceImpl implements ResourceService {
             if (fineResources != null){
                 for (int i = 0; i < fineResources.size();i++){
                     List<ResourceModel> list = test(fineResources.get(i).getId());
-                    fineResources.get(i).setSubordinateResourceList(list);
+                    fineResources.get(i).setResource(list);
                     if ( fineResources.get(i).getParentId() != 0){
                         fineResources.remove(i);
                         i--;

@@ -28,7 +28,7 @@ public class FineResource implements Serializable {
 
     private Date created;
 
-    private List subordinateResourceList;
+    private List resource;
 
     private static final long serialVersionUID = 1L;
 
@@ -112,11 +112,11 @@ public class FineResource implements Serializable {
         this.created = created;
     }
 
-    public List getSubordinateResourceList() {
-        return subordinateResourceList;
+    public List getResource() {
+        return resource;
     }
 
-    public void setSubordinateResourceList(List subordinateResourceList) {
-        this.subordinateResourceList = subordinateResourceList;
+    public void setResource(List resource) {
+        this.resource = resource;
     }
 }
