@@ -5,8 +5,6 @@ import com.ant.shop.asorm.model.FineAdminFieldDTO;
 import com.ant.shop.asorm.model.PageListResp;
 import response.ResultModel;
 
-import java.util.List;
-
 /**
  * 字段
  *
@@ -16,12 +14,13 @@ import java.util.List;
  **/
 public interface FieldService {
     /**
-     * 获取字段列表
+     * 筛选字段
      * @param pageNum
      * @param pageSize
+     * @param label
      * @return
      */
-    public PageListResp<FineAdminField> getField(Integer pageNum, Integer pageSize);
+    public PageListResp<FineAdminField> getField(Integer pageNum, Integer pageSize,String label);
 
     /**
      * 字段详情
@@ -42,13 +41,6 @@ public interface FieldService {
      * @param enabled
      */
     public ResultModel setFieldEnabled(Integer id,Boolean enabled);
-
-    /**
-     * 筛选字段
-     * @param label
-     * @return
-     */
-    public List<FineAdminField> getFieldByLabel(String label);
 
     /**
      * 添加字段

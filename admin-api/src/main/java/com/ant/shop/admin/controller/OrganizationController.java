@@ -45,8 +45,12 @@ public class OrganizationController {
      * @param keyword
      * @return
      */
-    @GetMapping("/organizations/filtrate/{type}")
-    public ResultModel filtrateOrganization(@PathVariable(value = "type",required = false)Byte type,@RequestParam(value = "enabled",required = false)Boolean enabled,String keyword,@RequestParam(required = false,defaultValue = "1")Integer pageNum,@RequestParam(required = false,defaultValue = "10") Integer pageSize){
+    @GetMapping("/organizations")
+    public ResultModel filtrateOrganization(@RequestParam(value = "type",required = false)Byte type,
+                                            @RequestParam(value = "enabled",required = false)Boolean enabled,
+                                            @RequestParam(value = "keyword",required = false)String keyword,
+                                            @RequestParam(required = false,defaultValue = "1")Integer pageNum,
+                                            @RequestParam(required = false,defaultValue = "10") Integer pageSize){
         return  organizationService.getOrganizationByKeyword(type, enabled, keyword,pageNum,pageSize);
     }
 
@@ -73,8 +77,9 @@ public class OrganizationController {
      * @param enabled
      * @return
      */
-    @PutMapping("/organization/enabled/{id}")
-    public ResultModel enabledOrganization(@PathVariable(value = "id")Integer id,@RequestParam(value = "enabled")Boolean enabled){
+    @PutMapping("/enabledOrg")
+    public ResultModel enabledOrganization(@RequestParam( value= "id")Integer id,
+                                           @RequestParam(value = "enabled")Boolean enabled){
         return  organizationService.setOrganizationEnabled(id,enabled);
     }
 
@@ -186,14 +191,17 @@ public class OrganizationController {
     }
 
     /**
-     * 获取字段列表
+     * 筛选字段
      * @param pageNum
      * @param pageSize
+     * @param label
      * @return
      */
     @GetMapping("/fields")
-    public ResultModel getField(@RequestParam(required = false,defaultValue = "1")Integer pageNum,@RequestParam(required = false,defaultValue = "10") Integer pageSize){
-        PageListResp<FineAdminField> fieldList = fieldService.getField(pageNum, pageSize);
+    public ResultModel getField(@RequestParam(required = false,defaultValue = "1")Integer pageNum,
+                                @RequestParam(required = false,defaultValue = "10") Integer pageSize,
+                                @RequestParam(value = "label",required = false)String label){
+        PageListResp<FineAdminField> fieldList = fieldService.getField(pageNum, pageSize,label);
         Map<String,Object> data=new HashMap<>(16);
         data.put("fieldList",fieldList);
         return  ResultModel.ok(data);
@@ -228,22 +236,9 @@ public class OrganizationController {
      * @param enabled
      * @return
      */
-    @PutMapping("/field/enabled/{id}")
+    @PutMapping("/enabledField/{id}")
     public ResultModel enabledField(@PathVariable(value = "id")Integer id,@RequestParam(value = "enabled")Boolean enabled){
         return fieldService.setFieldEnabled(id,enabled);
-    }
-
-    /**
-     * 筛选字段
-     * @param label
-     * @return
-     */
-    @GetMapping("/fields/filtrate")
-    public ResultModel filtrateField(@RequestParam("label")String label){
-        List<FineAdminField> fieldList = fieldService.getFieldByLabel(label);
-        Map<String,Object> data=new HashMap<>(16);
-        data.put("fieldList",fieldList);
-        return  ResultModel.ok(data);
     }
 
     /**
@@ -278,8 +273,8 @@ public class OrganizationController {
      * @param entity
      * @return
      */
-    @GetMapping("fields/{entity}")
-    public ResultModel getFieldByEntity(@PathVariable("entity") String entity){
+    @GetMapping("fieldByEntity")
+    public ResultModel getFieldByEntity(@RequestParam("entity") String entity){
         return fieldService.getFieldByEntity(entity);
     }
 }

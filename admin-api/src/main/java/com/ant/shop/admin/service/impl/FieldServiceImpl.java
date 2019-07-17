@@ -13,6 +13,7 @@ import com.ant.shop.asorm.model.PageListResp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sun.org.apache.regexp.internal.RE;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,17 +38,22 @@ public class FieldServiceImpl implements FieldService {
     private FineAdminFieldDataMapper fineAdminFieldDataMapper;
 
     /**
-     * 获取字段列表
-     *
+     * 筛选字段
      * @param pageNum
      * @param pageSize
+     * @param label
      * @return
      */
     @Override
-    public PageListResp<FineAdminField> getField(Integer pageNum, Integer pageSize) {
+    public PageListResp<FineAdminField> getField(Integer pageNum, Integer pageSize,String label) {
         //查询条件
         FineAdminFieldExample fineAdminFieldExample=new FineAdminFieldExample();
-        fineAdminFieldExample.clear();
+        if(StringUtils.isEmpty(label)){
+            fineAdminFieldExample.clear();
+        }else{
+            fineAdminFieldExample.createCriteria().andLabelEqualTo(label);
+        }
+
         //查询全部
         List<FineAdminField> list = fineAdminFieldMapper.selectByExample(fineAdminFieldExample);
         //设置分页
@@ -145,21 +151,6 @@ public class FieldServiceImpl implements FieldService {
             return ResultModel.error("启用/禁用失败！");
         }
         return ResultModel.ok();
-    }
-
-    /**
-     * 筛选字段
-     *
-     * @param label
-     * @return
-     */
-    @Override
-    public List<FineAdminField> getFieldByLabel(String label) {
-        FineAdminFieldExample fineAdminFieldExample=new FineAdminFieldExample();
-        fineAdminFieldExample.createCriteria().andLabelEqualTo(label);
-
-        List<FineAdminField> fieldList = fineAdminFieldMapper.selectByExample(fineAdminFieldExample);
-        return fieldList;
     }
 
     /**
