@@ -196,18 +196,40 @@ public class FieldServiceImpl implements FieldService {
     }
 
     /**
-     * 根据字段实体查询相关的字段
-     *
+     * 根据字段实体查询相关的基础数据
+     * @param pageNum
+     * @param pageSize
      * @param entity
      * @return
      */
     @Override
-    public ResultModel getFieldByEntity(String entity) {
+    public ResultModel getFieldByEntity(Integer pageNum,Integer pageSize,String entity) {
         FineAdminFieldExample fineAdminFieldExample=new FineAdminFieldExample();
         fineAdminFieldExample.createCriteria().andEntityEqualTo(entity);
+        List<FineAdminField> list = fineAdminFieldMapper.selectByExample(fineAdminFieldExample);
+
+        //设置分页
+        PageHelper.startPage(pageNum,pageSize);
+
         List<FineAdminField> fieldList = fineAdminFieldMapper.selectByExample(fineAdminFieldExample);
+
+        PageInfo<FineAdminField> pageInfo = new PageInfo(fieldList);
+        PageDTO pageDTO = new PageDTO();
+
+        pageDTO.setCountPerPage(pageInfo.getPageSize());
+        pageDTO.setNextPage(pageInfo.getNextPage());
+        pageDTO.setPage(pageInfo.getPageNum());
+        pageDTO.setPrevPage(pageInfo.getPrePage());
+        pageDTO.setTotalCount(list.size());
+        pageDTO.setTotalPage(pageInfo.getPages());
+
+        PageListResp pageList = new PageListResp();
+        pageList.setList(fieldList);
+        pageList.setPagination(pageDTO);
+        pageList.setCount(list.size());
+
         Map<String,Object> data=new HashMap<>(16);
-        data.put("fieldList",fieldList);
-        return ResultModel.ok(data);
+        data.put("fieldList",pageList);
+        return  ResultModel.ok(data);
     }
 }

@@ -56,9 +56,11 @@ public interface FieldService {
     public ResultModel updateField(FineAdminField fineAdminField);
 
     /**
-     * 根据字段实体查询相关的字段
+     * 根据字段实体查询相关的基础数据
+     * @param pageNum
+     * @param pageSize
      * @param entity
      * @return
      */
-    public ResultModel getFieldByEntity(String entity);
+    public ResultModel getFieldByEntity(Integer pageNum,Integer pageSize,String entity);
 }

@@ -269,12 +269,16 @@ public class OrganizationController {
     }
 
     /**
-     * 根据字段实体查询相关的字段
+     * 根据字段实体查询相关的基础数据
+     * @param pageNum
+     * @param pageSize
      * @param entity
      * @return
      */
     @GetMapping("fieldByEntity")
-    public ResultModel getFieldByEntity(@RequestParam("entity") String entity){
-        return fieldService.getFieldByEntity(entity);
+    public ResultModel getFieldByEntity(@RequestParam(required = false,defaultValue = "1")Integer pageNum,
+                                        @RequestParam(required = false,defaultValue = "10") Integer pageSize,
+                                        @RequestParam("entity") String entity){
+        return fieldService.getFieldByEntity(pageNum,pageSize,entity);
     }
 }
