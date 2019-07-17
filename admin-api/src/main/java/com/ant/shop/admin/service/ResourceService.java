@@ -45,4 +45,12 @@ public interface ResourceService {
     void loadResourceDefine();
 
     ResultModel resourceUpdate(ResourceModel resourceModel, Integer userId);
+
+    /**
+     * 判断该员工是否拥有访问URL的权限
+     * @param url
+     * @param userId
+     * @return
+     */
+    ResultModel userResource(String url, int userId, int orgId);
 }

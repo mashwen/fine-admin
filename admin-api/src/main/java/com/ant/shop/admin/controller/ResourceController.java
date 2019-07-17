@@ -3,10 +3,13 @@ package com.ant.shop.admin.controller;
 import com.ant.shop.admin.service.ResourceService;
 import com.ant.shop.asorm.entity.FineResourceGroup;
 import com.ant.shop.asorm.model.ResourceModel;
+import com.ant.shop.asorm.model.UserResource;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import response.ResultModel;
 
+import java.nio.Buffer;
 import java.security.Principal;
 
 @RestController
@@ -49,4 +52,10 @@ public class ResourceController {
         Integer userId = Integer.valueOf(member.getName());
         return resourceService.resourceUpdate(resourceModel, userId);
     }
+    //根据用户判断是否有此权限
+    @PostMapping("userResource")
+    public ResultModel userResource(@RequestBody UserResource userResource){
+        return resourceService.userResource(userResource.getUrl(), userResource.getUserId(), userResource.getOrgId());
+    }
+
 }

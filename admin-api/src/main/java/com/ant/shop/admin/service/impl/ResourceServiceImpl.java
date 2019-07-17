@@ -8,6 +8,7 @@ import com.ant.shop.asorm.entity.FineResourceGroup;
 import com.ant.shop.asorm.mapper.FineResourceGroupMapper;
 import com.ant.shop.asorm.mapper.FineResourceMapper;
 import com.ant.shop.asorm.mapper.FineRoleResourceMapper;
+import com.ant.shop.asorm.mapper.FineStaffOrgRoleMapper;
 import com.ant.shop.asorm.model.ResourceAllGroup;
 import com.ant.shop.asorm.model.ResourceModel;
 import com.github.stuxuhai.jpinyin.PinyinFormat;
@@ -28,6 +29,8 @@ import java.util.*;
 
 @Service
 public class ResourceServiceImpl implements ResourceService {
+    @Autowired
+    private FineStaffOrgRoleMapper fineStaffOrgRoleMapper;
     @Autowired
     private FineResourceMapper fineResourceMapper;
     @Autowired
@@ -219,6 +222,27 @@ public class ResourceServiceImpl implements ResourceService {
             return ResultModel.ok();
         }
         return ResultModel.error("修改失败");
+    }
+
+    @Override
+    public ResultModel userResource(String url, int userId, int orgId) {
+        List roleList = fineStaffOrgRoleMapper.selectRole(userId, orgId);
+        if (roleList == null){
+            return ResultModel.error("该用户没有此权限");
+        }
+        for (Object roleId : roleList) {
+            List resourceList = fineRoleResourceMapper.selectResourceByRole(Integer.parseInt(roleId.toString()));
+            for (Object resourceId : resourceList) {
+                FineResource fineResource = fineResourceMapper.selectByPrimaryKey(Integer.parseInt(resourceId.toString()));
+                if (fineResource == null){
+                    continue;
+                }
+                if (fineResource.getUrl().equals(url)){
+                    return ResultModel.ok();
+                }
+            }
+        }
+        return ResultModel.error("该用户没有此权限");
     }
 
 
