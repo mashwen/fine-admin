@@ -18,6 +18,13 @@
     <result column="is_enabled" jdbcType="BIT" property="isEnabled" />
     <result column="type" jdbcType="TINYINT" property="type" />
   </resultMap>
+  <resultMap id="OrgListMap" type="com.ant.shop.asorm.model.OrganizationDTO">
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="short_name" jdbcType="VARCHAR" property="shortName" />
+    <result column="business_model" jdbcType="TINYINT" property="businessModel" />
+    <result column="is_enabled" jdbcType="BIT" property="isEnabled" />
+    <result column="parent_short_name"  property="parentShortName"/>
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -103,11 +110,9 @@
     from fine_org
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByParentId" resultType="com.ant.shop.asorm.model.OrganizationDTO">
-    SELECT
-    <include refid="Base_Column_List"/>
-    FROM fine_org
-    WHERE parent_id= #{parentId}
+  <select id="selectByParentId" resultMap="OrgListMap">
+    SELECT a.*,b.short_name AS parent_short_name FROM fine_org a LEFT JOIN fine_org b ON(b.id=a.parent_id)
+    WHERE a.parent_id= #{parentId}
 
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

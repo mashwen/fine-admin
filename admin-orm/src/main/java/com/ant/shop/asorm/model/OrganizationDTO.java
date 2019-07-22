@@ -1,6 +1,7 @@
 package com.ant.shop.asorm.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,6 +20,7 @@ import java.util.List;
  **/
 @Data
 @ToString
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class OrganizationDTO implements Serializable {
     private Integer id;
 
