@@ -103,6 +103,13 @@
     from fine_org
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByParentId" resultType="com.ant.shop.asorm.model.OrganizationDTO">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM fine_org
+    WHERE parent_id= #{parentId}
+
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fine_org
     where id = #{id,jdbcType=INTEGER}

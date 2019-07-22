@@ -43,6 +43,13 @@ public interface FineOrgMapper {
     List<OrganizationDTO> selectByKeyword(@Param("org") OrganizationDTO org);
 
     /**
+     * 根据parentId查询组织列表
+     * @param parentId
+     * @return
+     */
+    List<OrganizationDTO> selectByParentId(@Param("parentId") Integer parentId);
+
+    /**
      * 通过员工id查询所属的组织信息
      * @param staffId
      * @return

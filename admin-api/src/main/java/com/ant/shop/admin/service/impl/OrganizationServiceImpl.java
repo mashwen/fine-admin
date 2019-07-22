@@ -188,20 +188,17 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @return
      */
     @Override
-    public ResultModel organizationList(Integer parentId) {
-        Map<String,Object> data=new HashMap<>(16);
-        //条件
-        FineOrgExample example=new FineOrgExample();
-        example.createCriteria().andParentIdEqualTo(parentId);
+    public List<OrganizationDTO> organizationList(Integer parentId) {
         //获取parentId为0的列表
-        List<FineOrg> orgList = fineOrgMapper.selectByExample(example);
+        List<OrganizationDTO> orgList = fineOrgMapper.selectByParentId(parentId);
         if(orgList.size()==0){
-            return ResultModel.ok(data);
+            return orgList;
         }
-        for (FineOrg org : orgList) {
-//            ResultModel orgList = this.organizationList(org.getId());
+        for (OrganizationDTO org : orgList) {
+            List<OrganizationDTO> list = organizationList(org.getId());
+            org.setChildList(list);
         }
-        return ResultModel.ok(data);
+        return orgList;
     }
 
 

@@ -1,8 +1,10 @@
 package com.ant.shop.admin.service;
 
 import com.ant.shop.asorm.model.AddOrganizationDTO;
+import com.ant.shop.asorm.model.OrganizationDTO;
 import response.ResultModel;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,7 +43,7 @@ public interface OrganizationService {
      * @param parentId
      * @return
      */
-    public ResultModel organizationList(Integer parentId);
+    public List<OrganizationDTO> organizationList(Integer parentId);
 
     /**
      * 新增组织

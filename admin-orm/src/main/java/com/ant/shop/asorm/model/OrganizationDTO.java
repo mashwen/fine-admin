@@ -1,8 +1,8 @@
 package com.ant.shop.asorm.model;
 
-import com.ant.shop.asorm.entity.FineOrg;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -18,6 +18,7 @@ import java.util.List;
  * @Version 1.0
  **/
 @Data
+@ToString
 public class OrganizationDTO implements Serializable {
     private Integer id;
 
@@ -53,5 +54,5 @@ public class OrganizationDTO implements Serializable {
 
     private Byte type;
 
-    private List<FineOrg> childList;
+    private List<OrganizationDTO> childList;
 }

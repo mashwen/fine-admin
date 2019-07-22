@@ -6,10 +6,7 @@ import com.ant.shop.admin.service.FieldService;
 import com.ant.shop.admin.service.OrganizationService;
 import com.ant.shop.asorm.entity.FineAdminField;
 import com.ant.shop.asorm.entity.FineDistrict;
-import com.ant.shop.asorm.model.AddOrganizationDTO;
-import com.ant.shop.asorm.model.DistrictAreaDTO;
-import com.ant.shop.asorm.model.FineAdminFieldDTO;
-import com.ant.shop.asorm.model.PageListResp;
+import com.ant.shop.asorm.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -63,7 +60,10 @@ public class OrganizationController {
      */
     @GetMapping("/organizationList")
     public ResultModel organizationList(){
-        return  organizationService.organizationList(0);
+        Map<String,Object> data=new HashMap<>(16);
+        List<OrganizationDTO> orgList = organizationService.organizationList(0);
+        data.put("orgList",orgList);
+        return ResultModel.ok(data);
     }
 
     /**
