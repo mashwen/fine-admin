@@ -1,5 +1,6 @@
 package com.ant.shop.asorm.model;
 
+import com.ant.shop.asorm.entity.FineOrg;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -7,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 组织列表所需的model
@@ -51,4 +53,5 @@ public class OrganizationDTO implements Serializable {
 
     private Byte type;
 
+    private List<FineOrg> childList;
 }

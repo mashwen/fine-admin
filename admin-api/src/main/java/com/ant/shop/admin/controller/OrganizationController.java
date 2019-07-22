@@ -6,7 +6,10 @@ import com.ant.shop.admin.service.FieldService;
 import com.ant.shop.admin.service.OrganizationService;
 import com.ant.shop.asorm.entity.FineAdminField;
 import com.ant.shop.asorm.entity.FineDistrict;
-import com.ant.shop.asorm.model.*;
+import com.ant.shop.asorm.model.AddOrganizationDTO;
+import com.ant.shop.asorm.model.DistrictAreaDTO;
+import com.ant.shop.asorm.model.FineAdminFieldDTO;
+import com.ant.shop.asorm.model.PageListResp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -52,6 +55,15 @@ public class OrganizationController {
                                             @RequestParam(required = false,defaultValue = "1")Integer pageNum,
                                             @RequestParam(required = false,defaultValue = "10") Integer pageSize){
         return  organizationService.getOrganizationByKeyword(type, enabled, keyword,pageNum,pageSize);
+    }
+
+    /**
+     * 组织列表
+     * @return
+     */
+    @GetMapping("/organizationList")
+    public ResultModel organizationList(){
+        return  organizationService.organizationList(0);
     }
 
     /**
@@ -125,10 +137,10 @@ public class OrganizationController {
      * 获取行政区域列表
      * @return
      */
-    @GetMapping("/districtList")
-    public ResultModel getDistrict(){
+    @GetMapping("/district")
+    public ResultModel getDistrict(@RequestParam(value = "parentId") Integer parentId){
         Map<String,Object> data=new HashMap<>(16);
-        List<FineDistrict> districtList = districtService.getDistrictList(0);
+        List<FineDistrict> districtList = districtService.getDistrictList(parentId);
         data.put("districtList",districtList);
         return ResultModel.ok(data);
     }

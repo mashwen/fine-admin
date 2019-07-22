@@ -183,6 +183,29 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     /**
+     * 组织列表
+     * @param parentId
+     * @return
+     */
+    @Override
+    public ResultModel organizationList(Integer parentId) {
+        Map<String,Object> data=new HashMap<>(16);
+        //条件
+        FineOrgExample example=new FineOrgExample();
+        example.createCriteria().andParentIdEqualTo(parentId);
+        //获取parentId为0的列表
+        List<FineOrg> orgList = fineOrgMapper.selectByExample(example);
+        if(orgList.size()==0){
+            return ResultModel.ok(data);
+        }
+        for (FineOrg org : orgList) {
+//            ResultModel orgList = this.organizationList(org.getId());
+        }
+        return ResultModel.ok(data);
+    }
+
+
+    /**
      * 新增组织
      *
      * @param addOrganizationDTO

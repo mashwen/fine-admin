@@ -29,22 +29,6 @@ public class FineDistrict implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date created;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private List childList;
-
-    public List getChildList() {
-        return childList;
-    }
-
-    public void setChildList(List childList) {
-        this.childList = childList;
-    }
-
-=======
->>>>>>> parent of ed155a7... 区域递归
-=======
->>>>>>> parent of ed155a7... 区域递归
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {

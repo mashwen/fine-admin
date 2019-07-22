@@ -37,6 +37,13 @@ public interface OrganizationService {
     public ResultModel getOrganizationByKeyword(Byte type,Boolean enabled,String keyword,Integer pageNum, Integer pageSize);
 
     /**
+     * 组织列表
+     * @param parentId
+     * @return
+     */
+    public ResultModel organizationList(Integer parentId);
+
+    /**
      * 新增组织
      * @param addOrganizationDTO
      */
