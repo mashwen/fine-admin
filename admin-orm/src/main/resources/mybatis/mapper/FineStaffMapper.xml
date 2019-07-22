@@ -316,6 +316,17 @@
     FROM fine_staff WHERE email = #{email}
   </select>
   <select id="selectStaffCount" resultType="java.lang.Integer">
-    select COUNT(*) from fine_staff
+    SELECT
+    COUNT( id )
+    FROM fine_staff
+    <if test="fullname != null">
+      WHERE  fullname = #{fullname}
+    </if>
+    <if test="mobile != null">
+      WHERE mobile = #{mobile}
+    </if>
+    <if test="email != null">
+      WHERE  email = #{email}
+    </if>
   </select>
 </mapper>

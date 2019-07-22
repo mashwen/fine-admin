@@ -111,7 +111,7 @@ public class StaffServiceImpl implements StaffService {
         if (email == ""){
             email = null;
         }
-        Integer staffCount = fineStaffMapper.selectStaffCount();
+        Integer staffCount = fineStaffMapper.selectStaffCount(fullname, mobile, email);
         if (staffCount == null){
             return ResultModel.error("该组织没有员工");
         }

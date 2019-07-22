@@ -228,7 +228,7 @@ public class ResourceServiceImpl implements ResourceService {
     public ResultModel userResource(String url, int userId, int orgId) {
         List roleList = fineStaffOrgRoleMapper.selectRole(userId, orgId);
         if (roleList == null){
-            return ResultModel.error("该用户没有此权限");
+            return ResultModel.error( "该用户没有此权限");
         }
         for (Object roleId : roleList) {
             List resourceList = fineRoleResourceMapper.selectResourceByRole(Integer.parseInt(roleId.toString()));
