@@ -17,20 +17,20 @@ import java.util.Map;
  * Description:
  */
 @Slf4j
-public class JiheOauthExceptionJacksonSerializer extends StdSerializer<JiheOauthException> {
-    public JiheOauthExceptionJacksonSerializer() {
-        super(JiheOauthException.class);
+public class CustomOauthExceptionJacksonSerializer extends StdSerializer<CustomOauthException> {
+    public CustomOauthExceptionJacksonSerializer() {
+        super(CustomOauthException.class);
     }
 
     @Override
-    public void serialize(JiheOauthException value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    public void serialize(CustomOauthException value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
         gen.writeStartObject();
         String message = value.getMessage();
-        log.info("getOAuth2ErrorCode:{}",value.getOAuth2ErrorCode());
-        log.info("getLocalizedMessage:{}",value.getLocalizedMessage());
-        log.info("getOAuth2ErrorCode:{}",value.getSummary());
+        //log.info("getOAuth2ErrorCode:{}",value.getOAuth2ErrorCode());
+        //log.info("getLocalizedMessage:{}",value.getLocalizedMessage());
+        //log.info("getOAuth2ErrorCode:{}",value.getSummary());
         if("Bad credentials".equals(message)&&"invalid_request".equals(value.getOAuth2ErrorCode())){
             message = "用户名或密码错误";
         }

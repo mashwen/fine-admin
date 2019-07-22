@@ -40,12 +40,6 @@ public class AuthExceptionEntryPoint implements AuthenticationEntryPoint
                 jsonObject.put("message","token失效");
                 String myResponse = JSON.toJSONString(jsonObject, SerializerFeature.DisableCircularReferenceDetect);
                 response.getWriter().write(myResponse);
-            }else{
-//                JSONObject jsonObject = new JSONObject();
-//                jsonObject.put("code", 401);
-//                jsonObject.put("message","token失效");
-//                String myResponse = JSON.toJSONString(jsonObject, SerializerFeature.DisableCircularReferenceDetect);
-//                response.getWriter().write(myResponse);
             }
         } catch (IOException e) {
             e.printStackTrace();

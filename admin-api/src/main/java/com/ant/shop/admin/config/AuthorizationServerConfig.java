@@ -47,7 +47,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private MyUserDetailService userDetailService;
 
     @Autowired
-    private WebResponseExceptionTranslator JiheOAuthWebResponseExceptionTranslator;
+    private WebResponseExceptionTranslator customOauthWebResponseExceptionTranslator;
 
     @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
@@ -111,7 +111,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .authenticationManager(authenticationManager);
         endpoints.tokenServices(defaultTokenServices());
         //认证异常翻译
-        endpoints.exceptionTranslator(JiheOAuthWebResponseExceptionTranslator);
+        endpoints.exceptionTranslator(customOauthWebResponseExceptionTranslator);
 
     }
 

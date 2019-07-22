@@ -1,6 +1,5 @@
 package com.ant.shop.admin.exception;
 
-import com.ant.shop.admin.exception.JiheOauthException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +21,8 @@ import java.io.IOException;
  * Date:2019/7/21
  * Description:
  */
-@Component("JiheOAuthWebResponseExceptionTranslator")
-public class JiheOauthWebResponseExceptionTranslator implements WebResponseExceptionTranslator {
+@Component("customOauthWebResponseExceptionTranslator")
+public class CustomOauthWebResponseExceptionTranslator implements WebResponseExceptionTranslator {
 
     private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
 
@@ -74,7 +73,7 @@ public class JiheOauthWebResponseExceptionTranslator implements WebResponseExcep
             headers.set("WWW-Authenticate", String.format("%s %s", OAuth2AccessToken.BEARER_TYPE, e.getSummary()));
         }
         //按自定义格式输出错误码
-        JiheOauthException exception = new JiheOauthException(e.getMessage(), e);
+        CustomOauthException exception = new CustomOauthException(e.getMessage(), e);
 
         ResponseEntity<OAuth2Exception> response = new ResponseEntity<OAuth2Exception>(exception, headers,
                 HttpStatus.valueOf(200));
