@@ -30,31 +30,22 @@ public class DistrictServiceImpl implements DistrictService {
     @Autowired
     FineDistrictMapper fineDistrictMapper;
 
-
-
     /**
      * 获取行政区域列表
      * @param parentId
      * @return
      */
     @Override
-    public List<FineDistrict> getDistrictList(Integer parentId) {
-        FineDistrictExample fineDistrictExample=new FineDistrictExample();
-        fineDistrictExample.createCriteria().andParentIdEqualTo(parentId);
-        return fineDistrictMapper.selectByExample(fineDistrictExample);
-    }
-
-    @Override
-    public List<FineDistrict> test(Integer parentId){
-        List<FineDistrict> fineDistricts = fineDistrictMapper.selectDistrict(parentId);
-        if (fineDistricts.size() == 0){
-            return fineDistricts;
+    public List<FineDistrict> getDistrictList(Integer parentId){
+        List<FineDistrict> disList = fineDistrictMapper.selectDistrict(parentId);
+        if (disList.size() == 0){
+            return disList;
         }
-        for (FineDistrict fineDistrict : fineDistricts) {
-            List<FineDistrict> test = test(fineDistrict.getId());
-            fineDistrict.setDistrictList(test);
+        for (FineDistrict fineDistrict : disList) {
+            List<FineDistrict> list = getDistrictList(fineDistrict.getId());
+            fineDistrict.setChildList(list);
         }
-        return fineDistricts;
+        return disList;
     }
 
     /**

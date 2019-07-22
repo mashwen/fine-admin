@@ -122,13 +122,13 @@ public class OrganizationController {
     }
 
     /**
-     * 根据父id查询行政区域列表
+     * 获取行政区域列表
      * @return
      */
-    @GetMapping("/district")
-    public ResultModel getDistrict(@RequestParam("parentId")Integer parentId){
+    @GetMapping("/districtList")
+    public ResultModel getDistrict(){
         Map<String,Object> data=new HashMap<>(16);
-        List<FineDistrict> districtList = districtService.getDistrictList(parentId);
+        List<FineDistrict> districtList = districtService.getDistrictList(0);
         data.put("districtList",districtList);
         return ResultModel.ok(data);
     }

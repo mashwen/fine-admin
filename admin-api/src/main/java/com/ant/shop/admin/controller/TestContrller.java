@@ -28,6 +28,6 @@ public class TestContrller {
     @GetMapping("/test")
     @ResponseBody
     public Object test() {
-        return districtService.test(0);
+        return districtService.deleteDistrict(0);
     }
 }

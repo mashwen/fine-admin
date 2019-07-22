@@ -31,14 +31,14 @@ public class FineDistrict implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date created;
 
-    private List districtList;
+    private List childList;
 
-    public List getDistrictList() {
-        return districtList;
+    public List getChildList() {
+        return childList;
     }
 
-    public void setDistrictList(List districtList) {
-        this.districtList = districtList;
+    public void setChildList(List childList) {
+        this.childList = childList;
     }
 
     private static final long serialVersionUID = 1L;

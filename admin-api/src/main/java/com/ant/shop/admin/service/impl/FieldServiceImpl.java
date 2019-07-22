@@ -1,5 +1,6 @@
 package com.ant.shop.admin.service.impl;
 
+import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONArray;
 import com.ant.shop.admin.service.FieldService;
 import com.ant.shop.asorm.entity.FineAdminField;
@@ -12,8 +13,6 @@ import com.ant.shop.asorm.model.PageDTO;
 import com.ant.shop.asorm.model.PageListResp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sun.org.apache.regexp.internal.RE;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -11,12 +11,6 @@ import java.util.List;
  * @Version 1.0
  **/
 public interface DistrictService {
-    /**
-     * 获取行政区域列表
-     * @param parentId
-     * @return
-     */
-    public List<FineDistrict> getDistrictList(Integer parentId);
 
     /**
      * 新增行政区域
@@ -39,5 +33,10 @@ public interface DistrictService {
      */
     public ResultModel updateDistrict(FineDistrict fineDistrict);
 
-    public List<FineDistrict> test(Integer ParentId);
+    /**
+     * 获取行政区域列表
+     * @param ParentId
+     * @return
+     */
+    public List<FineDistrict> getDistrictList(Integer ParentId);
 }
