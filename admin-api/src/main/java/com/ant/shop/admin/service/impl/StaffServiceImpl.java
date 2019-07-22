@@ -197,4 +197,32 @@ public class StaffServiceImpl implements StaffService {
         }
         return ResultModel.error("修改失败");
     }
+
+    @Override
+    public ResultModel staffPwd(FineStaff fineStaff, Integer userId) {
+        if (fineStaff.getId() == null || fineStaff.getId() == 0){
+            return ResultModel.error("员工id不能为空");
+        }
+        if (fineStaff.getPassword() == null || fineStaff.getPassword() == ""){
+            return ResultModel.error("密码不能为空");
+        }
+        FineStaff staff = fineStaffMapper.selectByPrimaryKey(fineStaff.getId());
+        if (staff == null){
+            return ResultModel.error("该用户不存在");
+        }
+        staff.setPassword(BryptUtils.brypt(fineStaff.getPassword()));
+        int i = fineStaffMapper.updateByPrimaryKey(staff);
+        if (i > 0){
+            FineAdminLog fineAdminLog = new FineAdminLog();
+            fineAdminLog.setRefTable("fine_staff");
+            fineAdminLog.setRefId(staff.getId() + "");
+            fineAdminLog.setContent(JsonUtil.toJson(staff));
+            fineAdminLog.setOperation(LogModelEnum.LogOperationNameEnum.UPDATE_ROLE.getValue());
+            fineAdminLog.setCreated(new Date());
+            fineAdminLog.setCreatedBy(userId);
+            fineAdminLogService.insertLog(fineAdminLog);
+            return ResultModel.ok();
+        }
+        return ResultModel.error("修改失败!");
+    }
 }
