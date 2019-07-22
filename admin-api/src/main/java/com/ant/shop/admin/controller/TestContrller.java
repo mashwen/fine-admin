@@ -20,8 +20,6 @@ public class TestContrller {
     private FineStaffMapper fineStaffMapper;
 
     @GetMapping("/test")
-    @ResponseBody
-
     public FineStaff test(Principal member) {
         Integer userId = Integer.valueOf(member.getName());
         FineStaff fineStaff = fineStaffMapper.selectByPrimaryKey(userId);

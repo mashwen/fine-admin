@@ -30,6 +30,7 @@ public class FineDistrict implements Serializable {
     private Date created;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     private List childList;
 
     public List getChildList() {
@@ -40,6 +41,8 @@ public class FineDistrict implements Serializable {
         this.childList = childList;
     }
 
+=======
+>>>>>>> parent of ed155a7... 区域递归
 =======
 >>>>>>> parent of ed155a7... 区域递归
     private static final long serialVersionUID = 1L;

@@ -33,11 +33,13 @@ public interface DistrictService {
      */
     public ResultModel updateDistrict(FineDistrict fineDistrict);
 
+
     /**
      * 获取行政区域列表
      * @param ParentId
      * @return
      */
     public List<FineDistrict> getDistrictList(Integer ParentId);
+
 
 }
