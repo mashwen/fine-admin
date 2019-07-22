@@ -36,4 +36,6 @@ public interface StaffService {
      * @return
      */
     ResultModel staffStatus(FineStaff fineStaff, Integer userId);
+
+    ResultModel staffPwd(FineStaff fineStaff, Integer userId);
 }

@@ -3,6 +3,7 @@ package com.ant.shop.admin.controller;
 import com.ant.shop.admin.service.StaffService;
 import com.ant.shop.asorm.entity.FineStaff;
 import com.ant.shop.asorm.model.StaffModel;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import response.ResultModel;
@@ -45,5 +46,11 @@ public class StaffController {
     public ResultModel staffStatus(@RequestBody FineStaff fineStaff, Principal member){
         Integer userId = Integer.valueOf(member.getName());
         return staffService.staffStatus(fineStaff, userId);
+    }
+    //修改密码
+    @PostMapping("staffPwd")
+    public ResultModel staffPwd(@RequestBody FineStaff fineStaff, Principal member){
+        Integer userId = Integer.valueOf(member.getName());
+        return staffService.staffPwd(fineStaff, userId);
     }
 }
