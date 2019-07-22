@@ -2,6 +2,7 @@ package com.ant.shop.admin.config;
 
 
 import com.ant.shop.admin.service.MyUserDetailService;
+import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +19,7 @@ import org.springframework.security.oauth2.provider.client.JdbcClientDetailsServ
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.sql.DataSource;
 
@@ -44,6 +46,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private MyUserDetailService userDetailService;
 
+    @Autowired
+    private WebResponseExceptionTranslator JiheOAuthWebResponseExceptionTranslator;
+
+    @Autowired
+    private AuthenticationEntryPoint authenticationEntryPoint;
+
+
     @Bean
     public TokenStore tokenStore() {
         return new RedisTokenStore(redisConnectionFactory);
@@ -55,6 +64,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .allowFormAuthenticationForClients()
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()");
+                //.addTokenEndpointAuthenticationFilter(new JiheBasicAuthenticationFilter());
     }
 
     //    @Override
@@ -101,7 +111,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .authenticationManager(authenticationManager);
         endpoints.tokenServices(defaultTokenServices());
         //认证异常翻译
-        // endpoints.exceptionTranslator(webResponseExceptionTranslator());
+        endpoints.exceptionTranslator(JiheOAuthWebResponseExceptionTranslator);
+
     }
 
     /**
