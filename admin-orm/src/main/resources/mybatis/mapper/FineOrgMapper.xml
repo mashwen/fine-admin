@@ -115,6 +115,24 @@
     WHERE a.parent_id= #{parentId}
 
   </select>
+  <select id="selectByKeyword" resultMap="OrgListMap">
+    SELECT a.*,b.short_name AS parent_short_name FROM fine_org a LEFT JOIN fine_org b ON(b.id=a.parent_id)
+    <where>
+      <if test='org.type!=null and org.type!=0'>
+        AND a.type=#{org.type}
+      </if>
+      <if test='org.isEnabled!=null'>
+        AND a.is_enabled=#{org.isEnabled}
+      </if>
+      <if test='org.name!=null'>
+        AND a.name=#{org.name}
+      </if>
+      <if test='org.code!=null'>
+        AND a.code=#{org.code}
+      </if>
+    </where>
+    order by a.sort
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fine_org
     where id = #{id,jdbcType=INTEGER}

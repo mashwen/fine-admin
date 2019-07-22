@@ -4,9 +4,6 @@ import com.ant.shop.asorm.entity.FineOrg;
 import com.ant.shop.asorm.entity.FineOrgExample;
 import com.ant.shop.asorm.model.OrganizationDTO;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -23,23 +20,11 @@ public interface FineOrgMapper {
 
     List<FineOrg> selectByExample(FineOrgExample example);
 
-    @Results({
-            @Result(property = "parentId", column = "parent_id"),
-            @Result(property = "shortName", column = "short_name"),
-            @Result(property = "parentShortName", column = "parent_short_name"),
-            @Result(property = "businessModel", column = "business_model"),
-            @Result(property = "isEnabled", column = "is_enabled")
-    })
-    @Select({"<script>",
-            "SELECT a.*,b.short_name AS parent_short_name FROM fine_org a LEFT JOIN fine_org b ON(b.id=a.parent_id)",
-            "<where>",
-            "<if test='org.type!=null and org.type!=0'> AND a.type=#{org.type} </if>",
-            "<if test='org.isEnabled!=null'> AND a.is_enabled=#{org.isEnabled} </if>",
-            "<if test='org.name!=null'> AND a.name=#{org.name} </if>",
-            "<if test='org.code!=null'> AND a.code=#{org.code} </if>",
-            "</where> order by a.sort",
-            "</script>"
-    })
+    /**
+     * 根据条件筛选组织
+     * @param org
+     * @return
+     */
     List<OrganizationDTO> selectByKeyword(@Param("org") OrganizationDTO org);
 
     /**
