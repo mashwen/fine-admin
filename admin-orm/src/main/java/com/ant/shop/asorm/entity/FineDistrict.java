@@ -8,6 +8,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class FineDistrict implements Serializable {
     private Integer id;
@@ -28,6 +30,16 @@ public class FineDistrict implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date created;
+
+    private List districtList;
+
+    public List getDistrictList() {
+        return districtList;
+    }
+
+    public void setDistrictList(List districtList) {
+        this.districtList = districtList;
+    }
 
     private static final long serialVersionUID = 1L;
 

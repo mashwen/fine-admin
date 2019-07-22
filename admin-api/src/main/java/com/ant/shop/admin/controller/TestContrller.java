@@ -1,6 +1,8 @@
 package com.ant.shop.admin.controller;
 
 
+import com.ant.shop.admin.service.DistrictService;
+import com.ant.shop.asorm.entity.FineDistrict;
 import com.ant.shop.asorm.entity.FineStaff;
 import com.ant.shop.asorm.mapper.FineStaffMapper;
 import enums.LogModelEnum;
@@ -20,13 +22,12 @@ public class TestContrller {
     @Autowired
     private FineStaffMapper fineStaffMapper;
 
+    @Autowired
+    private DistrictService districtService;
+
     @GetMapping("/test")
     @ResponseBody
-    public FineStaff test(Principal member) {
-        Integer userId = Integer.valueOf(member.getName());
-        FineStaff fineStaff = fineStaffMapper.selectByPrimaryKey(userId);
-        System.out.println(fineStaff);
-        System.out.println(LogModelEnum.LogOperationNameEnum.CREATE_STAFF.getValue());//新增员工操作
-        return fineStaff;
+    public Object test() {
+        return districtService.test(0);
     }
 }

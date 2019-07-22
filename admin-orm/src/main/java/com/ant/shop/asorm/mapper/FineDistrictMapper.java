@@ -28,4 +28,6 @@ public interface FineDistrictMapper {
     int updateByPrimaryKeySelective(FineDistrict record);
 
     int updateByPrimaryKey(FineDistrict record);
+
+    List<FineDistrict> selectDistrict(@Param("parentId") Integer parentId);
 }

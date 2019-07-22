@@ -38,4 +38,6 @@ public interface DistrictService {
      * @return
      */
     public ResultModel updateDistrict(FineDistrict fineDistrict);
+
+    public List<FineDistrict> test(Integer ParentId);
 }

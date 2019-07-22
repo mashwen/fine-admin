@@ -44,6 +44,19 @@ public class DistrictServiceImpl implements DistrictService {
         return fineDistrictMapper.selectByExample(fineDistrictExample);
     }
 
+    @Override
+    public List<FineDistrict> test(Integer parentId){
+        List<FineDistrict> fineDistricts = fineDistrictMapper.selectDistrict(parentId);
+        if (fineDistricts.size() == 0){
+            return fineDistricts;
+        }
+        for (FineDistrict fineDistrict : fineDistricts) {
+            List<FineDistrict> test = test(fineDistrict.getId());
+            fineDistrict.setDistrictList(test);
+        }
+        return fineDistricts;
+    }
+
     /**
      * 新增行政区域
      *
