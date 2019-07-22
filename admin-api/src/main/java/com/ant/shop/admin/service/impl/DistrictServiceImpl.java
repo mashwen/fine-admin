@@ -36,16 +36,11 @@ public class DistrictServiceImpl implements DistrictService {
      * @return
      */
     @Override
-    public List<FineDistrict> getDistrictList(Integer parentId){
-        List<FineDistrict> disList = fineDistrictMapper.selectDistrict(parentId);
-        if (disList.size() == 0){
-            return disList;
-        }
-        for (FineDistrict fineDistrict : disList) {
-            List<FineDistrict> list = getDistrictList(fineDistrict.getId());
-            fineDistrict.setChildList(list);
-        }
-        return disList;
+
+    public List<FineDistrict> getDistrictList(Integer parentId) {
+        FineDistrictExample fineDistrictExample=new FineDistrictExample();
+        fineDistrictExample.createCriteria().andParentIdEqualTo(parentId);
+        return fineDistrictMapper.selectByExample(fineDistrictExample);
     }
 
     /**

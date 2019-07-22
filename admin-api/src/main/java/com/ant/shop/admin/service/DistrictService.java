@@ -39,4 +39,5 @@ public interface DistrictService {
      * @return
      */
     public List<FineDistrict> getDistrictList(Integer ParentId);
+
 }
