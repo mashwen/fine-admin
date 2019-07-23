@@ -31,7 +31,7 @@ public class AuthExceptionEntryPoint implements AuthenticationEntryPoint
         Map<String, Object> map = new HashMap<String, Object>();
         Throwable cause = authException.getCause();
 
-        response.setStatus(HttpStatus.OK.value());
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setHeader("Content-Type", "application/json;charset=UTF-8");
         try {
             if(cause instanceof InvalidTokenException) {
