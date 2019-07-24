@@ -3,9 +3,6 @@ package com.ant.shop.admin.service;
 import com.ant.shop.asorm.entity.FineAdminLog;
 import com.ant.shop.asorm.model.PageListResp;
 
-import java.text.ParseException;
-import java.util.Date;
-
 /**
  * Author:aijiaxiang
  * Date:2019/6/24
@@ -14,6 +11,8 @@ import java.util.Date;
 public interface FineAdminLogService {
 
     int insertLog(FineAdminLog fineAdminLog);
+
+    int insertServiceLogs(String serviceName,String refTable,String refId,String content,String operation,Integer createdBy);
 
     String selectByPrimaryKey(Integer id);
 

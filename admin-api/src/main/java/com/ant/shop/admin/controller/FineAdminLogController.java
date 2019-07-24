@@ -41,5 +41,14 @@ public class FineAdminLogController {
 
         return ResultModel.ok(data);
     }
+    @PostMapping("/addlogs")
+    public ResultModel insertServiceLogs(String serviceName, String refTable, String refId, String content, String operation, Integer createdBy){
+        int sucess = fineAdminLogService.insertServiceLogs(serviceName, refTable, refId, content, operation, createdBy);
+        if (sucess==1){
+            return ResultModel.ok();
+        }else {
+            return ResultModel.error("插入日志失败");
+        }
+    }
 
 }

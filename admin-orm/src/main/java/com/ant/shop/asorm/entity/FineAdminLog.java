@@ -6,17 +6,19 @@ import java.util.Date;
 public class FineAdminLog implements Serializable {
     private Integer id;
 
+    private String serviceName;
+
     private String refTable;
 
     private String refId;
-
-    private String content;
 
     private String operation;
 
     private Date created;
 
     private Integer createdBy;
+
+    private String content;
 
     private static final long serialVersionUID = 1L;
 
@@ -26,6 +28,14 @@ public class FineAdminLog implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName == null ? null : serviceName.trim();
     }
 
     public String getRefTable() {
@@ -42,14 +52,6 @@ public class FineAdminLog implements Serializable {
 
     public void setRefId(String refId) {
         this.refId = refId == null ? null : refId.trim();
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
     }
 
     public String getOperation() {
@@ -76,16 +78,11 @@ public class FineAdminLog implements Serializable {
         this.createdBy = createdBy;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-                "id=" + id +
-                ", refTable='" + refTable + '\'' +
-                ", refId='" + refId + '\'' +
-                ", content='" + content + '\'' +
-                ", operation='" + operation + '\'' +
-                ", created=" + created +
-                ", createdBy=" + createdBy +
-                '}';
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
     }
 }

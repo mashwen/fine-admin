@@ -5,7 +5,6 @@ import com.ant.shop.admin.service.StaffService;
 import com.ant.shop.admin.utils.PageInfo;
 import com.ant.shop.asorm.entity.FineAdminLog;
 import com.ant.shop.asorm.entity.FineStaff;
-import com.ant.shop.asorm.entity.FineStaffOrgRoleKey;
 import com.ant.shop.asorm.mapper.FineOrgMapper;
 import com.ant.shop.asorm.mapper.FineRoleMapper;
 import com.ant.shop.asorm.mapper.FineStaffMapper;

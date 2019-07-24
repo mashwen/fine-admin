@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 public class LogModel {
     private String logId;
+    private String serviceName;
     private String operationModule;
     private String operation;
     private String created;

@@ -3,12 +3,15 @@
 <mapper namespace="com.ant.shop.asorm.mapper.FineAdminLogMapper">
   <resultMap id="BaseResultMap" type="com.ant.shop.asorm.entity.FineAdminLog">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="service_name" jdbcType="CHAR" property="serviceName" />
     <result column="ref_table" jdbcType="VARCHAR" property="refTable" />
-    <result column="ref_id" jdbcType="INTEGER" property="refId" />
-    <result column="content" jdbcType="CHAR" property="content" />
+    <result column="ref_id" jdbcType="VARCHAR" property="refId" />
     <result column="operation" jdbcType="VARCHAR" property="operation" />
     <result column="created" jdbcType="TIMESTAMP" property="created" />
     <result column="created_by" jdbcType="INTEGER" property="createdBy" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ant.shop.asorm.entity.FineAdminLog">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,8 +72,27 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, ref_table, ref_id, content, operation, created, created_by
+    id, service_name, ref_table, ref_id, operation, created, created_by
   </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.ant.shop.asorm.entity.FineAdminLogExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fine_admin_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="com.ant.shop.asorm.entity.FineAdminLogExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -85,9 +107,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from fine_admin_log
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -102,12 +126,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.ant.shop.asorm.entity.FineAdminLog">
-    insert into fine_admin_log (id, ref_table, ref_id,
-    content, operation, created,
-    created_by)
-    values (#{id,jdbcType=INTEGER}, #{refTable,jdbcType=VARCHAR}, #{refId,jdbcType=INTEGER},
-    #{content,jdbcType=CHAR}, #{operation,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP},
-    #{createdBy,jdbcType=INTEGER})
+    insert into fine_admin_log (id, service_name, ref_table, 
+      ref_id, operation, created, 
+      created_by, content)
+    values (#{id,jdbcType=INTEGER}, #{serviceName,jdbcType=CHAR}, #{refTable,jdbcType=VARCHAR}, 
+      #{refId,jdbcType=VARCHAR}, #{operation,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
+      #{createdBy,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ant.shop.asorm.entity.FineAdminLog">
     insert into fine_admin_log
@@ -115,14 +139,14 @@
       <if test="id != null">
         id,
       </if>
+      <if test="serviceName != null">
+        service_name,
+      </if>
       <if test="refTable != null">
         ref_table,
       </if>
       <if test="refId != null">
         ref_id,
-      </if>
-      <if test="content != null">
-        content,
       </if>
       <if test="operation != null">
         operation,
@@ -133,19 +157,22 @@
       <if test="createdBy != null">
         created_by,
       </if>
+      <if test="content != null">
+        content,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="serviceName != null">
+        #{serviceName,jdbcType=CHAR},
+      </if>
       <if test="refTable != null">
         #{refTable,jdbcType=VARCHAR},
       </if>
       <if test="refId != null">
-        #{refId,jdbcType=INTEGER},
-      </if>
-      <if test="content != null">
-        #{content,jdbcType=CHAR},
+        #{refId,jdbcType=VARCHAR},
       </if>
       <if test="operation != null">
         #{operation,jdbcType=VARCHAR},
@@ -155,6 +182,9 @@
       </if>
       <if test="createdBy != null">
         #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -170,14 +200,14 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.serviceName != null">
+        service_name = #{record.serviceName,jdbcType=CHAR},
+      </if>
       <if test="record.refTable != null">
         ref_table = #{record.refTable,jdbcType=VARCHAR},
       </if>
       <if test="record.refId != null">
-        ref_id = #{record.refId,jdbcType=INTEGER},
-      </if>
-      <if test="record.content != null">
-        content = #{record.content,jdbcType=CHAR},
+        ref_id = #{record.refId,jdbcType=VARCHAR},
       </if>
       <if test="record.operation != null">
         operation = #{record.operation,jdbcType=VARCHAR},
@@ -188,7 +218,24 @@
       <if test="record.createdBy != null">
         created_by = #{record.createdBy,jdbcType=INTEGER},
       </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update fine_admin_log
+    set id = #{record.id,jdbcType=INTEGER},
+      service_name = #{record.serviceName,jdbcType=CHAR},
+      ref_table = #{record.refTable,jdbcType=VARCHAR},
+      ref_id = #{record.refId,jdbcType=VARCHAR},
+      operation = #{record.operation,jdbcType=VARCHAR},
+      created = #{record.created,jdbcType=TIMESTAMP},
+      created_by = #{record.createdBy,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -196,12 +243,12 @@
   <update id="updateByExample" parameterType="map">
     update fine_admin_log
     set id = #{record.id,jdbcType=INTEGER},
-    ref_table = #{record.refTable,jdbcType=VARCHAR},
-    ref_id = #{record.refId,jdbcType=INTEGER},
-    content = #{record.content,jdbcType=CHAR},
-    operation = #{record.operation,jdbcType=VARCHAR},
-    created = #{record.created,jdbcType=TIMESTAMP},
-    created_by = #{record.createdBy,jdbcType=INTEGER}
+      service_name = #{record.serviceName,jdbcType=CHAR},
+      ref_table = #{record.refTable,jdbcType=VARCHAR},
+      ref_id = #{record.refId,jdbcType=VARCHAR},
+      operation = #{record.operation,jdbcType=VARCHAR},
+      created = #{record.created,jdbcType=TIMESTAMP},
+      created_by = #{record.createdBy,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -209,14 +256,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.ant.shop.asorm.entity.FineAdminLog">
     update fine_admin_log
     <set>
+      <if test="serviceName != null">
+        service_name = #{serviceName,jdbcType=CHAR},
+      </if>
       <if test="refTable != null">
         ref_table = #{refTable,jdbcType=VARCHAR},
       </if>
       <if test="refId != null">
-        ref_id = #{refId,jdbcType=INTEGER},
-      </if>
-      <if test="content != null">
-        content = #{content,jdbcType=CHAR},
+        ref_id = #{refId,jdbcType=VARCHAR},
       </if>
       <if test="operation != null">
         operation = #{operation,jdbcType=VARCHAR},
@@ -227,29 +274,31 @@
       <if test="createdBy != null">
         created_by = #{createdBy,jdbcType=INTEGER},
       </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ant.shop.asorm.entity.FineAdminLog">
+    update fine_admin_log
+    set service_name = #{serviceName,jdbcType=CHAR},
+      ref_table = #{refTable,jdbcType=VARCHAR},
+      ref_id = #{refId,jdbcType=VARCHAR},
+      operation = #{operation,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ant.shop.asorm.entity.FineAdminLog">
     update fine_admin_log
-    set ref_table = #{refTable,jdbcType=VARCHAR},
-    ref_id = #{refId,jdbcType=INTEGER},
-    content = #{content,jdbcType=CHAR},
-    operation = #{operation,jdbcType=VARCHAR},
-    created = #{created,jdbcType=TIMESTAMP},
-    created_by = #{createdBy,jdbcType=INTEGER}
+    set service_name = #{serviceName,jdbcType=CHAR},
+      ref_table = #{refTable,jdbcType=VARCHAR},
+      ref_id = #{refId,jdbcType=VARCHAR},
+      operation = #{operation,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-    <select id="selectByCreatorId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        SELECT * FROM fine_admin_log WHERE fine_admin_log.created_by = #{id,jdbcType=INTEGER} ORDER BY fine_admin_log.created DESC
-    </select>
-    <select id="selectAllLogs" resultMap="BaseResultMap">
-        SELECT * FROM fine_admin_log ORDER BY fine_admin_log.created DESC
-    </select>
-    <select id="selectByDate" resultMap="BaseResultMap">
-        SELECT * FROM fine_admin_log WHERE fine_admin_log.created between #{startDate} AND #{endDate} ORDER BY fine_admin_log.created DESC
-    </select>
-    <select id="selectStaffLogsByDate" resultMap="BaseResultMap">
-        SELECT * FROM fine_admin_log WHERE fine_admin_log.created_by = #{id} AND fine_admin_log.created between #{startDate} AND #{endDate} ORDER BY fine_admin_log.created DESC
-    </select>
 </mapper>

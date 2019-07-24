@@ -32,7 +32,7 @@ public class FineAdminLogServiceImpl implements FineAdminLogService {
     private FineAdminLogMapper fineAdminLogMapper;
 
     /**
-     * 记录日志
+     * 对内接口 记录日志
      * @param fineAdminLog
      * @return
      */
@@ -40,6 +40,23 @@ public class FineAdminLogServiceImpl implements FineAdminLogService {
     public int insertLog(FineAdminLog fineAdminLog) {
 
         return fineAdminLogMapper.insert(fineAdminLog);
+    }
+    /**
+     * 对外接口 记录日志
+     */
+    @Override
+    public int insertServiceLogs(String serviceName, String refTable, String refId, String content, String operation, Integer createdBy) {
+        FineAdminLog fineAdminLog = new FineAdminLog();
+        fineAdminLog.setServiceName(serviceName);
+        fineAdminLog.setRefTable(refTable);
+        fineAdminLog.setRefId(refId);
+        fineAdminLog.setContent(content);
+        fineAdminLog.setOperation(operation);
+        fineAdminLog.setCreatedBy(createdBy);
+        fineAdminLog.setCreated(new Date());
+        int sucess = fineAdminLogMapper.insert(fineAdminLog);
+        log.info("是否成功：{}",sucess);
+        return sucess;
     }
 
     /**
@@ -86,6 +103,7 @@ public class FineAdminLogServiceImpl implements FineAdminLogService {
         for (FineAdminLog fineAdminLog:list) {
             LogModel logModel = new LogModel();
             logModel.setLogId(fineAdminLog.getId().toString());
+            logModel.setServiceName(fineAdminLog.getServiceName());
             logModel.setOperation(fineAdminLog.getOperation());
             logModel.setCreated(DateUtil.valueOf(fineAdminLog.getCreated(),"yyyy-MM-dd HH:mm:ss"));
             logModel.setOperationModule(LogModelEnum.LogOperationModuleEnum.getValueByCode(fineAdminLog.getRefTable()));

@@ -165,6 +165,76 @@ public class FineAdminLogExample {
             return (Criteria) this;
         }
 
+        public Criteria andServiceNameIsNull() {
+            addCriterion("service_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceNameIsNotNull() {
+            addCriterion("service_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceNameEqualTo(String value) {
+            addCriterion("service_name =", value, "serviceName");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceNameNotEqualTo(String value) {
+            addCriterion("service_name <>", value, "serviceName");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceNameGreaterThan(String value) {
+            addCriterion("service_name >", value, "serviceName");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceNameGreaterThanOrEqualTo(String value) {
+            addCriterion("service_name >=", value, "serviceName");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceNameLessThan(String value) {
+            addCriterion("service_name <", value, "serviceName");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceNameLessThanOrEqualTo(String value) {
+            addCriterion("service_name <=", value, "serviceName");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceNameLike(String value) {
+            addCriterion("service_name like", value, "serviceName");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceNameNotLike(String value) {
+            addCriterion("service_name not like", value, "serviceName");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceNameIn(List<String> values) {
+            addCriterion("service_name in", values, "serviceName");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceNameNotIn(List<String> values) {
+            addCriterion("service_name not in", values, "serviceName");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceNameBetween(String value1, String value2) {
+            addCriterion("service_name between", value1, value2, "serviceName");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceNameNotBetween(String value1, String value2) {
+            addCriterion("service_name not between", value1, value2, "serviceName");
+            return (Criteria) this;
+        }
+
         public Criteria andRefTableIsNull() {
             addCriterion("ref_table is null");
             return (Criteria) this;
@@ -302,76 +372,6 @@ public class FineAdminLogExample {
 
         public Criteria andRefIdNotBetween(String value1, String value2) {
             addCriterion("ref_id not between", value1, value2, "refId");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentIsNull() {
-            addCriterion("content is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentIsNotNull() {
-            addCriterion("content is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentEqualTo(String value) {
-            addCriterion("content =", value, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentNotEqualTo(String value) {
-            addCriterion("content <>", value, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentGreaterThan(String value) {
-            addCriterion("content >", value, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentGreaterThanOrEqualTo(String value) {
-            addCriterion("content >=", value, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentLessThan(String value) {
-            addCriterion("content <", value, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentLessThanOrEqualTo(String value) {
-            addCriterion("content <=", value, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentLike(String value) {
-            addCriterion("content like", value, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentNotLike(String value) {
-            addCriterion("content not like", value, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentIn(List<String> values) {
-            addCriterion("content in", values, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentNotIn(List<String> values) {
-            addCriterion("content not in", values, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentBetween(String value1, String value2) {
-            addCriterion("content between", value1, value2, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentNotBetween(String value1, String value2) {
-            addCriterion("content not between", value1, value2, "content");
             return (Criteria) this;
         }
 
