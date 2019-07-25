@@ -2,6 +2,7 @@ package com.ant.shop.admin.utils;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import response.ResultModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +18,11 @@ public class ControllerUtil {
      * @param bindingResult
      * @return
      */
-    public static List<String> checkParameter(BindingResult bindingResult){
+    public static ResultModel checkParameter(BindingResult bindingResult){
         List<String> message=new ArrayList<>();
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
             message.add(fieldError.getDefaultMessage());
         }
-        return message;
+        return ResultModel.error(message.toString());
     }
 }

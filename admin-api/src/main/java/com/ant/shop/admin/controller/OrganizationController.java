@@ -73,7 +73,7 @@ public class OrganizationController {
     @PostMapping("/organization")
     public ResultModel addOrganization(@RequestBody @Validated({AddOrganizationDTO.AddOrgCheck.class}) AddOrganizationDTO addOrganizationDTO,BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-           return ResultModel.error(ControllerUtil.checkParameter(bindingResult).toString());
+            return ControllerUtil.checkParameter(bindingResult);
         }
         return organizationService.setOrganization(addOrganizationDTO);
     }
@@ -119,7 +119,7 @@ public class OrganizationController {
     @PutMapping("/organization")
     public ResultModel redactOrganization(@RequestBody @Validated({AddOrganizationDTO.RedactOrgCheck.class})  AddOrganizationDTO addOrganizationDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return ResultModel.error(ControllerUtil.checkParameter(bindingResult).toString());
+            return ControllerUtil.checkParameter(bindingResult);
         }
         return organizationService.updateOrganization(addOrganizationDTO);
     }
@@ -156,7 +156,7 @@ public class OrganizationController {
     @PostMapping("/district")
     public ResultModel addDistrict(@RequestBody @Validated({AddOrganizationDTO.AddDistrictCheck.class}) FineDistrict fineDistrict, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return ResultModel.error(ControllerUtil.checkParameter(bindingResult).toString());
+            return ControllerUtil.checkParameter(bindingResult);
         }
         return districtService.addDistrict(fineDistrict);
     }
@@ -184,10 +184,14 @@ public class OrganizationController {
     /**
      * 新增业务区域
      * @param districtAreaDTO
+     * @param bindingResult
      * @return
      */
     @PostMapping("/districtArea")
-    public ResultModel addDistrictArea(@RequestBody DistrictAreaDTO districtAreaDTO){
+    public ResultModel addDistrictArea(@Validated(DistrictAreaDTO.AddDistrictAreaCheck.class) @RequestBody DistrictAreaDTO districtAreaDTO, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return ControllerUtil.checkParameter(bindingResult);
+        }
         return districtAreaService.addArea(districtAreaDTO);
     }
 
@@ -260,7 +264,7 @@ public class OrganizationController {
     @PostMapping("/field")
     public ResultModel addField(@RequestBody @Validated({FineAdminFieldDTO.AddFieldCheck.class}) FineAdminFieldDTO fineAdminFieldDTO,BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return ResultModel.error(ControllerUtil.checkParameter(bindingResult).toString());
+            return ControllerUtil.checkParameter(bindingResult);
         }
         return fieldService.setField(fineAdminFieldDTO);
     }

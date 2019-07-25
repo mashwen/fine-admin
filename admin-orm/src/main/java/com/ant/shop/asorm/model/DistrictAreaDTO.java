@@ -1,9 +1,10 @@
 package com.ant.shop.asorm.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @Author liuzongqiang
@@ -11,9 +12,12 @@ import java.io.Serializable;
  * @Version 1.0
  **/
 @Data
-@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class DistrictAreaDTO implements Serializable {
-    private String name;
 
-    private Integer districtId;
+    @NotNull(message = "业务区域名称不能为空！",groups =AddDistrictAreaCheck.class)
+    private String name;
+    @NotNull(message = "行政区域id不能为空！",groups =AddDistrictAreaCheck.class)
+    private List<Integer> districtId;
+
+    public interface AddDistrictAreaCheck{}
 }
