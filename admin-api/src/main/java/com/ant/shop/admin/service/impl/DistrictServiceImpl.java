@@ -80,7 +80,10 @@ public class DistrictServiceImpl implements DistrictService {
             }
         }
 
-        fineDistrictMapper.insert(fineDistrict);
+        int result = fineDistrictMapper.insert(fineDistrict);
+        if(result==0){
+            return ResultModel.error("新增失败！");
+        }
         return ResultModel.ok();
     }
 
@@ -97,7 +100,10 @@ public class DistrictServiceImpl implements DistrictService {
         if(fineDistrict==null){
             return ResultModel.error("没有该行政区域！");
         }
-        fineDistrictMapper.deleteByPrimaryKey(id);
+        int result = fineDistrictMapper.deleteByPrimaryKey(id);
+        if(result==0){
+            return ResultModel.error("删除失败！");
+        }
         return ResultModel.ok();
     }
 
@@ -107,7 +113,10 @@ public class DistrictServiceImpl implements DistrictService {
         if(fineDistrict.getId()==null){
             return ResultModel.error("行政区域id不能为空！");
         }
-        fineDistrictMapper.updateByPrimaryKeySelective(fineDistrict);
+        int result = fineDistrictMapper.updateByPrimaryKeySelective(fineDistrict);
+        if(result==0){
+            return ResultModel.error("更新失败！");
+        }
         return ResultModel.ok();
     }
 
