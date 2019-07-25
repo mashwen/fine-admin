@@ -107,7 +107,7 @@ public class DistrictServiceImpl implements DistrictService {
         if(fineDistrict.getId()==null){
             return ResultModel.error("行政区域id不能为空！");
         }
-        fineDistrictMapper.updateByPrimaryKey(fineDistrict);
+        fineDistrictMapper.updateByPrimaryKeySelective(fineDistrict);
         return ResultModel.ok();
     }
 
