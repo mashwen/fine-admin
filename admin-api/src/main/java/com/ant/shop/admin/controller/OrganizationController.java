@@ -4,17 +4,16 @@ import com.ant.shop.admin.service.DistrictAreaService;
 import com.ant.shop.admin.service.DistrictService;
 import com.ant.shop.admin.service.FieldService;
 import com.ant.shop.admin.service.OrganizationService;
+import com.ant.shop.admin.utils.ControllerUtil;
 import com.ant.shop.asorm.entity.FineAdminField;
 import com.ant.shop.asorm.entity.FineDistrict;
 import com.ant.shop.asorm.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import response.ResultModel;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,11 +73,7 @@ public class OrganizationController {
     @PostMapping("/organization")
     public ResultModel addOrganization(@RequestBody @Validated({AddOrganizationDTO.AddOrgCheck.class}) AddOrganizationDTO addOrganizationDTO,BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            List<String> message=new ArrayList<>();
-            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                message.add(fieldError.getDefaultMessage());
-            }
-            return ResultModel.error(message.toString());
+           return ResultModel.error(ControllerUtil.checkParameter(bindingResult).toString());
         }
         return organizationService.setOrganization(addOrganizationDTO);
     }
@@ -124,11 +119,7 @@ public class OrganizationController {
     @PutMapping("/organization")
     public ResultModel redactOrganization(@RequestBody @Validated({AddOrganizationDTO.RedactOrgCheck.class})  AddOrganizationDTO addOrganizationDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            List<String> message=new ArrayList<>();
-            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                message.add(fieldError.getDefaultMessage());
-            }
-            return ResultModel.error(message.toString());
+            return ResultModel.error(ControllerUtil.checkParameter(bindingResult).toString());
         }
         return organizationService.updateOrganization(addOrganizationDTO);
     }
@@ -165,11 +156,7 @@ public class OrganizationController {
     @PostMapping("/district")
     public ResultModel addDistrict(@RequestBody @Validated({AddOrganizationDTO.AddDistrictCheck.class}) FineDistrict fineDistrict, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            List<String> message=new ArrayList<>();
-            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                message.add(fieldError.getDefaultMessage());
-            }
-            return ResultModel.error(message.toString());
+            return ResultModel.error(ControllerUtil.checkParameter(bindingResult).toString());
         }
         return districtService.addDistrict(fineDistrict);
     }
@@ -273,11 +260,7 @@ public class OrganizationController {
     @PostMapping("/field")
     public ResultModel addField(@RequestBody @Validated({FineAdminFieldDTO.AddFieldCheck.class}) FineAdminFieldDTO fineAdminFieldDTO,BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            List<String> message=new ArrayList<>();
-            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                message.add(fieldError.getDefaultMessage());
-            }
-            return ResultModel.error(message.toString());
+            return ResultModel.error(ControllerUtil.checkParameter(bindingResult).toString());
         }
         return fieldService.setField(fineAdminFieldDTO);
     }
