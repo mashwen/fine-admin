@@ -6,6 +6,7 @@ import com.ant.shop.asorm.mapper.FineAreaMapper;
 import com.ant.shop.asorm.mapper.FineDistrictAreaMapper;
 import com.ant.shop.asorm.mapper.FineDistrictMapper;
 import com.ant.shop.asorm.model.DistrictAreaDTO;
+import com.ant.shop.asorm.model.FineDistrictDto;
 import com.github.stuxuhai.jpinyin.PinyinException;
 import com.github.stuxuhai.jpinyin.PinyinFormat;
 import com.github.stuxuhai.jpinyin.PinyinHelper;
@@ -41,6 +42,24 @@ public class DistrictServiceImpl implements DistrictService {
         FineDistrictExample fineDistrictExample=new FineDistrictExample();
         fineDistrictExample.createCriteria().andParentIdEqualTo(parentId);
         return fineDistrictMapper.selectByExample(fineDistrictExample);
+    }
+
+    /**
+     * 获取行政区域树状图列表
+     *
+     * @param parentId
+     * @return
+     */
+    @Override
+    public List<FineDistrictDto> getDistrictTree(Integer parentId) {
+        List<FineDistrictDto> districtList = fineDistrictMapper.selectByParentId(parentId);
+        if(districtList.size()==0){
+            return districtList;
+        }
+        for (FineDistrictDto dis : districtList) {
+            dis.setChildList(getDistrictTree(dis.getId()));
+        }
+        return districtList;
     }
 
     /**

@@ -146,6 +146,18 @@ public class OrganizationController {
     }
 
     /**
+     * 获取树状行政区域列表
+     * @return
+     */
+    @GetMapping("/districtList")
+    public ResultModel getDistrictList(){
+        Map<String,Object> data=new HashMap<>(16);
+        List<FineDistrictDto> districtList = districtService.getDistrictTree(0);
+        data.put("districtList",districtList);
+        return ResultModel.ok(data);
+    }
+
+    /**
      * 新增行政区域
      * @param fineDistrict
      * @return

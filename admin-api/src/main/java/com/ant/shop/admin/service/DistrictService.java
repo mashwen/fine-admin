@@ -1,6 +1,7 @@
 package com.ant.shop.admin.service;
 
 import com.ant.shop.asorm.entity.FineDistrict;
+import com.ant.shop.asorm.model.FineDistrictDto;
 import response.ResultModel;
 
 import java.util.List;
@@ -36,10 +37,17 @@ public interface DistrictService {
 
     /**
      * 获取行政区域列表
-     * @param ParentId
+     * @param parentId
      * @return
      */
-    public List<FineDistrict> getDistrictList(Integer ParentId);
+    public List<FineDistrict> getDistrictList(Integer parentId);
+
+    /**
+     * 获取行政区域树状图列表
+     * @param parentId
+     * @return
+     */
+    public List<FineDistrictDto> getDistrictTree(Integer parentId);
 
 
 }

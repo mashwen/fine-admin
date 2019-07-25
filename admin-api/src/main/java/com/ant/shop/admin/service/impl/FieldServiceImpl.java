@@ -160,6 +160,11 @@ public class FieldServiceImpl implements FieldService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel setField(FineAdminFieldDTO fineAdminFieldDTO) {
+        Integer isExist = fineAdminFieldMapper.checkField(fineAdminFieldDTO.getKey(), fineAdminFieldDTO.getEntity());
+        if(isExist>0){
+            return ResultModel.error("该字段已存在!");
+        }
+
         String  definition= JSONArray.toJSONString(fineAdminFieldDTO.getDefinition());
 
         FineAdminField fineAdminField=new FineAdminField();
