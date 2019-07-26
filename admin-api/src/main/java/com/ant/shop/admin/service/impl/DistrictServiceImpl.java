@@ -6,6 +6,7 @@ import com.ant.shop.asorm.mapper.FineAreaMapper;
 import com.ant.shop.asorm.mapper.FineDistrictAreaMapper;
 import com.ant.shop.asorm.mapper.FineDistrictMapper;
 import com.ant.shop.asorm.model.DistrictAreaDTO;
+import com.ant.shop.asorm.model.FineDistrictDto;
 import com.github.stuxuhai.jpinyin.PinyinException;
 import com.github.stuxuhai.jpinyin.PinyinFormat;
 import com.github.stuxuhai.jpinyin.PinyinHelper;
@@ -44,6 +45,24 @@ public class DistrictServiceImpl implements DistrictService {
     }
 
     /**
+     * 获取行政区域树状图列表
+     *
+     * @param parentId
+     * @return
+     */
+    @Override
+    public List<FineDistrictDto> getDistrictTree(Integer parentId) {
+        List<FineDistrictDto> districtList = fineDistrictMapper.selectByParentId(parentId);
+        if(districtList.size()==0){
+            return districtList;
+        }
+        for (FineDistrictDto dis : districtList) {
+            dis.setChildList(getDistrictTree(dis.getId()));
+        }
+        return districtList;
+    }
+
+    /**
      * 新增行政区域
      *
      * @param fineDistrict
@@ -61,7 +80,10 @@ public class DistrictServiceImpl implements DistrictService {
             }
         }
 
-        fineDistrictMapper.insert(fineDistrict);
+        int result = fineDistrictMapper.insert(fineDistrict);
+        if(result==0){
+            return ResultModel.error("新增失败！");
+        }
         return ResultModel.ok();
     }
 
@@ -78,7 +100,10 @@ public class DistrictServiceImpl implements DistrictService {
         if(fineDistrict==null){
             return ResultModel.error("没有该行政区域！");
         }
-        fineDistrictMapper.deleteByPrimaryKey(id);
+        int result = fineDistrictMapper.deleteByPrimaryKey(id);
+        if(result==0){
+            return ResultModel.error("删除失败！");
+        }
         return ResultModel.ok();
     }
 
@@ -88,7 +113,10 @@ public class DistrictServiceImpl implements DistrictService {
         if(fineDistrict.getId()==null){
             return ResultModel.error("行政区域id不能为空！");
         }
-        fineDistrictMapper.updateByPrimaryKey(fineDistrict);
+        int result = fineDistrictMapper.updateByPrimaryKeySelective(fineDistrict);
+        if(result==0){
+            return ResultModel.error("更新失败！");
+        }
         return ResultModel.ok();
     }
 

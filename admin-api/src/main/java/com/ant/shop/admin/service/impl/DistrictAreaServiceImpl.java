@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import response.ResultModel;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author liuzongqiang
@@ -37,8 +38,8 @@ public class DistrictAreaServiceImpl implements DistrictAreaService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel addArea(DistrictAreaDTO districtAreaDTO) {
-        if(districtAreaDTO.getDistrictId()==null || districtAreaDTO.getName()==null){
-            return ResultModel.error("行政区域id 和 业务区域id 不能为空！");
+        if(districtAreaDTO.getDistrictId().size()==0){
+            return ResultModel.error("行政区域id不能为空！");
         }
         FineArea fineArea=new FineArea();
         fineArea.setName(districtAreaDTO.getName());
@@ -48,8 +49,12 @@ public class DistrictAreaServiceImpl implements DistrictAreaService {
         if(insert>0){
             FineDistrictAreaKey fineDistrictAreaKey=new FineDistrictAreaKey();
             fineDistrictAreaKey.setAreaId(fineArea.getId());
-            fineDistrictAreaKey.setDistrictId(districtAreaDTO.getDistrictId());
-            fineDistrictAreaMapper.insert(fineDistrictAreaKey);
+            List<Integer> districtIdList = districtAreaDTO.getDistrictId();
+            for (Integer integer : districtIdList) {
+                fineDistrictAreaKey.setDistrictId(integer);
+                fineDistrictAreaMapper.insert(fineDistrictAreaKey);
+            }
+
             return ResultModel.ok();
         }
         return  ResultModel.error("新增失败！");

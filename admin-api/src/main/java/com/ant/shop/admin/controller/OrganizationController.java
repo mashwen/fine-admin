@@ -4,17 +4,16 @@ import com.ant.shop.admin.service.DistrictAreaService;
 import com.ant.shop.admin.service.DistrictService;
 import com.ant.shop.admin.service.FieldService;
 import com.ant.shop.admin.service.OrganizationService;
+import com.ant.shop.admin.utils.ControllerUtil;
 import com.ant.shop.asorm.entity.FineAdminField;
 import com.ant.shop.asorm.entity.FineDistrict;
 import com.ant.shop.asorm.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import response.ResultModel;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,11 +73,7 @@ public class OrganizationController {
     @PostMapping("/organization")
     public ResultModel addOrganization(@RequestBody @Validated({AddOrganizationDTO.AddOrgCheck.class}) AddOrganizationDTO addOrganizationDTO,BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            List<String> message=new ArrayList<>();
-            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                message.add(fieldError.getDefaultMessage());
-            }
-            return ResultModel.error(message.toString());
+            return ControllerUtil.checkParameter(bindingResult);
         }
         return organizationService.setOrganization(addOrganizationDTO);
     }
@@ -124,11 +119,7 @@ public class OrganizationController {
     @PutMapping("/organization")
     public ResultModel redactOrganization(@RequestBody @Validated({AddOrganizationDTO.RedactOrgCheck.class})  AddOrganizationDTO addOrganizationDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            List<String> message=new ArrayList<>();
-            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                message.add(fieldError.getDefaultMessage());
-            }
-            return ResultModel.error(message.toString());
+            return ControllerUtil.checkParameter(bindingResult);
         }
         return organizationService.updateOrganization(addOrganizationDTO);
     }
@@ -146,6 +137,18 @@ public class OrganizationController {
     }
 
     /**
+     * 获取树状行政区域列表
+     * @return
+     */
+    @GetMapping("/districtList")
+    public ResultModel getDistrictList(){
+        Map<String,Object> data=new HashMap<>(16);
+        List<FineDistrictDto> districtList = districtService.getDistrictTree(0);
+        data.put("districtList",districtList);
+        return ResultModel.ok(data);
+    }
+
+    /**
      * 新增行政区域
      * @param fineDistrict
      * @return
@@ -153,11 +156,7 @@ public class OrganizationController {
     @PostMapping("/district")
     public ResultModel addDistrict(@RequestBody @Validated({AddOrganizationDTO.AddDistrictCheck.class}) FineDistrict fineDistrict, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            List<String> message=new ArrayList<>();
-            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                message.add(fieldError.getDefaultMessage());
-            }
-            return ResultModel.error(message.toString());
+            return ControllerUtil.checkParameter(bindingResult);
         }
         return districtService.addDistrict(fineDistrict);
     }
@@ -185,10 +184,14 @@ public class OrganizationController {
     /**
      * 新增业务区域
      * @param districtAreaDTO
+     * @param bindingResult
      * @return
      */
     @PostMapping("/districtArea")
-    public ResultModel addDistrictArea(@RequestBody DistrictAreaDTO districtAreaDTO){
+    public ResultModel addDistrictArea(@Validated(DistrictAreaDTO.AddDistrictAreaCheck.class) @RequestBody DistrictAreaDTO districtAreaDTO, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return ControllerUtil.checkParameter(bindingResult);
+        }
         return districtAreaService.addArea(districtAreaDTO);
     }
 
@@ -261,11 +264,7 @@ public class OrganizationController {
     @PostMapping("/field")
     public ResultModel addField(@RequestBody @Validated({FineAdminFieldDTO.AddFieldCheck.class}) FineAdminFieldDTO fineAdminFieldDTO,BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            List<String> message=new ArrayList<>();
-            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                message.add(fieldError.getDefaultMessage());
-            }
-            return ResultModel.error(message.toString());
+            return ControllerUtil.checkParameter(bindingResult);
         }
         return fieldService.setField(fineAdminFieldDTO);
     }
