@@ -98,6 +98,7 @@ public class FineAdminLogServiceImpl implements FineAdminLogService {
                 e.printStackTrace();
             }
         }
+
         List<LogModel> logModels = new ArrayList<>();
         List<FineAdminLog> fineAdminLogs = fineAdminLogMapper.selectByExample(fineAdminLogExample);
         PageUtil pageUtil = new PageUtil();
