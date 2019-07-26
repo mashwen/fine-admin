@@ -30,11 +30,12 @@ public class FineAdminLogController {
 
     @GetMapping("/selectlogs")
     public ResultModel selectLogs(@RequestParam(required = false)Integer id,
+                                  @RequestParam(required = false)String serviceName,
                                   @RequestParam(required = false) String startTime,
                                   @RequestParam(required = false) String endTime,
                                   @RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                   @RequestParam(required = false, defaultValue = "10") Integer pageSize){
-        PageListResp pageListResp = fineAdminLogService.selectLogs(id, startTime, endTime, pageNum, pageSize);
+        PageListResp pageListResp = fineAdminLogService.selectLogs(id, serviceName,startTime, endTime, pageNum, pageSize);
         Map<String, Object> data = new HashMap<>();
         data.put("pagination",pageListResp.getPagination());
         data.put("selectlogs",pageListResp.getList());

@@ -16,5 +16,5 @@ public interface FineAdminLogService {
 
     String selectByPrimaryKey(Integer id);
 
-    PageListResp selectLogs(Integer id,String startTime,String endTime,Integer pageNum,Integer pageSize);
+    PageListResp selectLogs(Integer id,String serviceName,String startTime,String endTime,Integer pageNum,Integer pageSize);
 }

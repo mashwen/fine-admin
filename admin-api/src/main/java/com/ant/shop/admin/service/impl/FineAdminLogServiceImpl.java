@@ -82,11 +82,14 @@ public class FineAdminLogServiceImpl implements FineAdminLogService {
      * @return
      */
     @Override
-    public PageListResp selectLogs(Integer id, String startTime, String endTime, Integer pageNum, Integer pageSize) {
+    public PageListResp selectLogs(Integer id,String serviceName, String startTime, String endTime, Integer pageNum, Integer pageSize) {
         FineAdminLogExample fineAdminLogExample = new FineAdminLogExample();
         FineAdminLogExample.Criteria criteria = fineAdminLogExample.createCriteria();
         if (id!=null){
             criteria.andCreatedByEqualTo(id);
+        }
+        if (serviceName!=null){
+            criteria.andServiceNameEqualTo(serviceName);
         }
         if (startTime!=null&&endTime!=null){
             try {
